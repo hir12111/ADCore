@@ -20,4 +20,6 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # ASYN is needed for base classes 
 ASYN=$(SUPPORT)/asyn/4-26
 
+# ADBinaries is needed only for Windows (contains HDF5 and other external libs)
+ADBINARIES=$(SUPPORT)/ADBinaries/2-2dls1
 
