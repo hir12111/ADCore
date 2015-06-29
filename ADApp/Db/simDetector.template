@@ -4,6 +4,16 @@
 # Mark Rivers
 # March 23, 2008
 
+# Macros:
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+#% macro, TIMEOUT, Timeout
+#% macro, ADDR, Asyn Port address
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, simDetector.edl, P=$(P),R=$(R)
+
 include "ADBase.template"
 
 # Redefine the color mode choices from ADBase.template to only have those that the simDetector
