@@ -4,6 +4,7 @@ from iocbuilder.arginfo import *
 from iocbuilder.modules.asyn import Asyn, AsynPort, AsynIP
 from iocbuilder.modules.busy import Busy
 from iocbuilder.modules.calc import Calc
+from iocbuilder.modules.ADBinaries import ADBinaries
 
 __all__ = ['ADCore']
 
@@ -59,32 +60,9 @@ NDDataTypes=["NDInt8", "NDUInt8", "NDInt16", "NDUInt16", "NDInt32",
 
 class ADCore(Device):
     """Library dependencies for ADCore"""
-    Dependencies = (Asyn, Busy)
+    Dependencies = (Asyn, Busy, ADBinaries)
     if Architecture() == "win32-x86" or Architecture() == "windows-x64":
-        usemagic = True
-        if Architecture() == "win32-x86":
-            # The Magic libraries for 32bit do not work with the DLS toolchain
-            # MSVC2010. So we cant use them.
-            usemagic = False
-        usehdfdlls = True
-        hdfdlls = ['zlib', 'szip', 'hdf5']
-        hdfstatic = ['zlib', 'libszip', 'hdf5']
-        magiclibs = ['CORE_RL_zlib_',
-            'CORE_RL_xlib_', 'CORE_RL_wmf_', 'CORE_RL_ttf_', 'CORE_RL_tiff_',
-            'CORE_RL_png_', 'CORE_RL_libxml_', 'CORE_RL_lcms_', 'CORE_RL_jpeg_',
-            'CORE_RL_jp2_', 'CORE_RL_jbig_', 'CORE_RL_bzlib_',
-            'CORE_RL_filters_', 'CORE_RL_coders_', 'CORE_RL_magick_',
-            'CORE_RL_wand_', 'CORE_RL_Magick++_']
-        LibFileList = ['NeXus', 'PvAPI']
-        if usemagic:
-            LibFileList += magiclibs
-        else:
-            LibFileList += ['jpeg', 'tiff']
-        if usehdfdlls:
-            LibFileList = hdfdlls + LibFileList
-        else:
-            LibFileList = hdfstatic + LibFileList
-        SysLibFileList = ['Oleaut32', 'Gdi32']
+        LibFileList = []
     else:
 #        LibFileList = ['GraphicsMagick', 'GraphicsMagickWand', 'GraphicsMagick++', 'PvAPI', 'sz', 'hdf5', 'NeXus', 'cbfad']
         LibFileList = ['NeXus']
