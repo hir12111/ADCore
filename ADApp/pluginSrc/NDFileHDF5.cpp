@@ -189,7 +189,7 @@ asynStatus NDFileHDF5::openFile(const char *fileName, NDFileOpenMode_t openMode,
 
   if (storeAttributes == 1){
     this->createAttributeDataset(pArray);
-    this->writeAttributeDataset(hdf5::OnFileOpen);
+    this->writeAttributeDataset(hdf5::OnFileOpen, 0, NULL);
 
 
     // Store any attributes that have been marked as onOpen
@@ -1161,10 +1161,15 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
   asynStatus status = asynSuccess;
   int storeAttributes, storePerformance, flush;
   int dimAttDataset = 0;
+  int posRunning = 0;
+  char posNameDimN[MAX_STRING_SIZE];
+  char posNameDimX[MAX_STRING_SIZE];
+  char posNameDimY[MAX_STRING_SIZE];
   epicsTimeStamp startts, endts;
   epicsInt32 numCaptured;
   double dt=0.0, period=0.0, runtime = 0.0;
   int extradims = 0;
+  int offsets[3] = {0, 0, 0};
   static const char *functionName = "writeFile";
 
   if (this->file == 0) {
@@ -1181,6 +1186,10 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
   getIntegerParam(NDFileHDF5_storePerformance, &storePerformance);
   getIntegerParam(NDFileHDF5_flushNthFrame, &flush);
   getIntegerParam(NDFileHDF5_nExtraDims, &extradims);
+  getIntegerParam(NDFileHDF5_posRunning, &posRunning);
+  getStringParam(NDFileHDF5_posNameDimN, MAX_STRING_SIZE, posNameDimN);
+  getStringParam(NDFileHDF5_posNameDimX, MAX_STRING_SIZE, posNameDimX);
+  getStringParam(NDFileHDF5_posNameDimY, MAX_STRING_SIZE, posNameDimY);
   this->unlock();
 
   if (numCaptured == 1) epicsTimeGetCurrent(&this->firstFrame);
@@ -1248,10 +1257,53 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
   // Get the current time to calculate performance times
   epicsTimeGetCurrent(&startts);
 
-  // For multi frame files we now extend the HDF dataset to fit an additional frame
-  if (this->multiFrameFile) this->detDataMap[destination]->extendDataSet(extradims);
+  // Check to see if we are positional placement mode
+  if (posRunning == 1){
+    // We are in positional placement so retrieve the positions
+    // and store them into the offsets variable
+    if (extradims == 0){
+      int *iPtr = offsets;
+      pArray->pAttributeList->find(posNameDimN)->getValue(NDAttrInt32, iPtr, NULL);
+    }
+    if (extradims == 1){
+      int *iPtr = offsets;
+      pArray->pAttributeList->find(posNameDimX)->getValue(NDAttrInt32, iPtr, NULL);
+      iPtr++;
+      pArray->pAttributeList->find(posNameDimN)->getValue(NDAttrInt32, iPtr, NULL);
+    }
+    if (extradims == 2){
+      int *iPtr = offsets;
+      pArray->pAttributeList->find(posNameDimY)->getValue(NDAttrInt32, iPtr, NULL);
+      iPtr++;
+      pArray->pAttributeList->find(posNameDimX)->getValue(NDAttrInt32, iPtr, NULL);
+      iPtr++;
+      pArray->pAttributeList->find(posNameDimN)->getValue(NDAttrInt32, iPtr, NULL);
+    }
+  }
 
-  status = this->detDataMap[destination]->writeFile(pArray, this->datatype, this->dataspace, this->framesize);
+  if (destination == this->defDsetName){
+    // Check to see if we are positional placement mode
+    if (posRunning == 1){
+      if (this->multiFrameFile){
+        status = this->detDataMap[destination]->extendDataSet(extradims, offsets);
+      }
+    } else {
+      // Not in positional placement mode, perform standard extension
+      // For multi frame files we now extend the HDF dataset to fit an additional frame
+      if (this->multiFrameFile){
+        status = this->detDataMap[destination]->extendDataSet(extradims);
+      }
+    }
+  } else {
+    // For multi frame files we now extend the HDF dataset to fit an additional frame
+    if (this->multiFrameFile){
+      status = this->detDataMap[destination]->extendDataSet(extradims);
+    }
+  }
+
+  if (status == asynSuccess){
+    status = this->detDataMap[destination]->writeFile(pArray, this->datatype, this->dataspace, this->framesize);
+  }
   if (status != asynSuccess){
     // If dataset creation fails then close file and abort as all following writes will fail as well
     asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
@@ -1294,12 +1346,12 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
       // If attribute datasets are following dimensions of the main dataset
       // check to ensure this NDArray is destined for the default dataset
       if (destination == this->defDsetName){
-        status = this->writeAttributeDataset(hdf5::OnFrame);
+        status = this->writeAttributeDataset(hdf5::OnFrame, posRunning, offsets);
       }
     } else {
       // Normal attribute datasets required (linear 1D)
       // so save on every occasion
-      status = this->writeAttributeDataset(hdf5::OnFrame);
+      status = this->writeAttributeDataset(hdf5::OnFrame, posRunning, offsets);
     }
     if (status != asynSuccess){
       return status;
@@ -1390,7 +1442,7 @@ asynStatus NDFileHDF5::closeFile()
   getIntegerParam(NDFileHDF5_storePerformance, &storePerformance);
   this->unlock();
   if (storeAttributes == 1) {
-     this->writeAttributeDataset(hdf5::OnFileClose);
+     this->writeAttributeDataset(hdf5::OnFileClose, 0, NULL);
      this->storeOnCloseAttributes();
      this->closeAttributeDataset();
   }
@@ -1859,6 +1911,10 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
   this->createParam(str_NDFileHDF5_layoutErrorMsg,  asynParamOctet,   &NDFileHDF5_layoutErrorMsg);
   this->createParam(str_NDFileHDF5_layoutValid,     asynParamInt32,   &NDFileHDF5_layoutValid);
   this->createParam(str_NDFileHDF5_layoutFilename,  asynParamOctet,   &NDFileHDF5_layoutFilename);
+  this->createParam(str_NDFileHDF5_posRunning,      asynParamInt32,   &NDFileHDF5_posRunning);
+  this->createParam(str_NDFileHDF5_posNameDimN,     asynParamOctet,   &NDFileHDF5_posNameDimN);
+  this->createParam(str_NDFileHDF5_posNameDimX,     asynParamOctet,   &NDFileHDF5_posNameDimX);
+  this->createParam(str_NDFileHDF5_posNameDimY,     asynParamOctet,   &NDFileHDF5_posNameDimY);
   this->createParam(str_NDFileHDF5_SWMRCbCounter,   asynParamInt32,   &NDFileHDF5_SWMRCbCounter);
   this->createParam(str_NDFileHDF5_SWMRSupported,   asynParamInt32,   &NDFileHDF5_SWMRSupported);
   this->createParam(str_NDFileHDF5_SWMRMode,        asynParamInt32,   &NDFileHDF5_SWMRMode);
@@ -1890,6 +1946,10 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
   setStringParam (NDFileHDF5_layoutErrorMsg,  "");
   setIntegerParam(NDFileHDF5_layoutValid,     1);
   setStringParam (NDFileHDF5_layoutFilename,  "");
+  setIntegerParam(NDFileHDF5_posRunning,      0);
+  setStringParam (NDFileHDF5_posNameDimN,     "");
+  setStringParam (NDFileHDF5_posNameDimX,     "");
+  setStringParam (NDFileHDF5_posNameDimY,     "");
   setIntegerParam(NDFileHDF5_SWMRCbCounter,   0);
   setIntegerParam(NDFileHDF5_SWMRMode,        0);
   setIntegerParam(NDFileHDF5_SWMRRunning,     0);
@@ -2055,7 +2115,7 @@ hsize_t NDFileHDF5::calcChunkCacheSlots()
   // number of slots have to be a prime number which is between 10 and 50 times
   // larger than the numer of chunks that can fit in the file/dataset.
   nslots = num_chunks * 50;
-  while( !IsPrime( nslots) )
+  while(!IsPrime(nslots))
     nslots++;
   return nslots;
 }
@@ -2198,7 +2258,7 @@ asynStatus NDFileHDF5::createAttributeDataset(NDArray *pArray)
   NDAttrSource_t ndAttrSourceType;
   int extraDims;
   int chunking = 0;
-  int fileWriteMode = 0;
+  //int fileWriteMode = 0;
   int dimAttDataset = 0;
   hid_t groupDefault = -1;
   const char *attrNames[5] = {"NDAttrName", "NDAttrDescription", "NDAttrSourceType", "NDAttrSource", NULL};
@@ -2361,7 +2421,7 @@ asynStatus NDFileHDF5::calculateAttributeChunking(int *chunking)
 /** Write the NDArray attributes to the file
  *
  */
-asynStatus NDFileHDF5::writeAttributeDataset(hdf5::When_t whenToSave)
+asynStatus NDFileHDF5::writeAttributeDataset(hdf5::When_t whenToSave, int positionMode, int *offsets)
 {
   asynStatus status = asynSuccess;
   NDAttribute *ndAttr = NULL;
@@ -2394,7 +2454,11 @@ asynStatus NDFileHDF5::writeAttributeDataset(hdf5::When_t whenToSave)
         flush = 1;
       }
     }
-    hdfAttrNode->writeAttributeDataset(whenToSave, ndAttr, flush);
+    if (positionMode == 1){
+      hdfAttrNode->writeAttributeDataset(whenToSave, offsets, ndAttr, flush);
+    } else {
+      hdfAttrNode->writeAttributeDataset(whenToSave, ndAttr, flush);
+    }
   }
   return status;
 }
