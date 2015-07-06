@@ -6,6 +6,7 @@
  */
 
 #include <list>
+#include <tr1/memory>
 #include <hdf5.h>
 #include <asynDriver.h>
 #include <NDPluginFile.h>
@@ -13,6 +14,7 @@
 #include "NDFileHDF5Layout.h"
 #include "NDFileHDF5Dataset.h"
 #include "NDFileHDF5LayoutXML.h"
+#include "NDFileHDF5AttributeDataset.h"
 
 #define str_NDFileHDF5_nRowChunks        "HDF5_nRowChunks"
 #define str_NDFileHDF5_nColChunks        "HDF5_nColChunks"
@@ -39,27 +41,14 @@
 #define str_NDFileHDF5_nbitsOffset       "HDF5_nbitsOffset"
 #define str_NDFileHDF5_szipNumPixels     "HDF5_szipNumPixels"
 #define str_NDFileHDF5_zCompressLevel    "HDF5_zCompressLevel"
+#define str_NDFileHDF5_dimAttDatasets    "HDF5_dimAttDatasets"
 #define str_NDFileHDF5_layoutErrorMsg    "HDF5_layoutErrorMsg"
 #define str_NDFileHDF5_layoutValid       "HDF5_layoutValid"
 #define str_NDFileHDF5_layoutFilename    "HDF5_layoutFilename"
-
-/** Defines an attribute node with the NDFileHDF5 plugin.
-  */
-typedef struct HDFAttributeNode {
-  char *attrName;
-  hid_t hdfdataset;
-  hid_t hdfdataspace;
-  hid_t hdfmemspace;
-  hid_t hdfdatatype;
-  hid_t hdfcparm;
-  hid_t hdffilespace;
-  hsize_t hdfdims[2];
-  hsize_t offset[2];
-  hsize_t chunk[2];
-  hsize_t elementSize[2];
-  int hdfrank;
-  hdf5::When_t whenToSave;
-} HDFAttributeNode;
+#define str_NDFileHDF5_SWMRCbCounter     "HDF5_SWMRCbCounter"
+#define str_NDFileHDF5_SWMRSupported     "HDF5_SWMRSupported"
+#define str_NDFileHDF5_SWMRMode          "HDF5_SWMRMode"
+#define str_NDFileHDF5_SWMRRunning       "HDF5_SWMRRunning"
 
 /** Writes NDArrays in the HDF5 file format; an XML file can control the structure of the HDF5 file.
   */
@@ -79,6 +68,8 @@ class epicsShareClass NDFileHDF5 : public NDPluginFile
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual);
 
+    asynStatus startSWMR();
+    asynStatus flushCallback();
     asynStatus createXMLFileLayout();
     asynStatus storeOnOpenAttributes();
     asynStatus storeOnCloseAttributes();
@@ -139,22 +130,43 @@ class epicsShareClass NDFileHDF5 : public NDPluginFile
     int NDFileHDF5_nbitsOffset;
     int NDFileHDF5_szipNumPixels;
     int NDFileHDF5_zCompressLevel;
+    int NDFileHDF5_dimAttDatasets;
     int NDFileHDF5_layoutErrorMsg;
     int NDFileHDF5_layoutValid;
     int NDFileHDF5_layoutFilename;
-    #define LAST_NDFILE_HDF5_PARAM NDFileHDF5_layoutFilename
+    int NDFileHDF5_SWMRCbCounter;
+    int NDFileHDF5_SWMRSupported;
+    int NDFileHDF5_SWMRMode;
+    int NDFileHDF5_SWMRRunning;
+    #define LAST_NDFILE_HDF5_PARAM NDFileHDF5_SWMRRunning
 
   private:
     /* private helper functions */
+    inline bool IsPrime(int number)
+    {
+      if (((!(number & 1)) && number != 2) || (number < 2) || (number % 3 == 0 && number != 3)){
+        return false;
+      }
+
+      for(int k = 1; 36*k*k-12*k < number;++k){
+        if ((number % (6*k+1) == 0) || (number % (6*k-1) == 0)){
+          return false;
+        }
+      }
+      return true;
+    };
+
     hid_t typeNd2Hdf(NDDataType_t datatype);
     asynStatus configureDatasetDims(NDArray *pArray);
     asynStatus configureDims(NDArray *pArray);
     asynStatus configureCompression();
     char* getDimsReport();
     asynStatus writeStringAttribute(hid_t element, const char* attrName, const char* attrStrValue);
+    asynStatus calculateAttributeChunking(int *chunking);
     asynStatus writeAttributeDataset(hdf5::When_t whenToSave);
     asynStatus closeAttributeDataset();
     asynStatus configurePerformanceDataset();
+    asynStatus createPerformanceDataset();
     asynStatus writePerformanceDataset();
     void calcNumFrames();
     unsigned int calcIstorek();
@@ -162,11 +174,13 @@ class epicsShareClass NDFileHDF5 : public NDPluginFile
     hsize_t calcChunkCacheSlots();
 
     void checkForOpenFile();
+    bool checkForSWMRMode();
+    bool checkForSWMRSupported();
     void addDefaultAttributes(NDArray *pArray);
     asynStatus writeDefaultDatasetAttributes(NDArray *pArray);
     asynStatus createNewFile(const char *fileName);
     asynStatus createFileLayout(NDArray *pArray);
-    asynStatus createAttributeDataset();
+    asynStatus createAttributeDataset(NDArray *pArray);
 
 
     hdf5::LayoutXML layout;
@@ -193,7 +207,7 @@ class epicsShareClass NDFileHDF5 : public NDPluginFile
     int bytesPerElement;
     char *hostname;
 
-    std::list<HDFAttributeNode *> attrList;
+    std::list<std::tr1::shared_ptr<NDFileHDF5AttributeDataset> > attrList;
 
     /* HDF5 handles and references */
     hid_t file;
@@ -201,6 +215,7 @@ class epicsShareClass NDFileHDF5 : public NDPluginFile
     hid_t datatype;
     hid_t cparms;
     void *ptrFillValue;
+    hid_t perf_dataset_id;
 
     /* dimension descriptors */
     int rank;               /** < number of dimensions */

@@ -216,3 +216,31 @@ hid_t NDFileHDF5Dataset::getHandle()
   return this->dataset_;
 }
 
+asynStatus NDFileHDF5Dataset::flushDataset()
+{
+  static const char *functionName = "flushDataset";
+  // flushDataset is a no-op if the HDF version doesn't support it
+  #if H5_VERSION_GE(1,9,178)
+
+  herr_t hdfstatus;
+
+  // Flush the dataset
+  hdfstatus = H5Dflush(this->dataset_);
+  if (hdfstatus){
+    asynPrint(this->pAsynUser_, ASYN_TRACE_ERROR, 
+              "%s::%s ERROR Unable to flush the dataset [%s]\n", 
+              fileName, functionName, this->name_.c_str());
+    return asynError;
+  }
+  #else
+  // If this is called when we do not support SWMR then someone has done something
+  // bad, so return an asynError
+  asynPrint(this->pAsynUser_, ASYN_TRACE_ERROR,
+            "%s::%s SWMR dataset flush attempted but the library compiled against doesn't support it.\n",
+            fileName, functionName);
+  return asynError;
+  #endif
+
+  return asynSuccess;  
+}
+
