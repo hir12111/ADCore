@@ -4,6 +4,19 @@
 # Mark Rivers
 # March 14, 2010
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+
+# All tags starting with gdatag are DLS specific for GDA
+# % gdatag, template, NDProcess, $(PORT)_NDProcess, $(PORT) NDProcess class instance
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDProcess.edl, P=$(P),R=$(R)
+
 include "NDPluginBase.template"
 
 ###################################################################

@@ -4,6 +4,22 @@
 # Mark Rivers
 # March 22, 2010
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, O, NDOverlay Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+# % macro, NAME, Name for the overlay
+# % macro, XPOS, Link for the XPos of the overlay
+# % macro, YPOS, Link for the YPos of the overlay
+# % macro, XSIZE, Link for the XSize of the overlay
+# % macro, YSIZE, Link for the YSize of the overlay
+# % macro, XWIDTH, Link for the XWidth of the overlay
+# % macro, YWIDTH, Link for the YWdith of the overlay
+# % macro, SHAPE, Shape of the overlay
+
 ###################################################################
 #  These records control the label for the overlay                #
 ###################################################################

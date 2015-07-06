@@ -4,6 +4,19 @@
 # Mark Rivers
 # April 25, 2008
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+# % macro, NDARRAY_PORT, Input Array Port
+# % macro, NDARRAY_ADDR, Input Array Address
+# % macro, Enabled, Plugin Enabled at startup?
+
+# All tags starting with gdatag are DLS specific for GDA
+# % gdatag, template, NDPluginBase, $(PORT)_NDPluginBase, $(PORT) NDPluginBase class instance
+
 include "NDArrayBase.template"
 
 ###################################################################
@@ -44,7 +57,7 @@ record(longout, "$(P)$(R)NDArrayAddress")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NDARRAY_ADDR")
-    field(VAL,  "0")
+    field(VAL,  "$(NDARRAY_ADDR)")
     info(autosaveFields, "VAL")
 }
 
@@ -66,7 +79,7 @@ record(bo, "$(P)$(R)EnableCallbacks")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ENABLE_CALLBACKS")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
-    field(VAL,  "0")
+    field(VAL,  "$(Enabled=0)")
     info(autosaveFields, "VAL")
 }
 

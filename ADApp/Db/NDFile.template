@@ -4,6 +4,16 @@
 # Mark Rivers
 # April 7, 2008
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+
+# All tags starting with gdatag are DLS specific for GDA
+# % gdatag, template, NDFile, $(PORT)_NDFile, $(PORT) NDFile class instance
+
 ###################################################################
 #  These records control file I/O                                 # 
 ###################################################################
