@@ -613,6 +613,40 @@ class NDColorConvert(AsynPort):
         print '# NDColorConvertConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
         print 'NDColorConvertConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
 
+#############################
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDPosPluginTemplate(AutoSubstitution):
+    TemplateFile = 'NDPosPlugin.template'
+
+class NDPosPlugin(AsynPort):
+    """This plugin attaches position information to NDArrays"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDPosPluginTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDPosPlugin plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
+        PRIORITY = Simple('Max buffers to allocate', int),
+        STACKSIZE = Simple('Max buffers to allocate', int))
+
+    def Initialise(self):
+        print '# NDPosPluginConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxMemory, priority, stackSize)' % self.__dict__
+        print 'NDPosPluginConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+
 ##############################
 
 class NDAttributes(Device):
