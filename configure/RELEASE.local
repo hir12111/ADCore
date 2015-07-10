@@ -20,6 +20,15 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # ASYN is needed for base classes 
 ASYN=$(SUPPORT)/asyn/4-26
 
+# BUSY is needed for busy record
+BUSY=$(SUPPORT)/busy/1-6-1
+
+# SSCAN is needed for scanning threshold on Pilatus and general scanning
+SSCAN=$(SUPPORT)/sscan/2-8-1
+
+# CALC is needed for the NDStats plugin
+CALC=$(SUPPORT)/calc/3-1
+
 # ADBinaries is needed only for Windows (contains HDF5 and other external libs)
 ADBINARIES=$(SUPPORT)/ADBinaries/2-2dls1
 

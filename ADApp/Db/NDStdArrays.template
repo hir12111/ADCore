@@ -4,6 +4,22 @@
 # Mark Rivers
 # April 14, 2008
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, TIMEOUT, Timeout
+# % macro, ADDR, Asyn Port address
+# % macro, TYPE, Asyn Type e.g. Int32
+# % macro, FTVL, Format, e.g. Int
+# % macro, NELEMENTS, Number of elements
+
+# All tags starting with gdatag are DLS specific for GDA
+# % gdatag, template, NDStdArrays, $(PORT)_NDStdArrays, $(PORT) NDStdArrays class instance
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDStdArrays.edl, P=$(P),R=$(R)
+
 include "NDPluginBase.template"
 
 ###################################################################
