@@ -16,3 +16,6 @@ O.*/
 .project
 .settings
 .cproject
+data/
+iocs/winSimDetector/
+iocs/simDetector/
