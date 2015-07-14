@@ -17,6 +17,8 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
+AREA_DETECTOR=$(SUPPORT)
+
 # ASYN is needed for base classes 
 ASYN=$(SUPPORT)/asyn/4-26
 
