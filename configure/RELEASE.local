@@ -30,5 +30,5 @@ SSCAN=$(SUPPORT)/sscan/2-8-1
 CALC=$(SUPPORT)/calc/3-1
 
 # ADBinaries is needed only for Windows (contains HDF5 and other external libs)
-ADBINARIES=$(SUPPORT)/ADBinaries/2-2dls1
+ADBINARIES=$(SUPPORT)/ADBinaries/2-2dls2
 
