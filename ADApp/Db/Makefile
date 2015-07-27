@@ -18,6 +18,7 @@ DB += ADPrefixes.template
 
 # Drivers
 DB += simDetector.template
+DB += pvaDriver.template
 
 # Plugins
 DB += NDColorConvert.template
@@ -43,6 +44,7 @@ DB += NDAttribute.template
 DB += NDAttributeN.template
 DB += NDCircularBuff.template
 DB += NDPosPlugin.template
+DB += NDPva.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
