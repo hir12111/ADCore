@@ -864,7 +864,7 @@ hid_t NDFileHDF5::writeH5dsetFloat64(hid_t element, const std::string &name, con
  */
 hid_t NDFileHDF5::createDataset(hid_t group, hdf5::Dataset *dset)
 {
-  int retcode = -1;
+  hid_t retcode = -1;
   if (dset == NULL) return -1; // sanity check
 
   if (dset->data_source().is_src_detector()) {
@@ -1457,14 +1457,24 @@ asynStatus NDFileHDF5::closeFile()
   if (storePerformance == 1) this->writePerformanceDataset();
 
   asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, 
+<<<<<<< HEAD
             "%s::%s closing HDF cparms %d\n", 
             driverName, functionName, (int)this->cparms);
+=======
+            "%s::%s closing HDF cparms %ld\n", 
+            driverName, functionName, (long int)this->cparms);
+>>>>>>> upstream/issue-116
 
   H5Pclose(this->cparms);
 
   asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, 
+<<<<<<< HEAD
             "%s::%s closing HDF datatype %d\n", 
             driverName, functionName, (int)this->datatype);
+=======
+            "%s::%s closing HDF datatype %ld\n", 
+            driverName, functionName, (long int)this->datatype);
+>>>>>>> upstream/issue-116
 
   H5Tclose(this->datatype);
 
@@ -3094,7 +3104,7 @@ asynStatus NDFileHDF5::createNewFile(const char *fileName)
   if (checkForSWMRMode() == false){ 
     unsigned int istorek = this->calcIstorek();
     asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
-              "%s::%s Setting istorek=%u\n",
+              "%s::%s Calculated istorek=%u\n",
               driverName, functionName, istorek);
     // Check if the calculated value of istorek is greater than the maximum allowed
     if (istorek > MAX_ISTOREK){
