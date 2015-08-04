@@ -26,4 +26,5 @@ SZIP           = /dls_sw/prod/tools/RHEL6-x86_64/szip/2-1/prefix
 SZIP_LIB       = $(SZIP)/lib
 SZIP_INCLUDE   = -I$(SZIP)/include
 
+EPICS_V4_PLUGIN=YES
 
