@@ -16,4 +16,10 @@ O.*/
 .project
 .settings
 .cproject
+<<<<<<< HEAD
 external/
+=======
+data/
+iocs/winSimDetector/
+iocs/simDetector/
+>>>>>>> dls-controls/master
