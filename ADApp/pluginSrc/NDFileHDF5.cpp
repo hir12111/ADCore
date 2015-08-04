@@ -1457,24 +1457,14 @@ asynStatus NDFileHDF5::closeFile()
   if (storePerformance == 1) this->writePerformanceDataset();
 
   asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, 
-<<<<<<< HEAD
-            "%s::%s closing HDF cparms %d\n", 
-            driverName, functionName, (int)this->cparms);
-=======
             "%s::%s closing HDF cparms %ld\n", 
             driverName, functionName, (long int)this->cparms);
->>>>>>> upstream/issue-116
 
   H5Pclose(this->cparms);
 
   asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, 
-<<<<<<< HEAD
-            "%s::%s closing HDF datatype %d\n", 
-            driverName, functionName, (int)this->datatype);
-=======
             "%s::%s closing HDF datatype %ld\n", 
             driverName, functionName, (long int)this->datatype);
->>>>>>> upstream/issue-116
 
   H5Tclose(this->datatype);
 
