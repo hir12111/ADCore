@@ -4,6 +4,15 @@
 # Bruno Martins
 # May 5, 2015
 
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+#% macro, ADDR, Asyn Port address
+#% macro, TIMEOUT, Asyn timeout
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDPvaPlugin.edl, P=$(P),R=$(R)
+
 include "NDPluginBase.template"
 
 # New records for NDPluginPva

@@ -4,6 +4,16 @@
 # Bruno Martins
 # April 11, 2015
 
+# Macros:
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+#% macro, TIMEOUT, Timeout
+#% macro, ADDR, Asyn Port address
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, pvaDriver.edl, P=$(P),R=$(R)
+
 include "ADBase.template"
 
 # New records for pvaDriver
