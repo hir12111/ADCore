@@ -39,5 +39,5 @@ PVDATACPP=$(SUPPORT)/pvDataCPP/4-0-3
 NORMATIVETYPESCPP=$(SUPPORT)/normativeTypesCPP/4-0-2
 
 # ADBinaries is needed only for Windows (contains HDF5 and other external libs)
-ADBINARIES=$(MAPPING)/ADBinaries
+ADBINARIES=$(WORK)/mapping/ADBinaries
 
