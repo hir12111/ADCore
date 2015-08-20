@@ -1268,44 +1268,94 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
     // and store them into the offsets variable
     if (extradims == 0){
       epicsInt32 ival = 0;
-      pArray->pAttributeList->find(posNameDimN)->getValue(NDAttrInt32, &ival, NULL);
-      offsets[0] = ival;
+      NDAttribute *att1 = pArray->pAttributeList->find(posNameDimN);
+      if (att1 != NULL){
+        att1->getValue(NDAttrInt32, &ival, NULL);
+        offsets[0] = ival;
+      } else {
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s ERROR: could not find position attribute %s in list. Aborting\n",
+                  driverName, functionName, posNameDimN);
+        status = asynError;
+      }
     }
     if (extradims == 1){
       epicsInt32 ival = 0;
-      pArray->pAttributeList->find(posNameDimX)->getValue(NDAttrInt32, &ival, NULL);
-      offsets[0] = ival;
-      pArray->pAttributeList->find(posNameDimN)->getValue(NDAttrInt32, &ival, NULL);
-      offsets[1] = ival;
+      NDAttribute *att1 = pArray->pAttributeList->find(posNameDimX);
+      if (att1 != NULL){
+        att1->getValue(NDAttrInt32, &ival, NULL);
+        offsets[0] = ival;
+      } else {
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s ERROR: could not find position attribute %s in list. Aborting\n",
+                  driverName, functionName, posNameDimX);
+        status = asynError;
+      }
+      NDAttribute *att2 = pArray->pAttributeList->find(posNameDimN);
+      if (att2 != NULL){
+        att2->getValue(NDAttrInt32, &ival, NULL);
+        offsets[1] = ival;
+      } else {
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s ERROR: could not find position attribute %s in list. Aborting\n",
+                  driverName, functionName, posNameDimN);
+        status = asynError;
+      }
     }
     if (extradims == 2){
       epicsInt32 ival = 0;
-      pArray->pAttributeList->find(posNameDimY)->getValue(NDAttrInt32, &ival, NULL);
-      offsets[0] = ival;
-      pArray->pAttributeList->find(posNameDimX)->getValue(NDAttrInt32, &ival, NULL);
-      offsets[1] = ival;
-      pArray->pAttributeList->find(posNameDimN)->getValue(NDAttrInt32, &ival, NULL);
-      offsets[2] = ival;
+      NDAttribute *att1 = pArray->pAttributeList->find(posNameDimY);
+      if (att1 != NULL){
+        att1->getValue(NDAttrInt32, &ival, NULL);
+        offsets[0] = ival;
+      } else {
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s ERROR: could not find position attribute %s in list. Aborting\n",
+                  driverName, functionName, posNameDimY);
+        status = asynError;
+      }
+      NDAttribute *att2 = pArray->pAttributeList->find(posNameDimX);
+      if (att2 != NULL){
+        att2->getValue(NDAttrInt32, &ival, NULL);
+        offsets[1] = ival;
+      } else {
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s ERROR: could not find position attribute %s in list. Aborting\n",
+                  driverName, functionName, posNameDimX);
+        status = asynError;
+      }
+      NDAttribute *att3 = pArray->pAttributeList->find(posNameDimN);
+      if (att3 != NULL){
+        att3->getValue(NDAttrInt32, &ival, NULL);
+        offsets[2] = ival;
+      } else {
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s ERROR: could not find position attribute %s in list. Aborting\n",
+                  driverName, functionName, posNameDimN);
+        status = asynError;
+      }
     }
   }
 
-  if (destination == this->defDsetName){
-    // Check to see if we are positional placement mode
-    if (posRunning == 1){
-      if (this->multiFrameFile){
-        status = this->detDataMap[destination]->extendDataSet(extradims, offsets);
+  if (status == asynSuccess){
+    if (destination == this->defDsetName){
+      // Check to see if we are positional placement mode
+      if (posRunning == 1){
+        if (this->multiFrameFile){
+          status = this->detDataMap[destination]->extendDataSet(extradims, offsets);
+        }
+      } else {
+        // Not in positional placement mode, perform standard extension
+        // For multi frame files we now extend the HDF dataset to fit an additional frame
+        if (this->multiFrameFile){
+          status = this->detDataMap[destination]->extendDataSet(extradims);
+        }
       }
     } else {
-      // Not in positional placement mode, perform standard extension
       // For multi frame files we now extend the HDF dataset to fit an additional frame
       if (this->multiFrameFile){
         status = this->detDataMap[destination]->extendDataSet(extradims);
       }
-    }
-  } else {
-    // For multi frame files we now extend the HDF dataset to fit an additional frame
-    if (this->multiFrameFile){
-      status = this->detDataMap[destination]->extendDataSet(extradims);
     }
   }
 
@@ -1383,21 +1433,13 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
     this->performancePtr++;
   }
 
-  if (flush > 0){
-    if (numCaptured % flush == 0) {
-      if (checkForSWMRMode()){
-        // We are in SWMR mode so flush the dataset for any readers
-        status = this->detDataMap[destination]->flushDataset();
-      }
-    }
-  } else {
-    // Here although the flush parameter is zero we still need to flush the
-    // dataset if we are in SWMR mode so that any readers get the updates
-    if (checkForSWMRMode()){
-      // We are in SWMR mode so flush the dataset for any readers
+  if (checkForSWMRMode()){
+    if ((numCaptured+1) % flush == 0) {
+      // We are in SWMR mode so flush the dataset on every <flush> frames
       status = this->detDataMap[destination]->flushDataset();
     }
   }
+
   if (status != asynSuccess){
     hdfstatus = H5Fclose(this->file);
     if (hdfstatus){
@@ -1608,6 +1650,14 @@ asynStatus NDFileHDF5::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
   }
 
+  else if (function == NDFileHDF5_flushNthFrame){
+    // You cannot set the flush parameter to less than nFramesChunks
+    getIntegerParam(NDFileHDF5_nFramesChunks, &tmp);
+    if (value < tmp){
+      status = asynError;
+      setIntegerParam(function, oldvalue);
+    }
+  }
   else if (function == NDFileHDF5_extraDimSizeN ||
              function == NDFileHDF5_extraDimSizeX ||
              function == NDFileHDF5_extraDimSizeY)
@@ -2613,6 +2663,7 @@ asynStatus NDFileHDF5::configureDims(NDArray *pArray)
 {
   int i=0,j=0, extradims = 0, ndims=0;
   int numCapture;
+  int numFlush = 0;
   asynStatus status = asynSuccess;
   char strdims[DIMSREPORTSIZE];
   static const char *functionName = "configureDims";
@@ -2741,6 +2792,12 @@ asynStatus NDFileHDF5::configureDims(NDArray *pArray)
   setIntegerParam(NDFileHDF5_nFramesChunks, user_chunking[2]);
   setIntegerParam(NDFileHDF5_nRowChunks,    user_chunking[1]);
   setIntegerParam(NDFileHDF5_nColChunks,    user_chunking[0]);
+  // Check flushing parameter, if it is less than nFramesChunks then make them match
+  getIntegerParam(NDFileHDF5_flushNthFrame, &numFlush);
+  if (numFlush < user_chunking[2]){
+    numFlush = user_chunking[2];
+    setIntegerParam(NDFileHDF5_flushNthFrame, numFlush);
+  }
   this->unlock();
 
   for(i=0; i<pArray->ndims; i++) sprintf(strdims+(i*6), "%5d,", (int)pArray->dims[i].size);
