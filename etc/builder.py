@@ -1,4 +1,6 @@
 import xml.dom.minidom
+import os
+import iocbuilder
 from iocbuilder import Substitution, AutoSubstitution, SetSimulation, Device, records, Architecture, IocDataStream
 from iocbuilder.arginfo import *
 from iocbuilder.modules.asyn import Asyn, AsynPort, AsynIP
@@ -7,6 +9,35 @@ from iocbuilder.modules.calc import Calc
 from iocbuilder.modules.ADBinaries import ADBinaries
 
 __all__ = ['ADCore']
+
+# Record local default builder definition path
+defaults = os.path.join(os.path.dirname(__file__), 'defaults')
+
+# Import non-builder module pvAccessCPP
+from iocbuilder.modules import pvAccessCPP
+pvAccessCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvAccessCPP import pvAccessCPP
+
+# Import non-builder module pvCommonCPP
+from iocbuilder.modules import pvCommonCPP
+pvCommonCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvCommonCPP import pvCommonCPP
+
+# Import non-builder module pvDatabaseCPP
+from iocbuilder.modules import pvDatabaseCPP
+pvDatabaseCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvDatabaseCPP import pvDatabaseCPP
+
+# Import non-builder module pvDataCPP
+from iocbuilder.modules import pvDataCPP
+pvDataCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvDataCPP import pvDataCPP
+
+# Import non-builder module normativeTypesCPP
+from iocbuilder.modules import normativeTypesCPP
+normativeTypesCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.normativeTypesCPP import normativeTypesCPP
+
 
 #############################
 #    ADCore base classes    #
@@ -136,7 +167,7 @@ class pvaDriverTemplate(AutoSubstitution):
 
 class pvaDetector(AsynPort):
     """Creates a pvAccess detector"""
-    Dependencies = (ADCore,)
+    Dependencies = (ADCore,pvAccessCPP, pvCommonCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = pvaDriverTemplate
@@ -693,6 +724,7 @@ class NDPvaTemplate(AutoSubstitution):
 
 class NDPvaPlugin(AsynPort):
     """This plugin makes NDArrays available through PVAccess"""
+    Dependencies = (pvAccessCPP, pvCommonCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDPvaTemplate
@@ -717,6 +749,7 @@ class NDPvaPlugin(AsynPort):
         STACKSIZE = Simple('Max buffers to allocate', int))
 
     DbdFileList = ['NDPluginPva']
+    LibFileList = ['ntndArrayConverter']
 
     def Initialise(self):
         print '# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxMemory, priority, stackSize)' % self.__dict__
