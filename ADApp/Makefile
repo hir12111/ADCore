@@ -3,6 +3,7 @@ include $(TOP)/configure/CONFIG
 
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *db*))
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *Db*))
+DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard op*))
 
 DIRS += simDetectorSrc
 simDetectorSrc_DEPEND_DIRS = pluginSrc
@@ -19,8 +20,8 @@ DIRS += nexusSrc
 
 DIRS += tiffSupport
 
-DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *db*))
-DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *Db*))
-DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard op*))
+DIRS += pluginTests
+pluginTests_DEPEND_DIRS += ADSrc pluginSrc simDetectorSrc
+
 include $(TOP)/configure/RULES_DIRS
 
