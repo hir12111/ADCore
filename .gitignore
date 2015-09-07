@@ -9,11 +9,15 @@ envPaths*
 cdCommands
 dllPath.bat
 auto_settings.sav*
-configure/*.local
+#configure/*.local
 O.*/
 *~
 *.swp
 .project
 .settings
 .cproject
+data/
+iocs/winSimDetector/
+iocs/simDetector/
 external/
+
