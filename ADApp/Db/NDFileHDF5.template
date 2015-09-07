@@ -612,4 +612,3 @@ record(stringin, "$(P)$(R)PosNameDimY_RBV")
     field(SCAN, "I/O Intr")
 }
 
-
