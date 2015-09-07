@@ -7,6 +7,7 @@
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
 
+# All tags starting with gdatag are DLS specific for GDA
 # % gdatag, template, NDFileHDF5, $(PORT)_NDFileHDF5, $(PORT) NDFileHDF5 class instance
 
 # This associates the template with an edm screen
@@ -546,5 +547,4 @@ record(longin, "$(P)$(R)SWMRCbCounter_RBV")
     field(PINI, "NO")
     field(SCAN, "I/O Intr")
 }
-
 
