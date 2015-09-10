@@ -31,6 +31,13 @@ SSCAN=$(SUPPORT)/sscan/2-8-1
 # CALC is needed for the NDStats plugin
 CALC=$(SUPPORT)/calc/3-1
 
+# V4
+PVACCESSCPP=$(SUPPORT)/pvAccessCPP/4-0-4
+PVCOMMONCPP=$(SUPPORT)/pvCommonCPP/4-0-2
+PVDATABASECPP=$(SUPPORT)/pvDatabaseCPP/4-0-2
+PVDATACPP=$(SUPPORT)/pvDataCPP/4-0-3
+NORMATIVETYPESCPP=$(SUPPORT)/normativeTypesCPP/4-0-2
+
 # ADBinaries is needed only for Windows (contains HDF5 and other external libs)
 ADBINARIES=$(SUPPORT)/ADBinaries/2-2dls2
 
