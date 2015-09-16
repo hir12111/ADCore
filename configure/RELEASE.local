@@ -17,7 +17,7 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-AREA_DETECTOR=$(SUPPORT)
+AREA_DETECTOR=$(WORK)/mapping/ADCore
 
 # ASYN is needed for base classes 
 ASYN=$(SUPPORT)/asyn/4-26
