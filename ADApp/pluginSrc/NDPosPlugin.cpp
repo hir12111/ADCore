@@ -134,25 +134,39 @@ void NDPosPlugin::processCallbacks(NDArray *pArray)
         }
         // We must make a copy of the array as we are going to alter it
         this->pArrays[0] = this->pNDArrayPool->copy(pArray, this->pArrays[0], 1);
-        std::map<std::string, int> pos = positionArray[index];
-        std::stringstream sspos;
-        sspos << "[";
-        bool firstTime = true;
-        std::map<std::string, int>::iterator iter;
-        for (iter = pos.begin(); iter != pos.end(); iter++){
-          if (firstTime){
-            firstTime = false;
-          } else {
-            sspos << ",";
+        if (this->pArrays[0]){
+          std::map<std::string, int> pos = positionArray[index];
+          std::stringstream sspos;
+          sspos << "[";
+          bool firstTime = true;
+          std::map<std::string, int>::iterator iter;
+          for (iter = pos.begin(); iter != pos.end(); iter++){
+            if (firstTime){
+              firstTime = false;
+            } else {
+              sspos << ",";
+            }
+            sspos << iter->first << "=" << iter->second;
+            // Create the NDAttribute with the position data
+            NDAttribute *pAtt = new NDAttribute(iter->first.c_str(), "Position of NDArray", NDAttrSourceDriver, driverName, NDAttrInt32, &(iter->second));
+            // Add the NDAttribute to the NDArray
+            this->pArrays[0]->pAttributeList->add(pAtt);
           }
-          sspos << iter->first << "=" << iter->second;
-          // Create the NDAttribute with the position data
-          NDAttribute *pAtt = new NDAttribute(iter->first.c_str(), "Position of NDArray", NDAttrSourceDriver, driverName, NDAttrInt32, &(iter->second));
-          // Add the NDAttribute to the NDArray
-          this->pArrays[0]->pAttributeList->add(pAtt);
+          sspos << "]";
+          setStringParam(NDPos_CurrentPos, sspos.str().c_str());
+
+        } else {
+          // We were unable to allocate the required buffer (memory or qty exceeded).
+          // This results in us dropping a frame, note it and print an error
+          asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+                    "%s::%s ERROR: dropped frame! Could not allocate the required buffer\n",
+                    driverName, functionName);
+          // Note the frame drop
+          getIntegerParam(NDPluginDriverDroppedArrays, &dropped);
+          dropped++;
+          setIntegerParam(NDPluginDriverDroppedArrays, dropped);
+          skip = 1;
         }
-        sspos << "]";
-        setStringParam(NDPos_CurrentPos, sspos.str().c_str());
 
         // Check the mode
         getIntegerParam(NDPos_Mode, &mode);
@@ -341,6 +355,8 @@ asynStatus NDPosPlugin::loadFile()
   *            of the driver doing the callbacks.
   * \param[in] NDArrayPort Name of asyn port driver for initial source of NDArray callbacks.
   * \param[in] NDArrayAddr asyn port driver address for initial source of NDArray callbacks.
+  * \param[in] maxBuffers The maximum number of buffers that the NDArrayPool for this driver is 
+  *            allowed to allocate. Set this to -1 to allow an unlimited amount of buffers.
   * \param[in] maxMemory The maximum amount of memory that the NDArrayPool for this driver is 
   *            allowed to allocate. Set this to -1 to allow an unlimited amount of memory.
   * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
@@ -351,6 +367,7 @@ NDPosPlugin::NDPosPlugin(const char *portName,
                          int blockingCallbacks,
                          const char *NDArrayPort,
                          int NDArrayAddr,
+                         int maxBuffers,
                          size_t maxMemory,
                          int priority,
                          int stackSize)
@@ -361,7 +378,7 @@ NDPosPlugin::NDPosPlugin(const char *portName,
                    NDArrayAddr,
                    1,
                    NUM_NDPOS_PARAMS,
-                   50,
+                   maxBuffers,
                    maxMemory,
                    asynInt32ArrayMask | asynFloat64Mask | asynFloat64ArrayMask | asynGenericPointerMask,
                    asynInt32ArrayMask | asynFloat64Mask | asynFloat64ArrayMask | asynGenericPointerMask,
@@ -433,6 +450,7 @@ extern "C" int NDPosPluginConfigure(const char *portName,
                                     int blockingCallbacks,
                                     const char *NDArrayPort,
                                     int NDArrayAddr,
+                                    int maxBuffers,
                                     size_t maxMemory,
                                     int priority,
                                     int stackSize)
@@ -442,6 +460,7 @@ extern "C" int NDPosPluginConfigure(const char *portName,
                   blockingCallbacks,
                   NDArrayPort,
                   NDArrayAddr,
+                  maxBuffers,
                   maxMemory,
                   priority,
                   stackSize);
@@ -454,9 +473,10 @@ static const iocshArg initArg1 = { "frame queue size",iocshArgInt};
 static const iocshArg initArg2 = { "blocking callbacks",iocshArgInt};
 static const iocshArg initArg3 = { "NDArrayPort",iocshArgString};
 static const iocshArg initArg4 = { "NDArrayAddr",iocshArgInt};
-static const iocshArg initArg5 = { "maxMemory",iocshArgInt};
-static const iocshArg initArg6 = { "priority",iocshArgInt};
-static const iocshArg initArg7 = { "stackSize",iocshArgInt};
+static const iocshArg initArg5 = { "maxBuffers",iocshArgInt};
+static const iocshArg initArg6 = { "maxMemory",iocshArgInt};
+static const iocshArg initArg7 = { "priority",iocshArgInt};
+static const iocshArg initArg8 = { "stackSize",iocshArgInt};
 static const iocshArg * const initArgs[] = {&initArg0,
                                             &initArg1,
                                             &initArg2,
@@ -464,8 +484,9 @@ static const iocshArg * const initArgs[] = {&initArg0,
                                             &initArg4,
                                             &initArg5,
                                             &initArg6,
-                                            &initArg7};
-static const iocshFuncDef initFuncDef = {"NDPosPluginConfigure",8,initArgs};
+                                            &initArg7,
+                                            &initArg8};
+static const iocshFuncDef initFuncDef = {"NDPosPluginConfigure",9,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
   NDPosPluginConfigure(args[0].sval,
@@ -475,7 +496,8 @@ static void initCallFunc(const iocshArgBuf *args)
                        args[4].ival,
                        args[5].ival,
                        args[6].ival,
-                       args[7].ival);
+                       args[7].ival,
+                       args[8].ival);
 }
 
 extern "C" void NDPosPluginRegister(void)
