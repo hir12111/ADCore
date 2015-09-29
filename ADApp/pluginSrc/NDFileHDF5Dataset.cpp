@@ -100,7 +100,7 @@ asynStatus NDFileHDF5Dataset::configureDims(NDArray *pArray, bool multiframe, in
  * then the dataset is simply increased in the frame number direction.
  * \param[in] extradims - The number of extra dimensions.
  */
-void NDFileHDF5Dataset::extendDataSet(int extradims)
+asynStatus NDFileHDF5Dataset::extendDataSet(int extradims)
 {
   int i=0;
   bool growdims = true;
@@ -111,14 +111,14 @@ void NDFileHDF5Dataset::extendDataSet(int extradims)
 
   // first frame already has the offsets and dimensions preconfigured so
   // we dont need to increment anything here
-  if (this->nextRecord_ == 0) return;
+  if (this->nextRecord_ == 0) return asynSuccess;
 
   // in the simple case where dont use the extra X,Y dimensions we
   // just increment the n'th frame number
   if (extradims == 1){
     this->dims_[0]++;
     this->offset_[0]++;
-    return;
+    return asynSuccess;
   }
 
   // run through the virtual dimensions in reverse order: n,X,Y
@@ -144,7 +144,33 @@ void NDFileHDF5Dataset::extendDataSet(int extradims)
       growdims = true;
     }
   }
-  return;
+  return asynSuccess;
+}
+
+asynStatus NDFileHDF5Dataset::extendDataSet(int extradims, hsize_t *offsets)
+{
+  asynStatus status = asynSuccess;
+  static const char *functionName = "extendDataSet";
+
+  // If this method has been called then we are being asked to extend to a particular index
+  for (int index = 0; index <= extradims; index++){
+    // Check the requested offset is not outside the dimension maximum
+    if (offsets[index] < this->virtualdims_[index]){
+      if (this->dims_[index] < offsets[index]+1){
+        // Increase the dimension to accomodate the new position
+        this->dims_[index] = offsets[index]+1;
+      }
+      // Always set the offset position even if we don't increase the dims
+      this->offset_[index] = offsets[index];
+    } else {
+      // We have been unable to extend, this is a bad position request
+      asynPrint(this->pAsynUser_, ASYN_TRACE_ERROR,
+                "%s::%s ERROR extending the dataset [%s] failed\n",
+                fileName, functionName, this->name_.c_str());
+      status = asynError;
+    }
+  }
+  return status;
 }
 
 /** writeFile.
@@ -214,5 +240,33 @@ asynStatus NDFileHDF5Dataset::writeFile(NDArray *pArray, hid_t datatype, hid_t d
 hid_t NDFileHDF5Dataset::getHandle()
 {
   return this->dataset_;
+}
+
+asynStatus NDFileHDF5Dataset::flushDataset()
+{
+  static const char *functionName = "flushDataset";
+  // flushDataset is a no-op if the HDF version doesn't support it
+  #if H5_VERSION_GE(1,9,178)
+
+  herr_t hdfstatus;
+
+  // Flush the dataset
+  hdfstatus = H5Dflush(this->dataset_);
+  if (hdfstatus){
+    asynPrint(this->pAsynUser_, ASYN_TRACE_ERROR, 
+              "%s::%s ERROR Unable to flush the dataset [%s]\n", 
+              fileName, functionName, this->name_.c_str());
+    return asynError;
+  }
+  #else
+  // If this is called when we do not support SWMR then someone has done something
+  // bad, so return an asynError
+  asynPrint(this->pAsynUser_, ASYN_TRACE_ERROR,
+            "%s::%s SWMR dataset flush attempted but the library compiled against doesn't support it.\n",
+            fileName, functionName);
+  return asynError;
+  #endif
+
+  return asynSuccess;  
 }
 

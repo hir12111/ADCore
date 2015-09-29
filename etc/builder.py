@@ -1,4 +1,6 @@
 import xml.dom.minidom
+import os
+import iocbuilder
 from iocbuilder import Substitution, AutoSubstitution, SetSimulation, Device, records, Architecture, IocDataStream
 from iocbuilder.arginfo import *
 from iocbuilder.modules.asyn import Asyn, AsynPort, AsynIP
@@ -7,6 +9,35 @@ from iocbuilder.modules.calc import Calc
 from iocbuilder.modules.ADBinaries import ADBinaries
 
 __all__ = ['ADCore']
+
+# Record local default builder definition path
+defaults = os.path.join(os.path.dirname(__file__), 'defaults')
+
+# Import non-builder module pvAccessCPP
+from iocbuilder.modules import pvAccessCPP
+pvAccessCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvAccessCPP import pvAccessCPP
+
+# Import non-builder module pvCommonCPP
+from iocbuilder.modules import pvCommonCPP
+pvCommonCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvCommonCPP import pvCommonCPP
+
+# Import non-builder module pvDatabaseCPP
+from iocbuilder.modules import pvDatabaseCPP
+pvDatabaseCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvDatabaseCPP import pvDatabaseCPP
+
+# Import non-builder module pvDataCPP
+from iocbuilder.modules import pvDataCPP
+pvDataCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.pvDataCPP import pvDataCPP
+
+# Import non-builder module normativeTypesCPP
+from iocbuilder.modules import normativeTypesCPP
+normativeTypesCPP.LoadDefinitions(defaults)
+from iocbuilder.modules.normativeTypesCPP import normativeTypesCPP
+
 
 #############################
 #    ADCore base classes    #
@@ -126,6 +157,44 @@ class simDetector(AsynPort):
     def Initialise(self):
         print '# simDetectorConfig(portName, maxSizeX, maxSizeY, dataType, maxBuffers, maxMemory)'
         print 'simDetectorConfig("%(PORT)s", %(WIDTH)s, %(HEIGHT)s, %(DATATYPE)d, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+
+#############################
+
+#############################
+
+class pvaDriverTemplate(AutoSubstitution):
+    TemplateFile = "pvaDriver.template"
+
+class pvaDetector(AsynPort):
+    """Creates a pvAccess detector"""
+    Dependencies = (ADCore,pvAccessCPP, pvCommonCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = pvaDriverTemplate
+    def __init__(self, PORT, PVNAME, BUFFERS = 50, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    # __init__ arguments
+    ArgInfo = ADBaseTemplate.ArgInfo + _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the detector', str),
+        PVNAME = Simple('PV Name', str),
+        BUFFERS = Simple('Maximum number of NDArray buffers to be created for plugin callbacks', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
+        PRIORITY = Simple('Max buffers to allocate', int),
+        STACKSIZE = Simple('Max buffers to allocate', int))
+
+    # Device attributes
+    LibFileList = ['pvaDriver']
+    DbdFileList = ['pvaDriverSupport']
+
+    def Initialise(self):
+        print '# pvaDriverConfig(portName, pvName, maxBuffers, maxMemory, priority, stackSize)'
+        print 'pvaDriverConfig("%(PORT)s", %(PVNAME)s, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
 
 #############################
 
@@ -612,6 +681,80 @@ class NDColorConvert(AsynPort):
     def Initialise(self):
         print '# NDColorConvertConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
         print 'NDColorConvertConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+
+#############################
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDPosPluginTemplate(AutoSubstitution):
+    TemplateFile = 'NDPosPlugin.template'
+
+class NDPosPlugin(AsynPort):
+    """This plugin attaches position information to NDArrays"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDPosPluginTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDPosPlugin plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        BUFFERS = Simple('Max buffers to allocate', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
+        PRIORITY = Simple('Max buffers to allocate', int),
+        STACKSIZE = Simple('Max buffers to allocate', int))
+
+    def Initialise(self):
+        print '# NDPosPluginConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)' % self.__dict__
+        print 'NDPosPluginConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+
+#############################
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDPvaTemplate(AutoSubstitution):
+    TemplateFile = 'NDPva.template'
+
+class NDPvaPlugin(AsynPort):
+    """This plugin makes NDArrays available through PVAccess"""
+    Dependencies = (pvAccessCPP, pvCommonCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDPvaTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, PVNAME, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDPosPlugin plugin', str),
+        PVNAME = Simple('Name of the PV to post NDArray out on', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
+        PRIORITY = Simple('Max buffers to allocate', int),
+        STACKSIZE = Simple('Max buffers to allocate', int))
+
+    DbdFileList = ['NDPluginPva']
+    LibFileList = ['ntndArrayConverter']
+
+    def Initialise(self):
+        print '# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxMemory, priority, stackSize)' % self.__dict__
+        print 'NDPvaConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(PVNAME)s, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
 
 ##############################
 

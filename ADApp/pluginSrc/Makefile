@@ -35,9 +35,11 @@ DBD += NDPluginStdArrays.dbd
 DBD += NDPluginTransform.dbd
 DBD += NDPluginAttribute.dbd
 DBD += NDPluginCircularBuff.dbd
+DBD += NDPosPlugin.dbd
 
 INC += NDFileHDF5.h
 INC += NDFileHDF5Dataset.h
+INC += NDFileHDF5AttributeDataset.h
 INC += NDFileHDF5Layout.h
 INC += NDFileHDF5LayoutXML.h
 INC += NDFileJPEG.h
@@ -60,6 +62,8 @@ INC += NDPluginStdArrays.h
 INC += NDPluginTransform.h
 INC += NDPluginCircularBuff.h
 INC += NDArrayRing.h
+INC += NDPosPlugin.h
+INC += NDPosPluginFileReader.h
 
 LIBRARY_IOC += NDPlugin
 NDPlugin_SRCS += NDPluginDriver.cpp
@@ -77,7 +81,10 @@ NDPlugin_SRCS += NDPluginOverlayTextFont.cpp
 NDPlugin_SRCS += NDPluginColorConvert.cpp
 NDPlugin_SRCS += NDPluginCircularBuff.cpp
 NDPlugin_SRCS += NDArrayRing.cpp
-NDPlugin_SRCS_DEFAULT += NDFileTIFF.cpp NDFileJPEG.cpp NDFileNexus.cpp NDFileHDF5.cpp NDFileHDF5Dataset.cpp NDFileHDF5LayoutXML.cpp NDFileHDF5Layout.cpp NDFileNull.cpp
+NDPlugin_SRCS_DEFAULT += NDFileTIFF.cpp NDFileJPEG.cpp NDFileNexus.cpp 
+NDPlugin_SRCS_DEFAULT += NDFileHDF5.cpp NDFileHDF5Dataset.cpp NDFileHDF5AttributeDataset.cpp
+NDPlugin_SRCS_DEFAULT += NDFileHDF5LayoutXML.cpp NDFileHDF5Layout.cpp NDFileNull.cpp
+NDPlugin_SRCS_DEFAULT += NDPosPlugin.cpp NDPosPluginFileReader.cpp
 NDPlugin_SRCS_vxWorks += NDFileDummy.cpp
 NDPlugin_SYS_LIBS_WIN32 += Ws2_32
 NDPlugin_SYS_LIBS_WIN32 += User32
@@ -87,6 +94,12 @@ ifeq ($(USE_GRAPHICSMAGICK), YES)
   NDPlugin_SRCS += NDFileMagick.cpp
 else 
   NDPlugin_SRCS += NDFileMagickStub.cpp
+endif
+
+ifeq ($(EPICS_V4_PLUGIN), YES)
+  DBD += NDPluginPva.dbd
+  INC += NDPluginPva.h
+  NDPlugin_SRCS += NDPluginPva.cpp
 endif
 
 USR_INCLUDES += $(HDF5_INCLUDE)

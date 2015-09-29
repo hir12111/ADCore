@@ -1,0 +1,27 @@
+#=================================================================#
+# Template file: NDPva.template
+# Database for the records specific to the pvAccess plugin
+# Bruno Martins
+# May 5, 2015
+
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+#% macro, ADDR, Asyn Port address
+#% macro, TIMEOUT, Asyn timeout
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDPvaPlugin.edl, P=$(P),R=$(R)
+
+include "NDPluginBase.template"
+
+# New records for NDPluginPva
+
+record(waveform, "$(P)$(R)PvName_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PV_NAME")
+    field(FTVL, "CHAR")
+    field(NELM, "256")
+    field(SCAN, "I/O Intr")
+}

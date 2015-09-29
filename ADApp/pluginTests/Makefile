@@ -25,6 +25,9 @@ ifdef BOOST
   plugin-test_SRCS += plugin-test.cpp
   plugin-test_SRCS += test_NDPluginCircularBuff.cpp
   plugin-test_SRCS += test_NDFileHDF5.cpp
+  plugin-test_SRCS += test_NDFileHDF5AttributeDataset.cpp
+  plugin-test_SRCS += test_NDPosPlugin.cpp
+
   # Add tests for new plugins like this:
   #plugin-test_SRCS += test_<plugin name>.cpp
   
