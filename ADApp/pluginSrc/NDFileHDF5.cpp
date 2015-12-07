@@ -249,8 +249,8 @@ asynStatus NDFileHDF5::startSWMR()
   hid_t hdfstatus = H5Fstart_swmr_write(this->file);
   if (hdfstatus < 0) {
     asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
-              "%s::%s unable start SWMR write operation. ERRORCODE=%d\n",
-              driverName, functionName, (int)hdfstatus);
+              "%s::%s unable start SWMR write operation. ERRORCODE=%ld\n",
+              driverName, functionName, (long int)hdfstatus);
     return asynError;
   }
   return asynSuccess;
@@ -1625,7 +1625,12 @@ asynStatus NDFileHDF5::writeInt32(asynUser *pasynUser, epicsInt32 value)
     else if (value == 0) {
       // Special case: allow writing infinite number of frames
       //setIntegerParam(NDFileHDF5_storePerformance, 0); // performance dataset does not support infinite length acquisition
-      setIntegerParam(NDFileHDF5_nExtraDims, 0); // The extra virtual dimensions do not support infinite length acquisition
+      // Check to see if we are in position mode
+      getIntegerParam(NDFileHDF5_posRunning, &tmp);
+      // If we are not in position placement mode then we cannot support infinite length acquisition
+      if (tmp == 0){
+        setIntegerParam(NDFileHDF5_nExtraDims, 0); // The extra virtual dimensions do not support infinite length acquisition
+      }
     }
     // if we are using the virtual dimensions we cannot allow setting a number of
     // frames to acquire which is larger than the product of all virtual dimension (n,X,Y) sizes
@@ -1638,7 +1643,15 @@ asynStatus NDFileHDF5::writeInt32(asynUser *pasynUser, epicsInt32 value)
         setIntegerParam(function, value);
       }       
     }
-
+  } else if (function == NDFileHDF5_posRunning)
+  {
+    if (value == 0){
+      // Pos running has been turned off.  Check for 0 number of frames and then ensure extra dims is set to zero
+      getIntegerParam(NDFileNumCapture, &tmp);
+      if (tmp == 0){
+        setIntegerParam(NDFileHDF5_nExtraDims, 0); // The extra virtual dimensions do not support infinite length acquisition
+      }
+    }
   } else if (function == NDFileHDF5_nRowChunks ||
              function == NDFileHDF5_nColChunks ||
              function == NDFileHDF5_nFramesChunks )
@@ -2425,7 +2438,9 @@ asynStatus NDFileHDF5::createAttributeDataset(NDArray *pArray)
       if(groupDefault > -1) {
         std::string atName = std::string(epicsStrDup(ndAttr->getName()));
         NDFileHDF5AttributeDataset *attDset = new NDFileHDF5AttributeDataset(this->file, atName, ndAttr->getDataType());
-        attDset->setParentGroupName(def_group->get_full_name().c_str());
+        if(def_group != NULL) {
+          attDset->setParentGroupName(def_group->get_full_name().c_str());
+        }
         if (dimAttDataset == 1){
           attDset->createDataset(this->multiFrameFile, extraDims, numCapture, user_chunking);
         } else {
