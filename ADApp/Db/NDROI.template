@@ -11,9 +11,6 @@
 # % macro, TIMEOUT, Timeout
 # % macro, ADDR, Asyn Port address
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, NDROI, $(PORT)_NDROI, $(PORT) NDROI class instance
-
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDROI.edl, P=$(P),R=$(R)
 
