@@ -19,6 +19,7 @@ ifdef BOOST
   ADTestUtility_SRCS += AsynException.cpp
   ADTestUtility_SRCS += SimulatedDetectorWrapper.cpp
   ADTestUtility_SRCS += HDF5PluginWrapper.cpp
+  ADTestUtility_SRCS += PosPluginWrapper.cpp
   ADTestUtility_SRCS += HDF5FileReader.cpp
 
   PROD_IOC_Linux += plugin-test
@@ -27,6 +28,7 @@ ifdef BOOST
   plugin-test_SRCS += test_NDFileHDF5.cpp
   plugin-test_SRCS += test_NDFileHDF5AttributeDataset.cpp
   plugin-test_SRCS += test_NDPosPlugin.cpp
+  plugin-test_SRCS += test_NDFileHDF5ExtraDimensions.cpp
 
   # Add tests for new plugins like this:
   #plugin-test_SRCS += test_<plugin name>.cpp
