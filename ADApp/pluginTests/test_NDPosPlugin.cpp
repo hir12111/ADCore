@@ -26,16 +26,26 @@
 using namespace std;
 
 #include "testingutilities.h"
-#include "SimulatedDetectorWrapper.h"
 #include "PosPluginWrapper.h"
 #include "HDF5FileReader.h"
 #include "AsynException.h"
 
+
+static int callbackCount = 0;
+static void *cbPtr = 0;
+
+void callback(void *userPvt, asynUser *pasynUser, void *pointer)
+{
+  cbPtr = pointer;
+  callbackCount++;
+}
+
 struct PosPluginTestFixture
 {
   NDArrayPool *arrayPool;
-  std::tr1::shared_ptr<SimulatedDetectorWrapper> driver;
+  std::tr1::shared_ptr<asynPortDriver> driver;
   std::tr1::shared_ptr<PosPluginWrapper> pos;
+  std::tr1::shared_ptr<asynGenericPointerClient> client;
 
   static int testCase;
 
@@ -51,14 +61,7 @@ struct PosPluginTestFixture
 
     // We need some upstream driver for our test plugin so that calls to connectArrayPort don't fail, but we can then ignore it and send
     // arrays by calling processCallbacks directly.
-    driver = std::tr1::shared_ptr<SimulatedDetectorWrapper>(new SimulatedDetectorWrapper(simport.c_str(),
-                                                                                         800,
-                                                                                         500,
-                                                                                         NDFloat64,
-                                                                                         50,
-                                                                                         0,
-                                                                                         0,
-                                                                                         2000000));
+    driver = std::tr1::shared_ptr<asynPortDriver>(new asynPortDriver(simport.c_str(), 0, 1, asynGenericPointerMask, asynGenericPointerMask, 0, 0, 0, 2000000));
 
     // This is the plugin under test
     pos = std::tr1::shared_ptr<PosPluginWrapper>(new PosPluginWrapper(testport.c_str(),
@@ -66,17 +69,22 @@ struct PosPluginTestFixture
                                                                       1,
                                                                       simport.c_str(),
                                                                       0,
+                                                                      -1,
                                                                       0,
                                                                       2000000));
 
     // Enable the plugin
     pos->write(NDPluginDriverEnableCallbacksString, 1);
     pos->write(NDPluginDriverBlockingCallbacksString, 1);
+
+    client = std::tr1::shared_ptr<asynGenericPointerClient>(new asynGenericPointerClient(testport.c_str(), 0, NDArrayDataString));
+    client->registerInterruptUser(&callback);
   }
 
   ~PosPluginTestFixture()
   {
     delete arrayPool;
+    client.reset();
     pos.reset();
     driver.reset();
   }
@@ -198,27 +206,34 @@ BOOST_AUTO_TEST_CASE(test_LoadingDataPoints)
   // Start position generation
   BOOST_CHECK_NO_THROW(pos->write(str_NDPos_Running, 1));
 
+  BOOST_CHECK_NO_THROW(pos->write(str_NDPos_ExpectedID, 0));
+//pos->
   int xvals[24] = {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1};
   int yvals[24] = {0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1};
   int nvals[24] = {0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1};
   // Send some arrays to the plugin
   for (int i = 0; i < 10; i++)
   {
+    arrays[i]->uniqueId = i;
     pos->lock();
     BOOST_CHECK_NO_THROW(pos->processCallbacks(arrays[i]));
     pos->unlock();
+    // Check the callback pointer has been updated
+    BOOST_CHECK_EQUAL(callbackCount, i+1);
     // Verify the attributes are attached
+    NDArray *arrayPtr = (NDArray *)cbPtr;
     NDAttribute *aPtr;
     int val;
-    aPtr =  arrays[i]->pAttributeList->find("n");
+//    aPtr =  arrays[i]->pAttributeList->find("n");
+    aPtr =  arrayPtr->pAttributeList->find("n");
     BOOST_CHECK_EQUAL(aPtr->getName(), "n");
     BOOST_CHECK_NO_THROW(aPtr->getValue(NDAttrInt32, &val));
     BOOST_CHECK_EQUAL(val, nvals[i]);
-    aPtr =  arrays[i]->pAttributeList->find("x");
+    aPtr =  arrayPtr->pAttributeList->find("x");
     BOOST_CHECK_EQUAL(aPtr->getName(), "x");
     BOOST_CHECK_NO_THROW(aPtr->getValue(NDAttrInt32, &val));
     BOOST_CHECK_EQUAL(val, xvals[i]);
-    aPtr =  arrays[i]->pAttributeList->find("y");
+    aPtr =  arrayPtr->pAttributeList->find("y");
     BOOST_CHECK_EQUAL(aPtr->getName(), "y");
     BOOST_CHECK_NO_THROW(aPtr->getValue(NDAttrInt32, &val));
     BOOST_CHECK_EQUAL(val, yvals[i]);
@@ -239,21 +254,26 @@ BOOST_AUTO_TEST_CASE(test_LoadingDataPoints)
   // Send some arrays to the plugin
   for (int i = 10; i < 20; i++)
   {
+    arrays[i]->uniqueId = i;
     pos->lock();
     BOOST_CHECK_NO_THROW(pos->processCallbacks(arrays[i]));
     pos->unlock();
+
+    // Check the callback pointer has been updated
+    BOOST_CHECK_EQUAL(callbackCount, i+1);
     // Verify the attributes are attached
+    NDArray *arrayPtr = (NDArray *)cbPtr;
     NDAttribute *aPtr;
     int val;
-    aPtr =  arrays[i]->pAttributeList->find("n");
+    aPtr =  arrayPtr->pAttributeList->find("n");
     BOOST_CHECK_EQUAL(aPtr->getName(), "n");
     BOOST_CHECK_NO_THROW(aPtr->getValue(NDAttrInt32, &val));
     BOOST_CHECK_EQUAL(val, nvals[i]);
-    aPtr =  arrays[i]->pAttributeList->find("x");
+    aPtr =  arrayPtr->pAttributeList->find("x");
     BOOST_CHECK_EQUAL(aPtr->getName(), "x");
     BOOST_CHECK_NO_THROW(aPtr->getValue(NDAttrInt32, &val));
     BOOST_CHECK_EQUAL(val, xvals[i]);
-    aPtr =  arrays[i]->pAttributeList->find("y");
+    aPtr =  arrayPtr->pAttributeList->find("y");
     BOOST_CHECK_EQUAL(aPtr->getName(), "y");
     BOOST_CHECK_NO_THROW(aPtr->getValue(NDAttrInt32, &val));
     BOOST_CHECK_EQUAL(val, yvals[i]);

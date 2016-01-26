@@ -18,6 +18,7 @@ ifdef BOOST
   ADTestUtility_SRCS += AsynPortClientContainer.cpp
   ADTestUtility_SRCS += AsynException.cpp
   ADTestUtility_SRCS += HDF5PluginWrapper.cpp
+  ADTestUtility_SRCS += PosPluginWrapper.cpp
   ADTestUtility_SRCS += HDF5FileReader.cpp
 
   PROD_IOC_Linux += plugin-test
