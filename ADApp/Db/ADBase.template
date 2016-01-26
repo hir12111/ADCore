@@ -11,9 +11,6 @@
 # % macro, TIMEOUT, Timeout
 # % macro, ADDR, Asyn Port address
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, ADBase, $(PORT)_ADBase, $(PORT) ADBase class instance
-
 include "NDArrayBase.template"
 
 ###################################################################

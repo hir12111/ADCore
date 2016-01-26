@@ -9,9 +9,6 @@
 # % macro, TIMEOUT, Timeout
 # % macro, ADDR, Asyn Port address
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, NDTransform, $(PORT)_NDTransform, $(PORT) NDTransform class instance
-
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDTransform.edl, P=$(P),R=$(R)
 

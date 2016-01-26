@@ -99,14 +99,22 @@ asynStatus NDFileHDF5AttributeDataset::createHDF5Dataset()
   dataspace_ = H5Screate_simple(rank_, dims_, maxdims_);
 
   // Open the group by its name
-  hid_t dsetgroup = H5Gopen(file_, groupName_.c_str(), H5P_DEFAULT);
+  hid_t dsetgroup;
+
+  if (groupName_ != ""){
+    dsetgroup = H5Gopen(file_, groupName_.c_str(), H5P_DEFAULT);
+  } else {
+    dsetgroup = file_;
+  }
 
   // Now create the dataset
   dataset_ = H5Dcreate2(dsetgroup, dsetName_.c_str(),
                         datatype_, dataspace_,
                         H5P_DEFAULT, cparm_, H5P_DEFAULT);
 
-  H5Gclose(dsetgroup);
+  if (groupName_ != ""){
+    H5Gclose(dsetgroup);
+  }
 
   memspace_ = H5Screate_simple(rank_, elementSize_, NULL);
 
@@ -152,7 +160,7 @@ asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenTo
   return status;
 }
 
-asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenToSave, hsize_t *offsets, NDAttribute *ndAttr, int flush)
+asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenToSave, hsize_t *offsets, NDAttribute *ndAttr, int flush, int indexed)
 {
   asynStatus status = asynSuccess;
   char * stackbuf[MAX_ATTRIBUTE_STRING_SIZE];
@@ -161,8 +169,11 @@ asynStatus NDFileHDF5AttributeDataset::writeAttributeDataset(hdf5::When_t whenTo
   //check if the attribute is meant to be saved at this time
   if (whenToSave_ == whenToSave) {
     // Extend the dataset as required to store the data
-    extendDataSet(offsets);
-
+    if (indexed == -1){
+      extendDataSet(offsets);
+    } else {
+      extendIndexDataSet(offsets[indexed]);
+    }
     // find the data based on datatype
     ret = ndAttr->getValue(ndAttr->getDataType(), pDatavalue, MAX_ATTRIBUTE_STRING_SIZE);
     if (ret == ND_ERROR) {
@@ -427,6 +438,17 @@ void NDFileHDF5AttributeDataset::extendDataSet(hsize_t *offsets)
       this->offset_[index] = offsets[index];
     }
   }
+  return;
+}
+
+void NDFileHDF5AttributeDataset::extendIndexDataSet(hsize_t offset)
+{
+  if (this->dims_[0] < offset+1){
+    // Increase the dimension to accomodate the new position
+    this->dims_[0] = offset+1;
+  }
+  // Always set the offset position even if we don't increase the dims
+  this->offset_[0] = offset;
   return;
 }
 

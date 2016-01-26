@@ -12,9 +12,6 @@
 # % macro, TIMEOUT, Timeout
 # % macro, ADDR, Asyn Port address
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, NDFileJPEG, $(PORT)_NDFileJPEG, $(PORT) NDFileJPEG class instance
-
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileJPEG.edl, P=$(P),R=$(R)
 

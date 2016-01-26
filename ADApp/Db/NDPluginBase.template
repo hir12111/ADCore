@@ -14,9 +14,6 @@
 # % macro, NDARRAY_ADDR, Input Array Address
 # % macro, Enabled, Plugin Enabled at startup?
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, NDPluginBase, $(PORT)_NDPluginBase, $(PORT) NDPluginBase class instance
-
 include "NDArrayBase.template"
 
 ###################################################################

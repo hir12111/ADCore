@@ -10,9 +10,6 @@
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, NDFileNetCDF, $(PORT)_NDFileNetCDF, $(PORT) NDFileNetCDF class instance
-
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileNetCDF.edl, P=$(P),R=$(R)
 

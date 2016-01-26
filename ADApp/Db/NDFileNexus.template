@@ -9,9 +9,6 @@
 # % macro, TIMEOUT, Timeout
 # % macro, ADDR, Asyn Port address
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, NDFileNexus, $(PORT)_NDFileNexus, $(PORT) NDFileNexus class instance
-
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileNexus.edl, P=$(P),R=$(R)
 

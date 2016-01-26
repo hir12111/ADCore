@@ -11,9 +11,6 @@
 # % macro, TIMEOUT, Timeout
 # % macro, ADDR, Asyn Port address
 
-# All tags starting with gdatag are DLS specific for GDA
-# % gdatag, template, NDFile, $(PORT)_NDFile, $(PORT) NDFile class instance
-
 ###################################################################
 #  These records control file I/O                                 # 
 ###################################################################
