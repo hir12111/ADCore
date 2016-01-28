@@ -20,4 +20,6 @@ data/
 iocs/winSimDetector/
 iocs/simDetector/
 external/
+ci/coverage.info
+ci/html/
 
