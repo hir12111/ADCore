@@ -18,11 +18,6 @@ from iocbuilder.modules import pvAccessCPP
 pvAccessCPP.LoadDefinitions(defaults)
 from iocbuilder.modules.pvAccessCPP import pvAccessCPP
 
-# Import non-builder module pvCommonCPP
-from iocbuilder.modules import pvCommonCPP
-pvCommonCPP.LoadDefinitions(defaults)
-from iocbuilder.modules.pvCommonCPP import pvCommonCPP
-
 # Import non-builder module pvDatabaseCPP
 from iocbuilder.modules import pvDatabaseCPP
 pvDatabaseCPP.LoadDefinitions(defaults)
@@ -127,7 +122,7 @@ class pvaDriverTemplate(AutoSubstitution):
 
 class pvaDetector(AsynPort):
     """Creates a pvAccess detector"""
-    Dependencies = (ADCore,pvAccessCPP, pvCommonCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
+    Dependencies = (ADCore,pvAccessCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = pvaDriverTemplate
@@ -685,7 +680,7 @@ class NDPvaTemplate(AutoSubstitution):
 
 class NDPvaPlugin(AsynPort):
     """This plugin makes NDArrays available through PVAccess"""
-    Dependencies = (pvAccessCPP, pvCommonCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
+    Dependencies = (pvAccessCPP, pvDatabaseCPP, pvDataCPP, normativeTypesCPP)
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDPvaTemplate

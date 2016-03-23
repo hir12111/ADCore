@@ -414,7 +414,7 @@ void NTNDArrayConverter::fromDimensions (NDArray *src)
     destVec.resize(src->ndims);
     for (int i = 0; i < src->ndims; i++)
     {
-        if (!destVec[i])
+        if (!destVec[i] || !destVec[i].unique())
             destVec[i] = PVDC->createPVStructure(dimStructure);
 
         destVec[i]->getSubField<PVInt>("size")->put(src->dims[i].size);
@@ -502,7 +502,7 @@ void NTNDArrayConverter::fromAttributes (NDArray *src)
     size_t i = 0;
     while((attr = srcList->next(attr)))
     {
-        if(!destVec[i].get())
+        if(!destVec[i].get() || !destVec[i].unique())
             destVec[i] = PVDC->createPVStructure(structure);
 
         PVStructurePtr pvAttr(destVec[i]);

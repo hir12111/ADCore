@@ -12,7 +12,7 @@
 # % macro, ADDR, Asyn Port address
 # % macro, NDARRAY_PORT, Input Array Port
 # % macro, NDARRAY_ADDR, Input Array Address
-# % macro, Enabled, Plugin Enabled at startup?
+# % macro, ENABLED, Plugin Enabled at startup?
 
 include "NDArrayBase.template"
 
@@ -76,7 +76,7 @@ record(bo, "$(P)$(R)EnableCallbacks")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ENABLE_CALLBACKS")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
-    field(VAL,  "$(Enabled=0)")
+    field(VAL,  "$(ENABLED=0)")
     info(autosaveFields, "VAL")
 }
 
