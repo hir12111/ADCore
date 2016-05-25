@@ -1,0 +1,460 @@
+# Database for the records specific to the Andor SDK3 cameras
+# Phillip Sorensen
+# October 8, 2012
+
+# Macros:
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+#% macro, TIMEOUT, Timeout
+#% macro, ADDR, Asyn Port address
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, andor3.edl, P=$(P),R=$(R)
+
+# % gui, $(PORT), boydetail, ADApp_opi/Andor3_detail.opi, P=$(P), R=$(R), DESC=Andor sCMOS Detector
+# % gui, $(PORT), boyembed, ADApp_opi/Andor3_embed_box.opi, P=$(P), R=$(R), DESC=Andor sCMOS Detector
+# % gui, $(PORT), boyembed, ADApp_opi/Andor3_embed.opi, P=$(P), R=$(R), DESC=Andor sCMOS Detector
+
+# DB inherited from ADBase
+# Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Manufacturer,   $(P)$(R)Manufacturer_RBV
+# % gui, $(PORT), readback, Model,   $(P)$(R)Model_RBV
+# % gui, $(PORT), readback, Detector state,   $(P)$(R)DetectorState_RBV
+# % gui, $(PORT), readback, Status message,   $(P)$(R)StatusMessage_RBV
+# Image
+# % gui, $(PORT), demand, Gain,   $(P)$(R)Gain
+# % gui, $(PORT), readback, Gain,   $(P)$(R)Gain_RBV
+# % gui, $(PORT), readback, Max size X,   $(P)$(R)MaxSizeX_RBV
+# % gui, $(PORT), readback, Max size Y,   $(P)$(R)MaxSizeY_RBV
+# % gui, $(PORT), demand, Binning X,   $(P)$(R)BinX
+# % gui, $(PORT), readback, Binning X,   $(P)$(R)BinX_RBV
+# % gui, $(PORT), demand, Binning Y,   $(P)$(R)BinY
+# % gui, $(PORT), readback, Binning Y,   $(P)$(R)BinY_RBV
+# % gui, $(PORT), demand, Region start X,   $(P)$(R)MinX
+# % gui, $(PORT), readback, Region start X,   $(P)$(R)MinX_RBV
+# % gui, $(PORT), demand, Region start Y,   $(P)$(R)MinY
+# % gui, $(PORT), readback, Region start Y,   $(P)$(R)MinY_RBV
+# % gui, $(PORT), demand, Region size X,   $(P)$(R)SizeX
+# % gui, $(PORT), readback, Region size X,   $(P)$(R)SizeX_RBV
+# % gui, $(PORT), demand, Region size Y,   $(P)$(R)SizeY
+# % gui, $(PORT), readback, Region size Y,   $(P)$(R)SizeY_RBV
+# % gui, $(PORT), readback, Array Size X,   $(P)$(R)ArraySizeX_RBV
+# % gui, $(PORT), readback, Array Size Y,   $(P)$(R)ArraySizeY_RBV
+# % gui, $(PORT), readback, Array Size,   $(P)$(R)ArraySize_RBV
+# Acquisition
+# % gui, $(PORT), demand, Acquire time,   $(P)$(R)AcquireTime
+# % gui, $(PORT), readback, Acquire time,   $(P)$(R)AcquireTime_RBV
+# % gui, $(PORT), demand, Acquire period,   $(P)$(R)AcquirePeriod
+# % gui, $(PORT), readback, Acquire period,   $(P)$(R)AcquirePeriod_RBV
+# % gui, $(PORT), readback, Time remaining,   $(P)$(R)TimeRemaining_RBV
+# % gui, $(PORT), enum, Frame type,   $(P)$(R)FrameType
+# % gui, $(PORT), readback, Frame type,   $(P)$(R)FrameType_RBV
+# % gui, $(PORT), enum, Image mode,   $(P)$(R)ImageMode
+# % gui, $(PORT), readback, Image mode,   $(P)$(R)ImageMode_RBV
+# % gui, $(PORT), demand, Num images,   $(P)$(R)NumImages
+# % gui, $(PORT), readback, Num images,   $(P)$(R)NumImages_RBV
+# % gui, $(PORT), readback, Image counter,   $(P)$(R)NumImagesCounter_RBV
+# % gui, $(PORT), enum, Acquire,   $(P)$(R)Acquire
+# % gui, $(PORT), readback, Acquire,   $(P)$(R)Acquire_RBV
+# % gui, $(PORT), demand, Array counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array rate,   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), enum, Array callbacks,   $(P)$(R)ArrayCallbacks
+# % gui, $(PORT), readback, Array callbacks,   $(P)$(R)ArrayCallbacks_RBV
+# % gui, $(PORT), demand, Attributes file,   $(P)$(R)NDAttributesFile
+# Temperature
+# % gui, $(PORT), enum, Shutter mode,   $(P)$(R)ShutterMode
+# % gui, $(PORT), readback, Shutter mode,   $(P)$(R)ShutterMode_RBV
+# % gui, $(PORT), enum, Shutter control,   $(P)$(R)ShutterControl
+# % gui, $(PORT), readback, Shutter control,   $(P)$(R)ShutterControl_RBV
+# % gui, $(PORT), readback, Shutter status,   $(P)$(R)ShutterStatus_RBV
+# % gui, $(PORT), demand, Shutter open delay,   $(P)$(R)ShutterOpenDelay
+# % gui, $(PORT), readback, Shutter open delay,   $(P)$(R)ShutterOpenDelay_RBV
+# % gui, $(PORT), demand, Shutter close delay,   $(P)$(R)ShutterCloseDelay
+# % gui, $(PORT), readback, Shutter close delay,   $(P)$(R)ShutterCloseDelay_RBV
+# % gui, $(PORT), demand, Temperature setpoint,   $(P)$(R)Temperature
+# % gui, $(PORT), readback, Temperature setpoint,   $(P)$(R)Temperature_RBV
+# % gui, $(PORT), readback, Current temperature,   $(P)$(R)Temperature_RBV
+# Memory
+# % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
+# % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
+# % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem
+# % gui, $(PORT), readback, Allocated buffers,   $(P)$(R)PoolAllocBuffers
+# % gui, $(PORT), readback, Free buffers,   $(P)$(R)PoolFreeBuffers
+# % gui, $(PORT), readback, Used buffers,   $(P)$(R)PoolUsedBuffers
+
+###############################################################################
+#  Note: The following are records defined in ADBase.template.                #
+#        We are changing some of the fields here to reflect valid values for  #
+#        Andor SDK3                                                           #
+###############################################################################
+
+###############################################################################
+#  These records control the data type and color.                             # 
+###############################################################################
+
+# % gui, $(PORT), enum, Data Type, $(P)$(R)DataType
+# Only unsigned 16 and 32 bit integers are supported.  Determined by PixelEncoding
+record(mbbo, "$(P)$(R)DataType")
+{
+   field(ZRST, "UInt16")
+   field(ZRVL, "3")
+   field(ONST, "UInt32")
+   field(ONVL, "5")
+   field(TWST, "")
+   field(TWVL, "")
+   field(THST, "")
+   field(THVL, "")
+   field(FRST, "")
+   field(FRVL, "")
+   field(FVST, "")
+   field(FVVL, "")
+   field(SXST, "")
+   field(SXVL, "")
+   field(SVST, "")
+   field(SVVL, "")
+}
+
+# % gui, $(PORT), readback, Data Type, $(P)$(R)DataType_RBV
+record(mbbi, "$(P)$(R)DataType_RBV")
+{
+   field(ZRST, "UInt16")
+   field(ZRVL, "3")
+   field(ONST, "UInt32")
+   field(ONVL, "5")
+   field(TWST, "")
+   field(TWVL, "")
+   field(THST, "")
+   field(THVL, "")
+   field(FRST, "")
+   field(FRVL, "")
+   field(FVST, "")
+   field(FVVL, "")
+   field(SXST, "")
+   field(SXVL, "")
+   field(SVST, "")
+   field(SVVL, "")
+}
+
+# % gui, $(PORT), enum, Color Mode, $(P)$(R)ColorMode
+# Only Mono color mode is supported at this time
+record(mbbo, "$(P)$(R)ColorMode")
+{
+   field(ZRST, "Mono")
+   field(ZRVL, "0")
+   field(ONST, "")
+   field(ONVL, "")
+   field(TWST, "")
+   field(TWVL, "")
+   field(THST, "")
+   field(THVL, "")
+   field(FRST, "")
+   field(FRVL, "")
+   field(FVST, "")
+   field(FVVL, "")
+   field(SXST, "")
+   field(SXVL, "")
+   field(SVST, "")
+   field(SVVL, "")
+}
+
+# % gui, $(PORT), readback, Color Mode, $(P)$(R)ColorMode_RBV
+record(mbbi, "$(P)$(R)ColorMode_RBV")
+{
+   field(ZRST, "Mono")
+   field(ZRVL, "0")
+   field(ONST, "")
+   field(ONVL, "")
+   field(TWST, "")
+   field(TWVL, "")
+   field(THST, "")
+   field(THVL, "")
+   field(FRST, "")
+   field(FRVL, "")
+   field(FVST, "")
+   field(FVVL, "")
+   field(SXST, "")
+   field(SXVL, "")
+   field(SVST, "")
+   field(SVVL, "")
+}
+
+
+# The following records are specific to the Andor SDK3
+# Note that we don't define the choices for mbbo and mbii records here.
+# These choices are built at iocInit by reading the list of valid choices
+# from the Andor SDK.  This is very nice because they automatically change
+# depending on the capabilities of the camera.
+
+###############################################################################
+#  These records are additional acquisition parameters                        #
+###############################################################################
+
+# % gui, $(PORT), demand, Frame Rate, $(P)$(R)FrameRate
+record(ao, "$(P)$(R)FrameRate")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_FRAME_RATE")  
+   field(VAL,  "10")
+}
+
+# % gui, $(PORT), readback, Frame Rate, $(P)$(R)FrameRate
+record(ai, "$(P)$(R)FrameRate_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_FRAME_RATE")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, Preamp Gain, $(P)$(R)PreAmpGain
+record(mbbo, "$(P)$(R)PreAmpGain")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_PREAMP_GAIN")
+}
+
+# % gui, $(PORT), readback, Preamp Gain, $(P)$(R)PreAmpGain_RBV
+record(mbbi, "$(P)$(R)PreAmpGain_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_PREAMP_GAIN")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, Readout Rate, $(P)$(R)ReadoutRate
+record(mbbo, "$(P)$(R)ReadoutRate")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_READOUT_RATE")
+}
+
+# % gui, $(PORT), readback, Readout Rate, $(P)$(R)ReadoutRate_RBV
+record(mbbi, "$(P)$(R)ReadoutRate_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_READOUT_RATE")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, Overlap Acquisition, $(P)$(R)Overlap
+record(bo, "$(P)$(R)Overlap")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_OVERLAP")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+}
+
+# % gui, $(PORT), readback, Overlap Acquisition, $(P)$(R)Overlap_RBV
+record(bi, "$(P)$(R)Overlap_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_OVERLAP")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, Noise Filter, $(P)$(R)NoiseFilter
+record(bo, "$(P)$(R)NoiseFilter")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_NOISE_FILTER")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+}
+
+# % gui, $(PORT), readback, Noise Filter, $(P)$(R)NoiseFilter_RBV
+record(bi, "$(P)$(R)NoiseFilter_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_NOISE_FILTER")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, Pixel Encoding, $(P)$(R)PixelEncoding
+record(mbbo, "$(P)$(R)PixelEncoding")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_PIXEL_ENCODING")
+}
+
+# % gui, $(PORT), readback, Pixel Encoding, $(P)$(R)PixelEncoding_RBV
+record(mbbi, "$(P)$(R)PixelEncoding_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_PIXEL_ENCODING")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), readback, Readout Time, $(P)$(R)ReadoutTime
+record(ai, "$(P)$(R)ReadoutTime")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_READOUT_TIME")
+   field(PREC, "4")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), readback, Transfer Rate, $(P)$(R)TransferRate
+record(ai, "$(P)$(R)TransferRate")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_TRANSFER_RATE")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), readback, Full AOI Control, $(P)$(R)FullAOIControl
+record(bi, "$(P)$(R)FullAOIControl")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_FULL_AOI_CONTROL")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, A3 Binning, $(P)$(R)A3Binning
+record(mbbo, "$(P)$(R)A3Binning")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_BINNING")
+}
+
+# % gui, $(PORT), readback, A3 Binning, $(P)$(R)A3Binning_RBV
+record(mbbi, "$(P)$(R)A3Binning_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_BINNING")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, A3 Shutter Mode, $(P)$(R)A3ShutterMode
+record(mbbo, "$(P)$(R)A3ShutterMode")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_SHUTTER_MODE")
+}
+
+# % gui, $(PORT), readback, A3 Shutter Mode, $(P)$(R)A3ShutterMode_RBV
+record(mbbi, "$(P)$(R)A3ShutterMode_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_SHUTTER_MODE")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, Software Trigger, $(P)$(R)SoftwareTrigger
+record(bo, "$(P)$(R)SoftwareTrigger")
+{
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_SOFTWARE_TRIGGER")
+   field(ZNAM, "Done")
+   field(ONAM, "Trigger")
+}
+
+# % gui, $(PORT), enum, Sensor Cooling, $(P)$(R)SensorCooling
+record(bo, "$(P)$(R)SensorCooling")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_SENSOR_COOLING")
+   field(ZNAM, "Off")
+   field(ONAM, "On")
+}
+
+# % gui, $(PORT), readback, Sensor Cooling, $(P)$(R)SensorCooling_RBV
+record(bi, "$(P)$(R)SensorCooling_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_SENSOR_COOLING")
+   field(SCAN, "I/O Intr")
+   field(ZNAM, "Off")
+   field(ONAM, "On")
+}
+
+# % gui, $(PORT), enum, Temp Control, $(P)$(R)TempControl
+record(mbbo, "$(P)$(R)TempControl")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_TEMP_CONTROL")
+}
+
+# % gui, $(PORT), readback, Temp Control, $(P)$(R)TempControl_RBV
+record(mbbi, "$(P)$(R)TempControl_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_TEMP_CONTROL")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), readback, Temp Status, $(P)$(R)TempStatus_RBV
+record(mbbi, "$(P)$(R)TempStatus_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_TEMP_STATUS")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), enum, Fan Speed, $(P)$(R)FanSpeed
+record(mbbo, "$(P)$(R)FanSpeed")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_FAN_SPEED")
+}
+
+# % gui, $(PORT), readback, Fan Speed, $(P)$(R)FanSpeed_RBV
+record(mbbi, "$(P)$(R)FanSpeed_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_FAN_SPEED")
+   field(SCAN, "I/O Intr")
+}
+
+# % gui, $(PORT), readback, Serial Number, $(P)$(R)SerialNumber
+record(stringin, "$(P)$(R)SerialNumber")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_SERIAL_NUMBER")
+}
+
+# % gui, $(PORT), readback, Firmware Version, $(P)$(R)FirmwareVersion
+record(stringin, "$(P)$(R)FirmwareVersion")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_FIRMWARE_VERSION")
+}
+
+# % gui, $(PORT), readback, Software Version, $(P)$(R)SoftwareVersion
+record(stringin, "$(P)$(R)SoftwareVersion")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_SOFTWARE_VERSION")
+}
+
+# % gui, $(PORT), readback, Controller ID, $(P)$(R)ControllerID
+record(stringin, "$(P)$(R)ControllerID")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))A3_CONTROLLER_ID")
+}
