@@ -14,6 +14,256 @@
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDOverlay.edl, P=$(P),R=$(R)
 
+# This associates a BOY screen with the template
+# % gui, $(PORT), boydetail,ADApp_opi/over_detail.opi, P=$(P), R=$(R), DESC=Overlay
+# % gui, $(PORT), boyembed, ADApp_opi/over_embed_box.opi, P=$(P), R=$(R), DESC=Overlay
+# % gui, $(PORT), boyembed, ADApp_opi/over_embed.opi, P=$(P), R=$(R), DESC=Overlay
+
+# Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
+# Input
+# % gui, $(PORT), demand, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+# % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
+# % gui, $(PORT), readback, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Blocking,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), readback, Blocking,   $(P)$(R)BlockingCallbacks_RBV
+# % gui, $(PORT), demand, Array counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array rate,   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped,   $(P)$(R)DroppedArrays_RBV
+# % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
+# % gui, $(PORT), readback, Dim 0 size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, In data type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
+# % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+# Output
+# % gui, $(PORT), demand, Attributes file,   $(P)$(R)NDAttributesFile
+# Overlay 1
+# % gui, $(PORT), demand, Overlay 1,   $(P)$(R)1:Name
+# % gui, $(PORT), enum, Use 1,   $(P)$(R)1:Use
+# % gui, $(PORT), readback, Use 1,   $(P)$(R)1:Use_RBV
+# % gui, $(PORT), enum, Shape 1,   $(P)$(R)1:Shape
+# % gui, $(PORT), readback, Shape 1,   $(P)$(R)1:Shape_RBV
+# % gui, $(PORT), enum, Mode 1,   $(P)$(R)1:DrawMode
+# % gui, $(PORT), readback, Mode 1,   $(P)$(R)1:DrawMode_RBV
+# % gui, $(PORT), demand, Red 1,   $(P)$(R)1:Red
+# % gui, $(PORT), readback, Red 1,   $(P)$(R)1:Red_RBV
+# % gui, $(PORT), demand, Green 1,   $(P)$(R)1:Green
+# % gui, $(PORT), readback, Green 1,   $(P)$(R)1:Green_RBV
+# % gui, $(PORT), demand, Blue 1,   $(P)$(R)1:Blue
+# % gui, $(PORT), readback, Blue 1,   $(P)$(R)1:Blue_RBV
+# % gui, $(PORT), demand, X Position 1,   $(P)$(R)1:PositionX
+# % gui, $(PORT), readback, X Position 1,   $(P)$(R)1:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 1,   $(P)$(R)1:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 1,   $(P)$(R)1:SizeX
+# % gui, $(PORT), readback, X Size 1,   $(P)$(R)1:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 1,   $(P)$(R)1:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 1,   $(P)$(R)1:PositionY
+# % gui, $(PORT), readback, Y Position 1,   $(P)$(R)1:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 1,   $(P)$(R)1:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 1,   $(P)$(R)1:SizeY
+# % gui, $(PORT), readback, Y Size 1,   $(P)$(R)1:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 1,   $(P)$(R)1:SizeYLink.DOL
+# Overlay 2
+# % gui, $(PORT), demand, Overlay 2,   $(P)$(R)2:Name
+# % gui, $(PORT), enum, Use 2,   $(P)$(R)2:Use
+# % gui, $(PORT), readback, Use 2,   $(P)$(R)2:Use_RBV
+# % gui, $(PORT), enum, Shape 2,   $(P)$(R)2:Shape
+# % gui, $(PORT), readback, Shape 2,   $(P)$(R)2:Shape_RBV
+# % gui, $(PORT), enum, Mode 2,   $(P)$(R)2:DrawMode
+# % gui, $(PORT), readback, Mode 2,   $(P)$(R)2:DrawMode_RBV
+# % gui, $(PORT), demand, Red 2,   $(P)$(R)2:Red
+# % gui, $(PORT), readback, Red 2,   $(P)$(R)2:Red_RBV
+# % gui, $(PORT), demand, Green 2,   $(P)$(R)2:Green
+# % gui, $(PORT), readback, Green 2,   $(P)$(R)2:Green_RBV
+# % gui, $(PORT), demand, Blue 2,   $(P)$(R)2:Blue
+# % gui, $(PORT), readback, Blue 2,   $(P)$(R)2:Blue_RBV
+# % gui, $(PORT), demand, X Position 2,   $(P)$(R)2:PositionX
+# % gui, $(PORT), readback, X Position 2,   $(P)$(R)2:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 2,   $(P)$(R)2:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 2,   $(P)$(R)2:SizeX
+# % gui, $(PORT), readback, X Size 2,   $(P)$(R)2:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 2,   $(P)$(R)2:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 2,   $(P)$(R)2:PositionY
+# % gui, $(PORT), readback, Y Position 2,   $(P)$(R)2:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 2,   $(P)$(R)2:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 2,   $(P)$(R)2:SizeY
+# % gui, $(PORT), readback, Y Size 2,   $(P)$(R)2:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 2,   $(P)$(R)2:SizeYLink.DOL
+# Overlay 3
+# % gui, $(PORT), demand, Overlay 3,   $(P)$(R)3:Name
+# % gui, $(PORT), enum, Use 3,   $(P)$(R)3:Use
+# % gui, $(PORT), readback, Use 3,   $(P)$(R)3:Use_RBV
+# % gui, $(PORT), enum, Shape 3,   $(P)$(R)3:Shape
+# % gui, $(PORT), readback, Shape 3,   $(P)$(R)3:Shape_RBV
+# % gui, $(PORT), enum, Mode 3,   $(P)$(R)3:DrawMode
+# % gui, $(PORT), readback, Mode 3,   $(P)$(R)3:DrawMode_RBV
+# % gui, $(PORT), demand, Red 3,   $(P)$(R)3:Red
+# % gui, $(PORT), readback, Red 3,   $(P)$(R)3:Red_RBV
+# % gui, $(PORT), demand, Green 3,   $(P)$(R)3:Green
+# % gui, $(PORT), readback, Green 3,   $(P)$(R)3:Green_RBV
+# % gui, $(PORT), demand, Blue 3,   $(P)$(R)3:Blue
+# % gui, $(PORT), readback, Blue 3,   $(P)$(R)3:Blue_RBV
+# % gui, $(PORT), demand, X Position 3,   $(P)$(R)3:PositionX
+# % gui, $(PORT), readback, X Position 3,   $(P)$(R)3:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 3,   $(P)$(R)3:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 3,   $(P)$(R)3:SizeX
+# % gui, $(PORT), readback, X Size 3,   $(P)$(R)3:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 3,   $(P)$(R)3:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 3,   $(P)$(R)3:PositionY
+# % gui, $(PORT), readback, Y Position 3,   $(P)$(R)3:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 3,   $(P)$(R)3:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 3,   $(P)$(R)3:SizeY
+# % gui, $(PORT), readback, Y Size 3,   $(P)$(R)3:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 3,   $(P)$(R)3:SizeYLink.DOL
+# Overlay 4
+# % gui, $(PORT), demand, Overlay 4,   $(P)$(R)4:Name
+# % gui, $(PORT), enum, Use 4,   $(P)$(R)4:Use
+# % gui, $(PORT), readback, Use 4,   $(P)$(R)4:Use_RBV
+# % gui, $(PORT), enum, Shape 4,   $(P)$(R)4:Shape
+# % gui, $(PORT), readback, Shape 4,   $(P)$(R)4:Shape_RBV
+# % gui, $(PORT), enum, Mode 4,   $(P)$(R)4:DrawMode
+# % gui, $(PORT), readback, Mode 4,   $(P)$(R)4:DrawMode_RBV
+# % gui, $(PORT), demand, Red 4,   $(P)$(R)4:Red
+# % gui, $(PORT), readback, Red 4,   $(P)$(R)4:Red_RBV
+# % gui, $(PORT), demand, Green 4,   $(P)$(R)4:Green
+# % gui, $(PORT), readback, Green 4,   $(P)$(R)4:Green_RBV
+# % gui, $(PORT), demand, Blue 4,   $(P)$(R)4:Blue
+# % gui, $(PORT), readback, Blue 4,   $(P)$(R)4:Blue_RBV
+# % gui, $(PORT), demand, X Position 4,   $(P)$(R)4:PositionX
+# % gui, $(PORT), readback, X Position 4,   $(P)$(R)4:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 4,   $(P)$(R)4:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 4,   $(P)$(R)4:SizeX
+# % gui, $(PORT), readback, X Size 4,   $(P)$(R)4:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 4,   $(P)$(R)4:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 4,   $(P)$(R)4:PositionY
+# % gui, $(PORT), readback, Y Position 4,   $(P)$(R)4:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 4,   $(P)$(R)4:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 4,   $(P)$(R)4:SizeY
+# % gui, $(PORT), readback, Y Size 4,   $(P)$(R)4:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 4,   $(P)$(R)4:SizeYLink.DOL
+# Overlay 5
+# % gui, $(PORT), demand, Overlay 5,   $(P)$(R)5:Name
+# % gui, $(PORT), enum, Use 5,   $(P)$(R)5:Use
+# % gui, $(PORT), readback, Use 5,   $(P)$(R)5:Use_RBV
+# % gui, $(PORT), enum, Shape 5,   $(P)$(R)5:Shape
+# % gui, $(PORT), readback, Shape 5,   $(P)$(R)5:Shape_RBV
+# % gui, $(PORT), enum, Mode 5,   $(P)$(R)5:DrawMode
+# % gui, $(PORT), readback, Mode 5,   $(P)$(R)5:DrawMode_RBV
+# % gui, $(PORT), demand, Red 5,   $(P)$(R)5:Red
+# % gui, $(PORT), readback, Red 5,   $(P)$(R)5:Red_RBV
+# % gui, $(PORT), demand, Green 5,   $(P)$(R)5:Green
+# % gui, $(PORT), readback, Green 5,   $(P)$(R)5:Green_RBV
+# % gui, $(PORT), demand, Blue 5,   $(P)$(R)5:Blue
+# % gui, $(PORT), readback, Blue 5,   $(P)$(R)5:Blue_RBV
+# % gui, $(PORT), demand, X Position 5,   $(P)$(R)5:PositionX
+# % gui, $(PORT), readback, X Position 5,   $(P)$(R)5:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 5,   $(P)$(R)5:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 5,   $(P)$(R)5:SizeX
+# % gui, $(PORT), readback, X Size 5,   $(P)$(R)5:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 5,   $(P)$(R)5:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 5,   $(P)$(R)5:PositionY
+# % gui, $(PORT), readback, Y Position 5,   $(P)$(R)5:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 5,   $(P)$(R)5:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 5,   $(P)$(R)5:SizeY
+# % gui, $(PORT), readback, Y Size 5,   $(P)$(R)5:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 5,   $(P)$(R)5:SizeYLink.DOL
+# Overlay 6
+# % gui, $(PORT), demand, Overlay 6,   $(P)$(R)6:Name
+# % gui, $(PORT), enum, Use 6,   $(P)$(R)6:Use
+# % gui, $(PORT), readback, Use 6,   $(P)$(R)6:Use_RBV
+# % gui, $(PORT), enum, Shape 6,   $(P)$(R)6:Shape
+# % gui, $(PORT), readback, Shape 6,   $(P)$(R)6:Shape_RBV
+# % gui, $(PORT), enum, Mode 6,   $(P)$(R)6:DrawMode
+# % gui, $(PORT), readback, Mode 6,   $(P)$(R)6:DrawMode_RBV
+# % gui, $(PORT), demand, Red 6,   $(P)$(R)6:Red
+# % gui, $(PORT), readback, Red 6,   $(P)$(R)6:Red_RBV
+# % gui, $(PORT), demand, Green 6,   $(P)$(R)6:Green
+# % gui, $(PORT), readback, Green 6,   $(P)$(R)6:Green_RBV
+# % gui, $(PORT), demand, Blue 6,   $(P)$(R)6:Blue
+# % gui, $(PORT), readback, Blue 6,   $(P)$(R)6:Blue_RBV
+# % gui, $(PORT), demand, X Position 6,   $(P)$(R)6:PositionX
+# % gui, $(PORT), readback, X Position 6,   $(P)$(R)6:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 6,   $(P)$(R)6:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 6,   $(P)$(R)6:SizeX
+# % gui, $(PORT), readback, X Size 6,   $(P)$(R)6:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 6,   $(P)$(R)6:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 6,   $(P)$(R)6:PositionY
+# % gui, $(PORT), readback, Y Position 6,   $(P)$(R)6:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 6,   $(P)$(R)6:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 6,   $(P)$(R)6:SizeY
+# % gui, $(PORT), readback, Y Size 6,   $(P)$(R)6:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 6,   $(P)$(R)6:SizeYLink.DOL
+# Overlay 7
+# % gui, $(PORT), demand, Overlay 7,   $(P)$(R)7:Name
+# % gui, $(PORT), enum, Use 7,   $(P)$(R)7:Use
+# % gui, $(PORT), readback, Use 7,   $(P)$(R)7:Use_RBV
+# % gui, $(PORT), enum, Shape 7,   $(P)$(R)7:Shape
+# % gui, $(PORT), readback, Shape 7,   $(P)$(R)7:Shape_RBV
+# % gui, $(PORT), enum, Mode 7,   $(P)$(R)7:DrawMode
+# % gui, $(PORT), readback, Mode 7,   $(P)$(R)7:DrawMode_RBV
+# % gui, $(PORT), demand, Red 7,   $(P)$(R)7:Red
+# % gui, $(PORT), readback, Red 7,   $(P)$(R)7:Red_RBV
+# % gui, $(PORT), demand, Green 7,   $(P)$(R)7:Green
+# % gui, $(PORT), readback, Green 7,   $(P)$(R)7:Green_RBV
+# % gui, $(PORT), demand, Blue 7,   $(P)$(R)7:Blue
+# % gui, $(PORT), readback, Blue 7,   $(P)$(R)7:Blue_RBV
+# % gui, $(PORT), demand, X Position 7,   $(P)$(R)7:PositionX
+# % gui, $(PORT), readback, X Position 7,   $(P)$(R)7:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 7,   $(P)$(R)7:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 7,   $(P)$(R)7:SizeX
+# % gui, $(PORT), readback, X Size 7,   $(P)$(R)7:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 7,   $(P)$(R)7:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 7,   $(P)$(R)7:PositionY
+# % gui, $(PORT), readback, Y Position 7,   $(P)$(R)7:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 7,   $(P)$(R)7:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 7,   $(P)$(R)7:SizeY
+# % gui, $(PORT), readback, Y Size 7,   $(P)$(R)7:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 7,   $(P)$(R)7:SizeYLink.DOL
+# Overlay 8
+# % gui, $(PORT), demand, Overlay 8,   $(P)$(R)8:Name
+# % gui, $(PORT), enum, Use 8,   $(P)$(R)8:Use
+# % gui, $(PORT), readback, Use 8,   $(P)$(R)8:Use_RBV
+# % gui, $(PORT), enum, Shape 8,   $(P)$(R)8:Shape
+# % gui, $(PORT), readback, Shape 8,   $(P)$(R)8:Shape_RBV
+# % gui, $(PORT), enum, Mode 8,   $(P)$(R)8:DrawMode
+# % gui, $(PORT), readback, Mode 8,   $(P)$(R)8:DrawMode_RBV
+# % gui, $(PORT), demand, Red 8,   $(P)$(R)8:Red
+# % gui, $(PORT), readback, Red 8,   $(P)$(R)8:Red_RBV
+# % gui, $(PORT), demand, Green 8,   $(P)$(R)8:Green
+# % gui, $(PORT), readback, Green 8,   $(P)$(R)8:Green_RBV
+# % gui, $(PORT), demand, Blue 8,   $(P)$(R)8:Blue
+# % gui, $(PORT), readback, Blue 8,   $(P)$(R)8:Blue_RBV
+# % gui, $(PORT), demand, X Position 8,   $(P)$(R)8:PositionX
+# % gui, $(PORT), readback, X Position 8,   $(P)$(R)8:PositionX_RBV
+# % gui, $(PORT), demand, X Position Link 8,   $(P)$(R)8:PositionXLink.DOL
+# % gui, $(PORT), demand, X Size 8,   $(P)$(R)8:SizeX
+# % gui, $(PORT), readback, X Size 8,   $(P)$(R)8:SizeX_RBV
+# % gui, $(PORT), demand, X Size Link 8,   $(P)$(R)8:SizeXLink.DOL
+# % gui, $(PORT), demand, Y Position 8,   $(P)$(R)8:PositionY
+# % gui, $(PORT), readback, Y Position 8,   $(P)$(R)8:PositionY_RBV
+# % gui, $(PORT), demand, Y Position Link 8,   $(P)$(R)8:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Size 8,   $(P)$(R)8:SizeY
+# % gui, $(PORT), readback, Y Size 8,   $(P)$(R)8:SizeY_RBV
+# % gui, $(PORT), demand, Y Size Link 8,   $(P)$(R)8:SizeYLink.DOL
+# Memory
+# % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
+# % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
+# % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem
+# % gui, $(PORT), readback, Allocated buffers,   $(P)$(R)PoolAllocBuffers
+# % gui, $(PORT), readback, Free buffers,   $(P)$(R)PoolFreeBuffers
+
 include "NDPluginBase.template"
 
 # These are the array dimensions in X, Y order.  Used for setting HOPR on sliders
