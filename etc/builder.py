@@ -602,6 +602,57 @@ class NDOverlay(AsynPort):
         print '# NDOverlayConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, NOverlays, maxBuffers, maxMemory)'
         print 'NDOverlayConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NOverlays)d, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
 
+#############################
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDROIStatTemplate(AutoSubstitution):
+    """Template containing the records for an NDROIStat"""
+    TemplateFile = 'NDROIStat.template'
+
+class NDROIStatNTemplate(AutoSubstitution):
+    """Template containing the records for an NDROIStat"""
+    TemplateFile = 'NDROIStatN.template'
+
+class NDROIStat(AsynPort):
+    """This plugin calculates statistics of ROIs"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = 'PORT'
+    _SpecificTemplate = NDROIStatTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
+                 MAX_ROIS=8, BUFFERS=50, MEMORY=0, NCHANS=4096, **args):
+        super(NDROIStat, self).__init__(PORT)
+        self.__dict__.update(locals())
+        self.P = args['P']
+        self.TIMEOUT = args['TIMEOUT']
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+        self._create_roi_stat_n_templates()
+
+    def _create_roi_stat_n_templates(self):
+        for i in range(self.MAX_ROIS):
+            NDROIStatNTemplate(P=self.P, R='{}{}:'.format(R, i + 1),
+                               NCHANS=self.NCHANS, PORT=self.PORT, ADDR=i,
+                               TIMEOUT=self.TIMEOUT)
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(
+        __init__,
+        PORT = Simple('Port name for the NDPluginROIStat plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        MAX_ROIS = Simple('Maximum number of ROIs in this plugin', int),
+        BUFFERS = Simple('Max buffers to allocate', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer '
+                        'for driver and all attached plugins', int),
+        NCHANS = Simple('Number of points in the arrays', int))
+
+    def Initialise(self):
+        print('# NDROIStatConfigure(portName, queueSize, blockingCallbacks, '
+              'NDArrayPort, NDArrayAddr, maxROIs, maxBuffers, maxMemory)')
+        print('NDROIStatConfigure("{PORT}", {QUEUE}, {BLOCK}, '
+              '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ROIS}, '
+              '{BUFFERS}, {MEMORY})'.format(**self.__dict__))
 
 #############################
 
