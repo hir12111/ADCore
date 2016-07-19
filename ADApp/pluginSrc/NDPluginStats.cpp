@@ -825,6 +825,25 @@ NDPluginStats::NDPluginStats(const char *portName, int queueSize, int blockingCa
     }
     this->histogram = NULL;
 
+    /* Set reported values to 0 so we supress error messages from the attribute writer */
+    setDoubleParam(NDPluginStatsMinValue, 0);
+    setDoubleParam(NDPluginStatsMinX, 0);
+    setDoubleParam(NDPluginStatsMinY, 0);
+    setDoubleParam(NDPluginStatsMaxValue, 0);
+    setDoubleParam(NDPluginStatsMaxX, 0);
+    setDoubleParam(NDPluginStatsMaxY, 0);
+    setDoubleParam(NDPluginStatsMeanValue, 0);
+    setDoubleParam(NDPluginStatsSigmaValue, 0);
+    setDoubleParam(NDPluginStatsTotal, 0);
+    setDoubleParam(NDPluginStatsNet, 0);
+    setIntegerParam(NDPluginStatsBgdWidth, 0);
+    setDoubleParam(NDPluginStatsCentroidThreshold, 0);
+    setDoubleParam(NDPluginStatsCentroidX, 0);
+    setDoubleParam(NDPluginStatsCentroidY, 0);
+    setDoubleParam(NDPluginStatsSigmaX, 0);
+    setDoubleParam(NDPluginStatsSigmaY, 0);
+    setDoubleParam(NDPluginStatsSigmaXY, 0);
+
     /* Set the plugin type string */
     setStringParam(NDPluginDriverPluginType, "NDPluginStats");
 
