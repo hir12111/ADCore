@@ -10,6 +10,107 @@
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileHDF5.edl, P=$(P),R=$(R)
 
+# This associates a BOY screen with the template
+# % gui, $(PORT), boydetail,ADApp_opi/hdf5_detail.opi, P=$(P), R=$(R), DESC=HDF5 File
+# % gui, $(PORT), boyembed, ADApp_opi/hdf5_embed_box.opi, P=$(P), R=$(R), DESC=HDF5 File
+# % gui, $(PORT), boyembed, ADApp_opi/hdf5_embed.opi, P=$(P), R=$(R), DESC=HDF5 File
+
+# Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
+# Input
+# % gui, $(PORT), demand, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+# % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
+# % gui, $(PORT), readback, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Blocking,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), readback, Blocking,   $(P)$(R)BlockingCallbacks_RBV
+# % gui, $(PORT), demand, Array counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array rate,   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped,   $(P)$(R)DroppedArrays_RBV
+# % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
+# % gui, $(PORT), readback, Dim 0 size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, In data type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
+# % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+# File
+# % gui, $(PORT), demand, File path,   $(P)$(R)FilePath
+# % gui, $(PORT), readback, File path RBV,   $(P)$(R)FilePath_RBV
+# % gui, $(PORT), readback, File path exists,   $(P)$(R)FilePathExists_RBV
+# % gui, $(PORT), demand, File name,   $(P)$(R)FileName
+# % gui, $(PORT), readback, File name,   $(P)$(R)FileName_RBV
+# % gui, $(PORT), demand, File number,   $(P)$(R)FileNumber
+# % gui, $(PORT), readback, File number,   $(P)$(R)FileNumber_RBV
+# % gui, $(PORT), enum, Auto increment,   $(P)$(R)AutoIncrement
+# % gui, $(PORT), readback, Auto increment,   $(P)$(R)AutoIncrement_RBV
+# % gui, $(PORT), demand, File format,   $(P)$(R)FileTemplate
+# % gui, $(PORT), readback, File format,   $(P)$(R)FileTemplate_RBV
+# % gui, $(PORT), demand, N to capture,   $(P)$(R)NumCapture
+# % gui, $(PORT), readback, N to capture,   $(P)$(R)NumCapture_RBV
+# % gui, $(PORT), readback, N captured,   $(P)$(R)NumCaptured_RBV
+# % gui, $(PORT), enum, Auto save,   $(P)$(R)AutoSave
+# % gui, $(PORT), readback, Auto save,   $(P)$(R)AutoSave_RBV
+# % gui, $(PORT), enum, Capture mode,   $(P)$(R)FileWriteMode
+# % gui, $(PORT), readback, Capture mode,   $(P)$(R)FileWriteMode_RBV
+# % gui, $(PORT), enum, Capture,   $(P)$(R)Capture
+# % gui, $(PORT), readback, Capture,   $(P)$(R)Capture_RBV
+# % gui, $(PORT), readback, Write message,   $(P)$(R)WriteMessage
+# % gui, $(PORT), readback, Write status,   $(P)$(R)WriteStatus
+# % gui, $(PORT), readback, Write filename,   $(P)$(R)FullFileName_RBV
+# % gui, $(PORT), enum, Lazy open,   $(P)$(R)LazyOpen
+# % gui, $(PORT), readback, Lazy open,   $(P)$(R)LazyOpen_RBV
+# % gui, $(PORT), demand, Temporary suffix,   $(P)$(R)TempSuffix
+# % gui, $(PORT), readback, Temporary suffix,   $(P)$(R)TempSuffix_RBV
+# % gui, $(PORT), demand, Create directories,   $(P)$(R)CreateDirectory
+# % gui, $(PORT), readback, Create directories,   $(P)$(R)CreateDirectory_RBV
+# HDF5
+# % gui, $(PORT), demand, Extra dimensions,   $(P)$(R)NumExtraDims
+# % gui, $(PORT), readback, Extra dimensions,   $(P)$(R)NumExtraDims_RBV
+# % gui, $(PORT), demand, Rows per chunk,   $(P)$(R)NumRowChunks
+# % gui, $(PORT), readback, Rows per chunk,   $(P)$(R)NumRowChunks_RBV
+# % gui, $(PORT), demand, Cols per chunk,   $(P)$(R)NumColChunks
+# % gui, $(PORT), readback, Cols per chunk,   $(P)$(R)NumColChunks_RBV
+# % gui, $(PORT), demand, Frames per chunk,   $(P)$(R)NumFramesChunks
+# % gui, $(PORT), readback, Frames per chunk,   $(P)$(R)NumFramesChunks_RBV
+# % gui, $(PORT), demand, Boundary alignment,   $(P)$(R)BoundaryAlign
+# % gui, $(PORT), readback, Boundary alignment,   $(P)$(R)BoundaryAlign_RBV
+# % gui, $(PORT), demand, Boundary threshold,   $(P)$(R)BoundaryThreshold
+# % gui, $(PORT), readback, Boundary threshold,   $(P)$(R)BoundaryThreshold_RBV
+# % gui, $(PORT), demand, Flush on Nth frame,   $(P)$(R)NumFramesFlush
+# % gui, $(PORT), readback, Flush on Nth frame,   $(P)$(R)NumFramesFlush_RBV
+# % gui, $(PORT), enum, Store attribute data,   $(P)$(R)StoreAttr
+# % gui, $(PORT), readback, Store attribute data,   $(P)$(R)StoreAttr_RBV
+# % gui, $(PORT), enum, Store performance data,   $(P)$(R)StorePerform
+# % gui, $(PORT), readback, Store performance data,   $(P)$(R)StorePerform_RBV
+# % gui, $(PORT), readback, Total write time,   $(P)$(R)RunTime
+# % gui, $(PORT), readback, Total write speed,   $(P)$(R)IOSpeed
+# % gui, $(PORT), enum, Compression scheme,   $(P)$(R)Compression
+# % gui, $(PORT), readback, Compression scheme,   $(P)$(R)Compression_RBV
+# % gui, $(PORT), demand, N-bit bits per pixel,   $(P)$(R)NumDataBits
+# % gui, $(PORT), readback, N-bit bits per pixel,   $(P)$(R)NumDataBits_RBV
+# % gui, $(PORT), demand, N-bit offset,   $(P)$(R)DataBitsOffset
+# % gui, $(PORT), readback, N-bit offset,   $(P)$(R)DataBitsOffset_RBV
+# % gui, $(PORT), demand, Szip filter size,   $(P)$(R)SZipNumPixels
+# % gui, $(PORT), readback, Szip filter size,   $(P)$(R)SZipNumPixels_RBV
+# % gui, $(PORT), demand, Zlib deflate level,   $(P)$(R)ZLevel
+# % gui, $(PORT), readback, Zlib deflate level,   $(P)$(R)ZLevel_RBV
+# Memory
+# % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
+# % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
+# % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem
+# % gui, $(PORT), readback, Allocated buffers,   $(P)$(R)PoolAllocBuffers
+# % gui, $(PORT), readback, Free buffers,   $(P)$(R)PoolFreeBuffers
+
 include "NDFile.template"
 include "NDPluginBase.template"
 
