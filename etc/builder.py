@@ -657,6 +657,63 @@ class NDROIStat(AsynPort):
 #############################
 
 @includesTemplates(NDPluginBaseTemplate)
+class NDAttributeTemplate(AutoSubstitution):
+    """Template containing the records for an NDAttribute"""
+    TemplateFile = 'NDAttribute.template'
+
+class NDAttributeNTemplate(AutoSubstitution):
+    """Template containing the records for an NDAttribute"""
+    TemplateFile = 'NDAttributeN.template'
+
+class NDAttribute(AsynPort):
+    """This plugin displays NDArray attributes"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = 'PORT'
+    _SpecificTemplate = NDAttributeTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
+                 MAX_ATTRIBUTES=8, BUFFERS=50, MEMORY=0, NCHANS=4096, **args):
+        super(NDAttribute, self).__init__(PORT)
+        self.__dict__.update(locals())
+        self.TIMEOUT = args['TIMEOUT']
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+        self._create_attribute_n_templates()
+
+    def _create_attribute_n_templates(self):
+        """Instanciate self.MAX_ATTRIBUTES number of NDattributeN templates
+
+        Override this method when extending the NDAttributeN template
+        """
+        for i in range(self.MAX_ATTRIBUTES):
+            NDAttributeNTemplate(P=self.args['P'],
+                                 R='{}{}:'.format(self.args['R'], i + 1),
+                                 NCHANS=self.NCHANS, PORT=self.PORT,
+                                 ADDR=i, TIMEOUT=self.TIMEOUT)
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(
+        __init__,
+        PORT = Simple('Port name for the NDAttribute plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        MAX_ATTRIBUTES = Simple('Maximum number of attributes in this plugin',
+                                int),
+        BUFFERS = Simple('Max buffers to allocate', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer '
+                        'for driver and all attached plugins', int),
+        NCHANS = Simple('Number of points in the arrays', int))
+
+    def Initialise(self):
+        print('# NDAttrConfigure(portName, queueSize, blockingCallbacks, '
+              'NDArrayPort, NDArrayAddr, maxAttributes, maxBuffers, maxMemory)')
+        print('NDAttrConfigure("{PORT}", {QUEUE}, {BLOCK}, '
+              '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ATTRIBUTES}, '
+              '{BUFFERS}, {MEMORY})'.format(**self.__dict__))
+
+#############################
+
+@includesTemplates(NDPluginBaseTemplate)
 class NDColorConvertTemplate(AutoSubstitution):
     """Template containing the records for an NDColorConvert"""
     TemplateFile = 'NDColorConvert.template'
