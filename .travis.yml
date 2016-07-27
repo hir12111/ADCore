@@ -16,7 +16,7 @@ install:
 
 # Run the tests
 script:
-  - ./bin/linux-x86_64/plugin-test --log_level=test_suite
+  - ./bin/linux-x86_64/plugin-test --log_level=none
 
 # If all worked then work out the coverage and update coveralls.io
 after_success:
