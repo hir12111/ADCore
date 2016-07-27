@@ -11,7 +11,7 @@ echo "HDF5_LIB=/usr/lib"                     >> configure/CONFIG_SITE.linux-x86_
 echo "HDF5_INCLUDE=-I/usr/include"           >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "XML2_INCLUDE=-I/usr/include/libxml2"   >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "BOOST=/usr"                            >> configure/CONFIG_SITE.linux-x86_64.Common
-echo "BOOST_LIB=/usr/lib"                    >> configure/CONFIG_SITE.linux-x86_64.Common
+echo "BOOST_LIB=/usr/lib/x86_64-linux-gnu"   >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "BOOST_INCLUDE=-I/usr/include"          >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "HOST_OPT=NO"                           >> configure/CONFIG_SITE.linux-x86_64.Common 
 echo "USR_CXXFLAGS_Linux=--coverage"         >> configure/CONFIG_SITE.linux-x86_64.Common 
@@ -24,4 +24,7 @@ cat configure/RELEASE.local
 
 echo "======= configure/CONFIG_SITE.linux-x86_64.Common ======================="
 cat configure/CONFIG_SITE.linux-x86_64.Common
+
+# Remove the RELEASE.linux-x86_64.Common file
+rm configure/RELEASE.linux-x86_64.Common
 
