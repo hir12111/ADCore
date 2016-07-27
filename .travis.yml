@@ -1,5 +1,7 @@
 language: cpp
 compiler: gcc
+sudo: required
+dist: trusty
 
 env:
   - EPICS_BASE=/usr/lib/epics EPICS_HOST_ARCH=linux-x86_64
@@ -14,7 +16,7 @@ install:
 
 # Run the tests
 script:
-  - ./bin/linux-x86_64/plugin-test --log_level=test_suite
+  - ./bin/linux-x86_64/plugin-test
 
 # If all worked then work out the coverage and update coveralls.io
 after_success:
