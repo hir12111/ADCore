@@ -7,7 +7,7 @@ set -e
 # with the details of where to find various external libraries.
 echo "EPICS_BASE=/usr/lib/epics"             >> configure/RELEASE.local
 echo "HDF5=/usr"                             >> configure/CONFIG_SITE.linux-x86_64.Common
-echo "HDF5_LIB=/usr/lib"                     >> configure/CONFIG_SITE.linux-x86_64.Common
+echo "HDF5_LIB=/usr/lib/x86_64-linux-gnu"    >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "HDF5_INCLUDE=-I/usr/include"           >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "XML2_INCLUDE=-I/usr/include/libxml2"   >> configure/CONFIG_SITE.linux-x86_64.Common
 echo "BOOST=/usr"                            >> configure/CONFIG_SITE.linux-x86_64.Common
