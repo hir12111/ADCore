@@ -7,12 +7,12 @@
 # loaded, each with a different ADDR (which specifies the ROI).
 # Much of this was copied from the original ROI and Stats plugins.
 #
-# Macros:
-# P,R - Base PV name
-# PORT - Asyn port name
-# ROI - The address to use for this ROI (start at 0, up to maxROIs)
-#       This ROI number is appended on to the end of the R macro base PV name.
-# TIMEOUT - Asyn port timeout
+# % macro, P, First part of base PV name
+# % macro, R, Second part of base PV name
+# % macro, PORT, asyn port name
+# % macro, ADDR, asyn address on port
+# % macro, TIMEOUT, asyn port timeout
+# % macro, NCHANS, number of channels
 #
 # Matt Pearson
 # Nov 2014

@@ -7,11 +7,12 @@
 # or alternatively use a single NDROIStat8.template to get up to 8
 # ROIs.
 # 
-# Macros:
-# P,R - Base PV name
-# PORT - Asyn port name
-# ADDR - The Asyn address
-# TIMEOUT - Asyn port timeout
+# % macro, P, First part of base PV name
+# % macro, R, Second part of base PV name
+# % macro, PORT, asyn port name
+# % macro, ADDR, asyn address on port
+# % macro, TIMEOUT, asyn port timeout
+# % macro, NCHANS, number of channels
 #
 # Matt Pearson
 # Nov 2014
