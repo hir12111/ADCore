@@ -1408,6 +1408,13 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
     return asynError;
   }
 
+  if (checkForSWMRMode()){
+    if ((numCaptured+1) % flush == 0) {
+      // We are in SWMR mode so flush the dataset on every <flush> frames
+      status = this->detDataMap[destination]->flushDataset();
+    }
+  }
+
   if (storeAttributes == 1){
     if (dimAttDataset == 1){
       // If attribute datasets are following dimensions of the main dataset
@@ -1440,13 +1447,6 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
     this->performancePtr++;
     *this->performancePtr = (numCaptured * this->frameSize)/runtime;
     this->performancePtr++;
-  }
-
-  if (checkForSWMRMode()){
-    if ((numCaptured+1) % flush == 0) {
-      // We are in SWMR mode so flush the dataset on every <flush> frames
-      status = this->detDataMap[destination]->flushDataset();
-    }
   }
 
   if (status != asynSuccess){
