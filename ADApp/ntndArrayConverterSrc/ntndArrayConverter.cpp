@@ -1,5 +1,7 @@
-#include "ntndArrayConverter.h"
 #include <math.h>
+
+#include <epicsExport.h>
+#include "ntndArrayConverter.h"
 
 using namespace std;
 using namespace epics::nt;
@@ -211,8 +213,6 @@ void NTNDArrayConverter::fromArray (NDArray *src)
     fromAttributes(src);
 
     m_array->getCodec()->getSubField<PVString>("name")->put("");
-    m_array->getCompressedDataSize()->put(static_cast<int64>(src->dataSize));
-    m_array->getUncompressedDataSize()->put(static_cast<int64>(src->dataSize));
 
     // getUniqueId not implemented yet
     // m_array->getUniqueId()->put(src->uniqueId);
@@ -223,8 +223,12 @@ void NTNDArrayConverter::fromArray (NDArray *src)
 template <typename arrayType>
 void NTNDArrayConverter::toValue (NDArray *dest)
 {
+    typedef typename arrayType::value_type arrayValType;
+    typedef typename arrayType::const_svector arrayVecType;
+
     PVUnionPtr src(m_array->getValue());
-    memcpy(dest->pData, src->get<arrayType>()->view().data(), dest->dataSize);
+    arrayVecType srcVec(src->get<arrayType>()->view());
+    memcpy(dest->pData, srcVec.data(), srcVec.size()*sizeof(arrayValType));
 }
 
 void NTNDArrayConverter::toValue (NDArray *dest)
@@ -373,13 +377,17 @@ void NTNDArrayConverter::fromValue (NDArray *src)
     typedef typename arrayType::value_type arrayValType;
 
     NDArrayInfo_t arrayInfo;
-    size_t count;
+    size_t count, nBytes;
 
     string unionField(string(ScalarTypeFunc::name(arrayType::typeCode)) +
             string("Value"));
 
     src->getInfo(&arrayInfo);
     count = arrayInfo.nElements;
+    nBytes = arrayInfo.totalBytes;
+
+    m_array->getCompressedDataSize()->put(static_cast<int64>(nBytes));
+    m_array->getUncompressedDataSize()->put(static_cast<int64>(nBytes));
 
     src->reserve();
     shared_vector<arrayValType> temp((srcDataType*)src->pData,

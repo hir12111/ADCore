@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(test_AttributeOriginalDataset)
 {
   // Open an HDF5 file for testing
   std::string filename = "/tmp/test_att.h5";
-  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, NULL, NULL);
+  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, 0, 0);
   BOOST_REQUIRE_GT(file, -1);
 
   // Add a test group.
@@ -335,12 +335,11 @@ BOOST_AUTO_TEST_CASE(test_AttributeOriginalDataset)
 
   // Verify the att2 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset9"), true);
-  // Verify the att2 dataset has a two dimensions [256, 1] as it is a string type (array of chars)
+  // Verify the att2 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset9");
-  BOOST_CHECK_EQUAL(dims.size(), 2);
+  BOOST_CHECK_EQUAL(dims.size(), 1);
   BOOST_CHECK_EQUAL(dims[0], 48);
-  BOOST_CHECK_EQUAL(dims[1], 256);
-  BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset9"), Int8);
+  BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset9"), String);
 
   // Verify the att10 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset10"), true);
@@ -364,7 +363,7 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
 {
   // Open an HDF5 file for testing
   std::string filename = "/tmp/test_att.h5";
-  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, NULL, NULL);
+  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, 0, 0);
   BOOST_REQUIRE_GT(file, -1);
 
   // Add a test group.
@@ -618,9 +617,9 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset1"), Int8);
 
-  // Verify the att1 dataset exists
+  // Verify the att2 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset2"), true);
-  // Verify the att1 dataset has a single dimension of size 1
+  // Verify the att2 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset2");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
@@ -630,9 +629,9 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset2"), UInt8);
 
-  // Verify the att1 dataset exists
+  // Verify the att3 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset3"), true);
-  // Verify the att1 dataset has a single dimension of size 1
+  // Verify the att3 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset3");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
@@ -642,9 +641,9 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset3"), Int16);
 
-  // Verify the att1 dataset exists
+  // Verify the att4 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset4"), true);
-  // Verify the att1 dataset has a single dimension of size 1
+  // Verify the att4 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset4");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
@@ -654,9 +653,9 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset4"), UInt16);
 
-  // Verify the att1 dataset exists
+  // Verify the att5 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset5"), true);
-  // Verify the att1 dataset has a single dimension of size 1
+  // Verify the att5 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset5");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
@@ -666,9 +665,9 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset5"), Int32);
 
-  // Verify the att1 dataset exists
+  // Verify the att6 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset6"), true);
-  // Verify the att1 dataset has a single dimension of size 1
+  // Verify the att6 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset6");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
@@ -678,9 +677,9 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset6"), UInt32);
 
-  // Verify the att1 dataset exists
+  // Verify the att7 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset7"), true);
-  // Verify the att1 dataset has a single dimension of size 1
+  // Verify the att7 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset7");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
@@ -690,9 +689,9 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset7"), Float32);
 
-  // Verify the att1 dataset exists
+  // Verify the att8 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset8"), true);
-  // Verify the att1 dataset has a single dimension of size 1
+  // Verify the att8 dataset has a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset8");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
@@ -702,17 +701,17 @@ BOOST_AUTO_TEST_CASE(test_AttributeDimensionalDataset)
   BOOST_CHECK_EQUAL(dims[4], 1);
   BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset8"), Float64);
 
-  // Verify the att2 dataset exists
+  // Verify the att9 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset9"), true);
-  // Verify the att2 dataset has a two dimensions [256, 1] as it is a string type (array of chars)
+  // Verify the att9 dataset has a a single dimension of size 1
   dims = fr.getDatasetDimensions("/group/dset9");
   BOOST_CHECK_EQUAL(dims.size(), 5);
   BOOST_CHECK_EQUAL(dims[0], 3);
   BOOST_CHECK_EQUAL(dims[1], 4);
   BOOST_CHECK_EQUAL(dims[2], 5);
   BOOST_CHECK_EQUAL(dims[3], 1);
-  BOOST_CHECK_EQUAL(dims[4], 256);
-  BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset9"), Int8);
+  BOOST_CHECK_EQUAL(dims[4], 1);
+  BOOST_CHECK_EQUAL(fr.getDatasetType("/group/dset9"), String);
 
   // Verify the att10 dataset exists
   BOOST_CHECK_EQUAL(fr.checkDatasetExists("/group/dset10"), true);

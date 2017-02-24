@@ -8,6 +8,7 @@
 #include "NDFileHDF5AttributeDataset.h"
 #include <epicsString.h>
 #include <iostream>
+#include <stdlib.h>
 
 NDFileHDF5AttributeDataset::NDFileHDF5AttributeDataset(hid_t file, const std::string& name, NDAttrDataType_t type) :
   name_(name),
@@ -237,22 +238,12 @@ asynStatus NDFileHDF5AttributeDataset::configureDims(int user_chunking)
 
   // Creating extendible data sets
   dims_[0] = 1;
-  if (type_ < NDAttrString){
-    dims_[1] = 1;
-    chunk_[0] = user_chunking;
-    chunk_[1] = 1;
-    elementSize_[0] = 1;
-    elementSize_[1] = 1;
-    rank_ = 1;
-  } else {
-    // String dataset required, use type N5T_NATIVE_CHAR
-    dims_[1] = MAX_ATTRIBUTE_STRING_SIZE;
-    chunk_[0] = user_chunking;
-    chunk_[1] = MAX_ATTRIBUTE_STRING_SIZE;
-    elementSize_[0] = 1;
-    elementSize_[1] = MAX_ATTRIBUTE_STRING_SIZE;
-    rank_ = 2;
-  }
+  chunk_[0] = user_chunking;
+  rank_ = 1;
+  dims_[1] = 1;
+  chunk_[1] = 1;
+  elementSize_[0] = 1;
+  elementSize_[1] = 1;
 
   return status;
 }
@@ -301,30 +292,16 @@ asynStatus NDFileHDF5AttributeDataset::configureDimsFromDataset(bool multiframe,
 
   this->rank_ = ndims;
 
-  if (type_ < NDAttrString){
-    elementSize_[extradims]   = 1;
-    elementSize_[extradims+1] = 1;
-    chunk_[extradims]         = 1;
-    chunk_[extradims+1]       = 1;
-    maxdims_[extradims]       = 1;
-    maxdims_[extradims+1]     = 1;
-    dims_[extradims]          = 1;
-    dims_[extradims+1]        = 1;
-    offset_[extradims]        = 0;
-    offset_[extradims+1]      = 0;
-  } else {
-    // String dataset required, use type N5T_NATIVE_CHAR
-    elementSize_[extradims]   = 1;
-    elementSize_[extradims+1] = MAX_ATTRIBUTE_STRING_SIZE;
-    chunk_[extradims]         = 1;
-    chunk_[extradims+1]       = MAX_ATTRIBUTE_STRING_SIZE;
-    maxdims_[extradims]       = 1;
-    maxdims_[extradims+1]     = MAX_ATTRIBUTE_STRING_SIZE;
-    dims_[extradims]          = 1;
-    dims_[extradims+1]        = MAX_ATTRIBUTE_STRING_SIZE;
-    offset_[extradims]        = 0;
-    offset_[extradims+1]      = 0;
-  }
+  elementSize_[extradims]   = 1;
+  elementSize_[extradims+1] = 1;
+  chunk_[extradims]         = 1;
+  chunk_[extradims+1]       = 1;
+  maxdims_[extradims]       = 1;
+  maxdims_[extradims+1]     = 1;
+  dims_[extradims]          = 1;
+  dims_[extradims+1]        = 1;
+  offset_[extradims]        = 0;
+  offset_[extradims+1]      = 0;
 
   return status;
 }
@@ -337,7 +314,8 @@ asynStatus NDFileHDF5AttributeDataset::typeAsHdf()
   switch (type_)
   {
     case NDAttrString:
-      datatype_ = H5T_NATIVE_CHAR;
+      datatype_ = H5Tcopy(H5T_C_S1);
+      H5Tset_size(datatype_, MAX_ATTRIBUTE_STRING_SIZE);
       *(epicsUInt8*)this->ptrFillValue_ = (epicsUInt8)fillvalue;
       break;
     case NDInt8:

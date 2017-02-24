@@ -18,17 +18,27 @@ include "ADBase.template"
 
 # New records for pvaDriver
 
-record(ao, "$(P)$(R)OverrunCounter")
+record(longout, "$(P)$(R)OverrunCounter")
 {
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))OVERRUN_COUNTER")
 }
 
-record(ai, "$(P)$(R)OverrunCounter_RBV")
+record(longin, "$(P)$(R)OverrunCounter_RBV")
 {
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))OVERRUN_COUNTER")
     field(SCAN, "I/O Intr")
+}
+
+
+record(waveform, "$(P)$(R)PvName")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynOctetWrite")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PV_NAME")
+    field(FTVL, "CHAR")
+    field(NELM, "256")
 }
 
 record(waveform, "$(P)$(R)PvName_RBV")
@@ -45,6 +55,6 @@ record(bi, "$(P)$(R)PvConnection_RBV")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PV_CONNECTION")
     field(SCAN, "I/O Intr")
-    field(ONAM, "up")
-    field(ZNAM, "down")
+    field(ONAM, "Up")
+    field(ZNAM, "Down")
 }

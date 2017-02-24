@@ -103,13 +103,13 @@ void testDimensions(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *v
 
   // Test the maximum dimensions of the dataset
   for (int i=0; i < extradims; i++){
-    BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
     val = dataset->maxdims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
   }
   for (int i=extradims; i < extradims+ndims; i++){
-    BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
     val = dataset->maxdims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
@@ -117,13 +117,13 @@ void testDimensions(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *v
 
   // Test the current dimension sizes of the dataset
   for (int i=0; i < extradims; i++){
-    BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
     val = dataset->dims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
   }
   for (int i=extradims; i < extradims+ndims; i++){
-    BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
     val = dataset->dims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
@@ -131,7 +131,7 @@ void testDimensions(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *v
 
   // Test the offsets of the dataset
   for (int i=0; i < extradims+ndims; i++){
-    BOOST_TEST_MESSAGE("Verify offset[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify offset[" << i << "] == " << values[counter]);
     val = dataset->offset_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
@@ -139,7 +139,7 @@ void testDimensions(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *v
 
   // Test the virtual dimension sizes of the dataset
   for (int i=0; i < extradims; i++){
-    BOOST_TEST_MESSAGE("Verify current virtualdim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify current virtualdim[" << i << "] == " << values[counter]);
     val = dataset->virtualdims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
@@ -152,7 +152,7 @@ void testOffsets(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *valu
 
   // Test the offsets of the dataset
   for (int i=0; i < extradims+ndims; i++){
-    BOOST_TEST_MESSAGE("Verify offset[" << i << "] == " << values[i]);
+    //BOOST_TEST_MESSAGE("Verify offset[" << i << "] == " << values[i]);
     val = dataset->offset_[i];
     BOOST_REQUIRE_EQUAL(val, values[i]);
   }
@@ -165,13 +165,13 @@ void testDims(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *values)
 
   // Test the current dimension sizes of the dataset
   for (int i=0; i < extradims; i++){
-    BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
     val = dataset->dims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
   }
   for (int i=extradims; i < extradims+ndims; i++){
-    BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify current dim[" << i << "] == " << values[counter]);
     val = dataset->dims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
@@ -185,13 +185,13 @@ void testMaxDims(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *valu
 
   // Test the maximum dimensions of the dataset
   for (int i=0; i < extradims; i++){
-    BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
     val = dataset->maxdims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
   }
   for (int i=extradims; i < extradims+ndims; i++){
-    BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
+    //BOOST_TEST_MESSAGE("Verify maxdim[" << i << "] == " << values[counter]);
     val = dataset->maxdims_[i];
     BOOST_REQUIRE_EQUAL(val, values[counter]);
     counter++;
@@ -204,7 +204,7 @@ void testVirtualDims(NDFileHDF5Dataset *dataset, int ndims, int extradims, int *
 
   // Test the virtual dimension sizes of the dataset
   for (int i=0; i < extradims; i++){
-    BOOST_TEST_MESSAGE("Verify current virtualdim[" << i << "] == " << values[i]);
+    //BOOST_TEST_MESSAGE("Verify current virtualdim[" << i << "] == " << values[i]);
     val = dataset->virtualdims_[i];
     BOOST_REQUIRE_EQUAL(val, values[i]);
   }
@@ -242,7 +242,7 @@ BOOST_AUTO_TEST_CASE(test_ExtraDatasetDimensions)
 
   // Open an HDF5 file for testing
   std::string filename = "/tmp/test_dim1.h5";
-  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, NULL, NULL);
+  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, 0, 0);
   BOOST_REQUIRE_GT(file, -1);
 
   // Add a test group.
@@ -281,7 +281,7 @@ BOOST_AUTO_TEST_CASE(test_ExtraDatasetDimensions)
 
   // Now perform test writes and extensions
   for (int writes = 1; writes <= 24; writes++){
-    BOOST_TEST_MESSAGE("Write frame " << writes);
+    //BOOST_TEST_MESSAGE("Write frame " << writes);
     // Write a frame
     dataset->writeFile(parr, H5T_NATIVE_INT8, dataspace, framesize);
 
@@ -308,7 +308,7 @@ BOOST_AUTO_TEST_CASE(test_TenExtraDimensions)
 
   // Open an HDF5 file for testing
   std::string filename = "/tmp/test_dim2.h5";
-  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, NULL, NULL);
+  hid_t file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, 0, 0);
   BOOST_REQUIRE_GT(file, -1);
 
   // Add a test group.
@@ -348,7 +348,7 @@ BOOST_AUTO_TEST_CASE(test_TenExtraDimensions)
 
   // Now perform test writes and extensions
   for (int writes = 1; writes <= 27647; writes++){
-    BOOST_TEST_MESSAGE("Write frame " << writes);
+    //BOOST_TEST_MESSAGE("Write frame " << writes);
     // Write a frame
     dataset->writeFile(parr, H5T_NATIVE_INT8, dataspace, framesize);
 
@@ -371,11 +371,10 @@ BOOST_AUTO_TEST_CASE(test_TenExtraDimensions)
 
 BOOST_AUTO_TEST_CASE(test_PluginExtraDimensions)
 {
-  NDArrayPool *arrayPool;
   std::tr1::shared_ptr<asynPortDriver> driver;
   std::tr1::shared_ptr<HDF5PluginWrapper> hdf5;
 
-  arrayPool = new NDArrayPool(100, 0);
+  new NDArrayPool(100, 0);
 
   // Asyn manager doesn't like it if we try to reuse the same port name for multiple drivers (even if only one is ever instantiated at once), so
   // change it slightly for each test case.
