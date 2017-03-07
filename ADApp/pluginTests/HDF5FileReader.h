@@ -9,7 +9,7 @@
 #define PLUGINTESTS_HDF5FileReader_H_
 
 #include <string>
-#include <tr1/memory>
+#include <boost/shared_ptr.hpp>
 #include <map>
 #include <vector>
 #include <hdf5.h>
@@ -24,7 +24,8 @@ typedef enum
   Int32,    // Signed 32-bit integer
   UInt32,   // Unsigned 32-bit integer
   Float32,  // 32-bit float
-  Float64   // 64-bit float
+  Float64,  // 64-bit float
+  String    // String
 } TestFileDataType_t;
 
 class HDF5FileReader
@@ -81,7 +82,7 @@ private:
   };
 
   std::string cname;
-  std::map<std::string, std::tr1::shared_ptr<HDF5Object> > objects;
+  std::map<std::string, boost::shared_ptr<HDF5Object> > objects;
 
 };
 

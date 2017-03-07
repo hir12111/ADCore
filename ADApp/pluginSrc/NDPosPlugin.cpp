@@ -5,14 +5,24 @@
  *      Author: gnx91527
  */
 
-#include "NDPosPlugin.h"
-#include "NDPosPluginFileReader.h"
-
-#include <epicsExport.h>
 #include <string.h>
 #include <sstream>
 #include <iocsh.h>
 #include <sys/stat.h>
+#include <string>
+#include <list>
+#include <map>
+
+#include <epicsTypes.h>
+#include <epicsThread.h>
+
+#include <asynDriver.h>
+
+#include <epicsExport.h>
+#include "NDPluginDriver.h"
+
+#include "NDPosPlugin.h"
+#include "NDPosPluginFileReader.h"
 
 static const char *driverName = "NDPosPlugin";
 
@@ -472,7 +482,7 @@ extern "C" int NDPosPluginConfigure(const char *portName,
                                     int priority,
                                     int stackSize)
 {
-  new NDPosPlugin(portName,
+  NDPosPlugin *plugin = new NDPosPlugin(portName,
                   queueSize,
                   blockingCallbacks,
                   NDArrayPort,
@@ -481,6 +491,7 @@ extern "C" int NDPosPluginConfigure(const char *portName,
                   maxMemory,
                   priority,
                   stackSize);
+  plugin->start();
   return(asynSuccess);
 }
 

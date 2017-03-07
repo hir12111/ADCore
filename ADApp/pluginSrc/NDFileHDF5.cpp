@@ -19,10 +19,16 @@
 #include <sys/stat.h>
 // #include <hdf5_hl.h> // high level HDF5 API not currently used (requires use of library hdf5_hl)
 
-#include <epicsStdio.h>
-#include <epicsString.h>
+#include <epicsTypes.h>
+#include <epicsMessageQueue.h>
+#include <epicsThread.h>
+#include <epicsEvent.h>
 #include <epicsTime.h>
+#include <epicsString.h>
 #include <iocsh.h>
+#ifdef epicsAssertAuthor
+  #undef epicsAssertAuthor
+#endif
 #define epicsAssertAuthor "the EPICS areaDetector collaboration (https://github.com/areaDetector/ADCore/issues)"
 #include <epicsAssert.h>
 #include <osiSock.h>
@@ -50,6 +56,8 @@ enum HDF5Compression_t {HDF5CompressNone=0, HDF5CompressNumBits, HDF5CompressSZi
 
 static const char *driverName = "NDFileHDF5";
 
+// Not required if SWMR is not supported
+#if H5_VERSION_GE(1,9,178)
 // This is a callback function for object flushing when in SWMR mode
 static herr_t cFlushCallback(hid_t objectID, void *data)
 {
@@ -59,6 +67,7 @@ static herr_t cFlushCallback(hid_t objectID, void *data)
   ptr->flushCallback();
   return 0;
 }
+#endif
 
 const char *NDFileHDF5::str_NDFileHDF5_extraDimSize[MAXEXTRADIMS] = {
     "HDF5_extraDimSizeN",
@@ -2428,9 +2437,6 @@ asynStatus NDFileHDF5::createAttributeDataset(NDArray *pArray)
   }
   calculateAttributeChunking(&chunking, user_chunking);
 
-
-
-
   asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Creating attribute datasets. extradims=%d attribute count=%d\n",
             driverName, functionName, extraDims, this->pFileAttributes->count());
 
@@ -3100,9 +3106,9 @@ extern "C" int NDFileHDF5Configure(const char *portName, int queueSize, int bloc
 {
   // Stack Size must be a minimum of 2MB
   if (stackSize < 2097152) stackSize = 2097152;
-  new NDFileHDF5(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr,
-                 priority, stackSize);
-  return(asynSuccess);
+  NDFileHDF5 *pPlugin = new NDFileHDF5(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr,
+                                       priority, stackSize);
+  return pPlugin->start();
 }
 
 void NDFileHDF5::checkForOpenFile()
@@ -3468,7 +3474,7 @@ epicsInt32 NDFileHDF5::findPositionIndex(NDArray *pArray, char *posName)
   epicsInt32 ival = -1;
   NDAttribute *att1 = pArray->pAttributeList->find(posName);
   if (att1 != NULL){
-    att1->getValue(NDAttrInt32, &ival, NULL);
+    att1->getValue(NDAttrInt32, &ival, 0);
   } else {
     asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
               "%s::%s ERROR: could not find position attribute %s in list. Aborting\n",

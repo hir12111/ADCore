@@ -5,29 +5,49 @@ include $(TOP)/configure/CONFIG
 #=============================
 
 # Persuade travis (ubuntu 12.04) to use HDF5 API V2 (1.8 rather than default 1.6)
-USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2
+USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
+USR_CFLAGS_Linux   += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
 
 # The plugin-test executable with the actual unittests depend on the boost 
 # unittest framework so we can only build it if boost has been configured
-ifdef BOOST
+ifeq ($(WITH_BOOST),YES)
   # The ADTestUtility library contain a number of helper functions to generate test
   # data, asyn port names, record output NDArrays etc etc.
   # This utility library can be used by external modules that provides unittests.
   LIBRARY_IOC_Linux += ADTestUtility
+  LIBRARY_IOC_Darwin += ADTestUtility
   ADTestUtility_SRCS += testingutilities.cpp
   ADTestUtility_SRCS += AsynPortClientContainer.cpp
   ADTestUtility_SRCS += AsynException.cpp
-  ADTestUtility_SRCS += HDF5PluginWrapper.cpp
-  ADTestUtility_SRCS += PosPluginWrapper.cpp
-  ADTestUtility_SRCS += HDF5FileReader.cpp
+
+  ifeq ($(WITH_HDF5),YES)
+    ADTestUtility_SRCS += HDF5PluginWrapper.cpp
+    ADTestUtility_SRCS += HDF5FileReader.cpp
+  endif
+  ifeq ($(WITH_XML2),YES)
+    ADTestUtility_SRCS += PosPluginWrapper.cpp
+  endif
+  ADTestUtility_SRCS += TimeSeriesPluginWrapper.cpp
+  ADTestUtility_SRCS += FFTPluginWrapper.cpp
+  ADTestUtility_SRCS += ROIPluginWrapper.cpp
+  ADTestUtility_SRCS += OverlayPluginWrapper.cpp
 
   PROD_IOC_Linux += plugin-test
+  PROD_IOC_Darwin += plugin-test
   plugin-test_SRCS += plugin-test.cpp
   plugin-test_SRCS += test_NDPluginCircularBuff.cpp
-  plugin-test_SRCS += test_NDFileHDF5.cpp
-  plugin-test_SRCS += test_NDFileHDF5AttributeDataset.cpp
-  plugin-test_SRCS += test_NDPosPlugin.cpp
-  plugin-test_SRCS += test_NDFileHDF5ExtraDimensions.cpp
+  ifeq ($(WITH_HDF5),YES)
+    plugin-test_SRCS += test_NDFileHDF5.cpp
+    plugin-test_SRCS += test_NDFileHDF5AttributeDataset.cpp
+    plugin-test_SRCS += test_NDFileHDF5ExtraDimensions.cpp
+  endif
+  ifeq ($(WITH_XML2),YES)
+    plugin-test_SRCS += test_NDPosPlugin.cpp
+  endif
+  plugin-test_SRCS += test_NDPluginTimeSeries.cpp
+  plugin-test_SRCS += test_NDPluginFFT.cpp
+  plugin-test_SRCS += test_NDPluginROI.cpp
+  plugin-test_SRCS += test_NDPluginOverlay.cpp
 
   # Add tests for new plugins like this:
   #plugin-test_SRCS += test_<plugin name>.cpp
@@ -39,33 +59,24 @@ ifdef BOOST
   else
     plugin-test_SYS_LIBS += boost_unit_test_framework
   endif
+
+  USR_INCLUDES += $(HDF5_INCLUDE)
+  USR_INCLUDES += $(SZ_INCLUDE)
+  USR_INCLUDES += $(XML2_INCLUDE)
+  USR_INCLUDES += $(BOOST_INCLUDE)
+
 endif
 
-USR_INCLUDES += $(HDF5_INCLUDE)
-USR_INCLUDES += $(SZ_INCLUDE)
-USR_INCLUDES += $(XML2_INCLUDE)
-USR_INCLUDES += $(BOOST_INCLUDE)
-
-PROD_LIBS += NDPlugin ADBase asyn
-
-ifdef HDF5_LIB
-  hdf5_DIR = $(HDF5_LIB)
-  PROD_LIBS += hdf5
-else
-  PROD_SYS_LIBS += hdf5
+ifeq ($(WITH_HDF5),YES)
+  USR_INCLUDES += $(HDF5_INCLUDE)
+  PROD += test_SWMR_works
+  PROD += test_SWMR_fail
+  PROD += test_SWMR_fail_min
+  test_SWMR_works_SRCS += test_SWMR_works.c
+  test_SWMR_fail_SRCS  += test_SWMR_fail.c
+  test_SWMR_fail_min_SRCS  += test_SWMR_fail_min.c
 endif
 
-ifdef SZIP
-  ifdef SZIP_LIB
-    sz_DIR = $(SZIP_LIB)
-    PROD_LIBS += sz
-  else
-    PROD_SYS_LIBS += sz
-  endif
-endif
-
-PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
-
-PROD_SYS_LIBS += xml2 z
+include $(TOP)/ADApp/commonDriverMakefile
 
 include $(TOP)/configure/RULES

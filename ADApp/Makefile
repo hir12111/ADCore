@@ -8,25 +8,16 @@ DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard op*))
 DIRS += ADSrc
 
 DIRS += pluginSrc
-pluginSrc_DEPEND_DIRS += ADSrc netCDFSrc nexusSrc tiffSupport
-
-ifeq ($(EPICS_V4_PLUGIN), YES)
-  DIRS += ntndArrayConverterSrc
-  DIRS += pvaDriverSrc
-  pvaDriverSrc_DEPEND_DIRS += pluginSrc
-  pvaDriverSrc_DEPEND_DIRS += ntndArrayConverterSrc
-  pluginSrc_DEPEND_DIRS += ntndArrayConverterSrc
-endif
-
-DIRS += netCDFSrc
-
-DIRS += nexusSrc
-#nexusSrc_DEPEND_DIRS += ADBinaries
-
-DIRS += tiffSupport
+pluginSrc_DEPEND_DIRS += ADSrc
 
 DIRS += pluginTests
-pluginTests_DEPEND_DIRS += ADSrc pluginSrc
+pluginTests_DEPEND_DIRS += pluginSrc
+
+ifeq ($(WITH_EPICS_V4), YES)
+  DIRS += ntndArrayConverterSrc
+  ntndArrayConverterSrc_DEPEND_DIRS += ADSrc
+  pluginSrc_DEPEND_DIRS += ntndArrayConverterSrc
+endif
 
 include $(TOP)/configure/RULES_DIRS
 

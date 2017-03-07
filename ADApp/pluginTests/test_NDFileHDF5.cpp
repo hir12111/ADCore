@@ -19,7 +19,7 @@
 #include <stdint.h>
 
 #include <deque>
-#include <tr1/memory>
+#include <boost/shared_ptr.hpp>
 using namespace std;
 
 #include "testingutilities.h"
@@ -31,7 +31,7 @@ struct NDFileHDF5TestFixture
 {
   NDArrayPool *arrayPool;
   asynPortDriver* dummy_driver;
-  std::tr1::shared_ptr<HDF5PluginWrapper> hdf5;
+  boost::shared_ptr<HDF5PluginWrapper> hdf5;
 
   static int testCase;
 
@@ -51,7 +51,7 @@ struct NDFileHDF5TestFixture
     dummy_driver = new asynPortDriver(dummy_port.c_str(), 0, 1, asynGenericPointerMask, asynGenericPointerMask, 0, 0, 0, 2000000);
 
     // This is the plugin under test
-    hdf5 = std::tr1::shared_ptr<HDF5PluginWrapper>(new HDF5PluginWrapper(testport.c_str(),
+    hdf5 = boost::shared_ptr<HDF5PluginWrapper>(new HDF5PluginWrapper(testport.c_str(),
                                                                          50,
                                                                          1,
                                                                          dummy_port.c_str(),
@@ -61,6 +61,7 @@ struct NDFileHDF5TestFixture
 
 
     // Enable the plugin
+    hdf5->start(); // start the plugin thread although not required for this unittesting
     hdf5->write(NDPluginDriverEnableCallbacksString, 1);
     hdf5->write(NDPluginDriverBlockingCallbacksString, 1);
 
