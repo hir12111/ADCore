@@ -17,13 +17,13 @@
 
 TEMPLATE_TOP = $(EPICS_BASE)/templates/makeBaseApp/top
 
-AREA_DETECTOR=$(SUPPORT)
+AREA_DETECTOR = $(SUPPORT)
 
 # ASYN is needed for base classes
-ASYN = $(SUPPORT)/asyn/4-26
+ASYN = $(WORK)/asyn
 
 # BUSY is needed for busy record
-BUSY = $(SUPPORT)/busy/1-6-1
+BUSY = $(WORK)/busy
 
 # SSCAN is needed for scanning threshold on Pilatus and general scanning
 SSCAN = $(SUPPORT)/sscan/2-8-1
@@ -38,4 +38,4 @@ PVDATACPP         = $(SUPPORT)/pvDataCPP/5-0-4
 NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-0-2
 
 # ADSupport is needed for Windows (contains HDF5 and other external libs)
-ADSUPPORT = $(SUPPORT)/ADSupport
+ADSUPPORT = $(WORK)/ADSupport
