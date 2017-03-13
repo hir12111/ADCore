@@ -71,7 +71,7 @@ record(bi, "$(P)$(R)Use_RBV")
 
 record(longout, "$(P)$(R)PositionXLink")
 {
-    field(DOL,  "$(XPOS="") CP MS")
+    field(DOL,  "$(XPOS=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)PositionX PP")
     info(autosaveFields, "DOL")
@@ -95,7 +95,7 @@ record(longin, "$(P)$(R)PositionX_RBV")
 
 record(longout, "$(P)$(R)PositionYLink")
 {
-    field(DOL,  "$(YPOS="") CP MS")
+    field(DOL,  "$(YPOS=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)PositionY PP")
     info(autosaveFields, "DOL")
@@ -119,7 +119,7 @@ record(longin, "$(P)$(R)PositionY_RBV")
 
 record(longout, "$(P)$(R)CenterXLink")
 {
-    field(DOL,  "$(XCENT="") CP MS")
+    field(DOL,  "$(XCENT=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)CenterX PP")
     info(autosaveFields, "DOL")
@@ -142,7 +142,7 @@ record(longin, "$(P)$(R)CenterX_RBV")
 
 record(longout, "$(P)$(R)CenterYLink")
 {
-    field(DOL,  "$(YCENT="") CP MS")
+    field(DOL,  "$(YCENT=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)CenterY PP")
     info(autosaveFields, "DOL")
@@ -165,7 +165,7 @@ record(longin, "$(P)$(R)CenterY_RBV")
 
 record(longout, "$(P)$(R)SizeXLink")
 {
-    field(DOL,  "$(XSIZE="") CP MS")
+    field(DOL,  "$(XSIZE=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)SizeX PP")
     info(autosaveFields, "DOL")
@@ -191,7 +191,7 @@ record(longin, "$(P)$(R)SizeX_RBV")
 
 record(longout, "$(P)$(R)SizeYLink")
 {
-    field(DOL,  "$(YSIZE="") CP MS")
+    field(DOL,  "$(YSIZE=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)SizeY PP")
     info(autosaveFields, "DOL")
@@ -214,7 +214,7 @@ record(longin, "$(P)$(R)SizeY_RBV")
 
 record(longout, "$(P)$(R)WidthXLink")
 {
-    field(DOL,  "$(XWIDTH="") CP MS")
+    field(DOL,  "$(XWIDTH=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)WidthX PP")
     info(autosaveFields, "DOL")
@@ -237,7 +237,7 @@ record(longin, "$(P)$(R)WidthX_RBV")
 
 record(longout, "$(P)$(R)WidthYLink")
 {
-    field(DOL,  "$(YWIDTH="") CP MS")
+    field(DOL,  "$(YWIDTH=) CP MS")
     field(OMSL, "closed_loop")
     field(OUT, "$(P)$(R)WidthY PP")
     info(autosaveFields, "DOL")
