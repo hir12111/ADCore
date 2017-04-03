@@ -94,7 +94,8 @@ class ADCore(Device):
         LibFileList = []
         SysLibFileList = ['freetype', 'Xext', 'bz2', 'png12', 'xml2', 'X11', 'gomp', 'z', 'jpeg', 'tiff']
     LibFileList += ['ADBase', 'NDPlugin']
-    DbdFileList = ['ADSupport', 'NDPluginSupport', 'NDFileHDF5', 'NDFileJPEG', 'NDFileTIFF', 'NDFileNull']
+    DbdFileList = ['ADSupport', 'NDPluginSupport', 'NDFileHDF5', 'NDFileJPEG', 'NDFileTIFF', 'NDFileNull',
+                   'NDPosPlugin']
     AutoInstantiate = True
 
 #############################
