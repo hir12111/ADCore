@@ -783,6 +783,7 @@ class NDPvaPlugin(AsynPort):
     def Initialise(self):
         print '# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxMemory, priority, stackSize)' % self.__dict__
         print 'NDPvaConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(PVNAME)s, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+        print 'startPVAServer'
 
 ##############################
 

@@ -4,5 +4,6 @@ from iocbuilder import Device
 
 class pvAccessCPP(Device):
     LibFileList = ['pvAccess']
+    DbdFileList = ['PVAServerRegister']
     AutoInstantiate = True
 
