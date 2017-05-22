@@ -127,7 +127,7 @@ void NDPluginAttrPlot::callback_data() {
 void NDPluginAttrPlot::processCallbacks(NDArray *pArray) {
     NDAttributeList attr_list;
 
-    NDPluginDriver::beginProcessCallbacks(pArray);
+    NDPluginDriver::processCallbacks(pArray);
     pArray->pAttributeList->copy(&attr_list);
 
     epicsInt32 uid;
