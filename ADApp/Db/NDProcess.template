@@ -15,9 +15,9 @@
 # % gui, $(PORT), edmtab, NDProcess.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-# % gui, $(PORT), boydetail,ADApp_opi/proc_detail.opi, P=$(P), R=$(R), DESC=Process
-# % gui, $(PORT), boyembed, ADApp_opi/proc_embed_box.opi, P=$(P), R=$(R), DESC=Process
-# % gui, $(PORT), boyembed, ADApp_opi/proc_embed.opi, P=$(P), R=$(R), DESC=Process
+# % gui, $(PORT), boydetail,ADApp_opi/dls/proc_detail.opi, P=$(P), R=$(R), DESC=Process
+# % gui, $(PORT), boyembed, ADApp_opi/dls/proc_embed_box.opi, P=$(P), R=$(R), DESC=Process
+# % gui, $(PORT), boyembed, ADApp_opi/dls/proc_embed.opi, P=$(P), R=$(R), DESC=Process
 
 # Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV

@@ -16,9 +16,9 @@
 # % gui, $(PORT), edmtab, NDStats.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-# % gui, $(PORT), boydetail,ADApp_opi/stats_detail.opi, P=$(P), R=$(R), DESC=Statistics
-# % gui, $(PORT), boyembed, ADApp_opi/stats_embed_box.opi, P=$(P), R=$(R), DESC=Statistics
-# % gui, $(PORT), boyembed, ADApp_opi/stats_embed.opi, P=$(P), R=$(R), DESC=Statistics
+# % gui, $(PORT), boydetail,ADApp_opi/dls/stats_detail.opi, P=$(P), R=$(R), DESC=Statistics
+# % gui, $(PORT), boyembed, ADApp_opi/dls/stats_embed_box.opi, P=$(P), R=$(R), DESC=Statistics
+# % gui, $(PORT), boyembed, ADApp_opi/dls/stats_embed.opi, P=$(P), R=$(R), DESC=Statistics
 
 # Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV

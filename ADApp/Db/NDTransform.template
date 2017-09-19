@@ -13,9 +13,9 @@
 # % gui, $(PORT), edmtab, NDTransform.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-# % gui, $(PORT), boydetail,ADApp_opi/transform_detail.opi, P=$(P), R=$(R), DESC=Transform
-# % gui, $(PORT), boyembed, ADApp_opi/transform_embed_box.opi, P=$(P), R=$(R), DESC=Transform
-# % gui, $(PORT), boyembed, ADApp_opi/transform_embed.opi, P=$(P), R=$(R), DESC=Transform
+# % gui, $(PORT), boydetail,ADApp_opi/dls/transform_detail.opi, P=$(P), R=$(R), DESC=Transform
+# % gui, $(PORT), boyembed, ADApp_opi/dls/transform_embed_box.opi, P=$(P), R=$(R), DESC=Transform
+# % gui, $(PORT), boyembed, ADApp_opi/dls/transform_embed.opi, P=$(P), R=$(R), DESC=Transform
 
 # Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV

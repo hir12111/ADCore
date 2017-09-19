@@ -15,9 +15,9 @@
 # % gui, $(PORT), edmtab, NDROI.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-# % gui, $(PORT), boydetail,ADApp_opi/roi_detail.opi, P=$(P), R=$(R), DESC=Region of Interest
-# % gui, $(PORT), boyembed, ADApp_opi/roi_embed_box.opi, P=$(P), R=$(R), DESC=Region of Interest
-# % gui, $(PORT), boyembed, ADApp_opi/roi_embed.opi, P=$(P), R=$(R), DESC=Region of Interest
+# % gui, $(PORT), boydetail,ADApp_opi/dls/roi_detail.opi, P=$(P), R=$(R), DESC=Region of Interest
+# % gui, $(PORT), boyembed, ADApp_opi/dls/roi_embed_box.opi, P=$(P), R=$(R), DESC=Region of Interest
+# % gui, $(PORT), boyembed, ADApp_opi/dls/roi_embed.opi, P=$(P), R=$(R), DESC=Region of Interest
 
 # Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV

@@ -14,9 +14,9 @@
 # % gui, $(PORT), edmtab, NDFileTIFF.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-# % gui, $(PORT), boydetail,ADApp_opi/tiff_detail.opi, P=$(P), R=$(R), DESC=TIFF File
-# % gui, $(PORT), boyembed, ADApp_opi/tiff_embed_box.opi, P=$(P), R=$(R), DESC=TIFF File
-# % gui, $(PORT), boyembed, ADApp_opi/tiff_embed.opi, P=$(P), R=$(R), DESC=TIFF File
+# % gui, $(PORT), boydetail,ADApp_opi/dls/tiff_detail.opi, P=$(P), R=$(R), DESC=TIFF File
+# % gui, $(PORT), boyembed, ADApp_opi/dls/tiff_embed_box.opi, P=$(P), R=$(R), DESC=TIFF File
+# % gui, $(PORT), boyembed, ADApp_opi/dls/tiff_embed.opi, P=$(P), R=$(R), DESC=TIFF File
 
 # Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV

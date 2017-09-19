@@ -18,9 +18,9 @@
 # % gui, $(PORT), edmtab, NDStdArrays.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-# % gui, $(PORT), boydetail,ADApp_opi/array_detail.opi, P=$(P), R=$(R), DESC=Array
-# % gui, $(PORT), boyembed, ADApp_opi/array_embed_box.opi, P=$(P), R=$(R), DESC=Array
-# % gui, $(PORT), boyembed, ADApp_opi/array_embed.opi, P=$(P), R=$(R), DESC=Array
+# % gui, $(PORT), boydetail,ADApp_opi/dls/array_detail.opi, P=$(P), R=$(R), DESC=Array
+# % gui, $(PORT), boyembed, ADApp_opi/dls/array_embed_box.opi, P=$(P), R=$(R), DESC=Array
+# % gui, $(PORT), boyembed, ADApp_opi/dls/array_embed.opi, P=$(P), R=$(R), DESC=Array
 
 # Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV

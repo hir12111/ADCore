@@ -15,9 +15,9 @@
 # % gui, $(PORT), edmtab, NDOverlay.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-# % gui, $(PORT), boydetail,ADApp_opi/over_detail.opi, P=$(P), R=$(R), DESC=Overlay
-# % gui, $(PORT), boyembed, ADApp_opi/over_embed_box.opi, P=$(P), R=$(R), DESC=Overlay
-# % gui, $(PORT), boyembed, ADApp_opi/over_embed.opi, P=$(P), R=$(R), DESC=Overlay
+# % gui, $(PORT), boydetail,ADApp_opi/dls/over_detail.opi, P=$(P), R=$(R), DESC=Overlay
+# % gui, $(PORT), boyembed, ADApp_opi/dls/over_embed_box.opi, P=$(P), R=$(R), DESC=Overlay
+# % gui, $(PORT), boyembed, ADApp_opi/dls/over_embed.opi, P=$(P), R=$(R), DESC=Overlay
 
 # Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
