@@ -5,6 +5,8 @@
 # % macro, R, Device suffix
 # % macro, PORT, Asyn port name
 
+# % gui, $(PORT), edmtab, NDAttrPlot.edl, P=$(P),R=$(R)
+
 include "NDPluginBase.template"
 
 record(ai, "$(P)$(R)NPts") {

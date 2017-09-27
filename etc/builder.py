@@ -881,3 +881,64 @@ class NDCircularBuff(AsynPort):
         print 'NDCircularBuffConfigure(' \
               '"%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", ' \
               '"%(NDARRAY_ADDR)s", %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+              
+##############################
+
+
+@includesTemplates(NDPluginBaseTemplate)
+class _NDAttrPlotTemplate(AutoSubstitution):
+    TemplateFile = 'NDAttrPlot.template'
+
+class _NDAttrPlotDataTemplate(AutoSubstitution):
+    TemplateFile = 'NDAttrPlotData.template'
+
+class _NDAttrPlotAttrTemplate(AutoSubstitution):
+    TemplateFile = 'NDAttrPlotAttr.template'
+
+class NDAttrPlot(AsynPort):
+    UniqueName = "PORT"
+    N_Y_BLOCKS = 4
+    N_ATTRS = 64
+
+    Dependencies = (Asyn,)
+    _SpecificTemplate = _NDAttrPlotTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 10000, N_CACHE = 10000,
+            NDARRAY_ADDR = 0, BLOCK = 0, **args):
+        self.__super.__init__(PORT)
+        self.__dict__.update(locals())
+        self.__dict__["N_BLOCKS"] = 1 + 2 * self.N_Y_BLOCKS # X(1) + Y1(4) + Y2(4)
+        self.__dict__["N_ATTRS"] = self.N_ATTRS
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+        locals().update(args)
+
+        data_addr = 0
+        makeTemplateInstance(_NDAttrPlotDataTemplate, locals(),
+                {'DATA_IND' : "", "AXIS" : "X", "DATA_ADDR" : data_addr})
+        data_addr += 1;
+        for i in range(self.N_Y_BLOCKS):
+                makeTemplateInstance(_NDAttrPlotDataTemplate, locals(),
+                        {'DATA_IND' : i, "AXIS" : "Y1", "DATA_ADDR" : data_addr})
+                data_addr += 1;
+        for i in range(self.N_Y_BLOCKS):
+                makeTemplateInstance(_NDAttrPlotDataTemplate, locals(),
+                        {'DATA_IND' : i, "AXIS" : "Y2", "DATA_ADDR" : data_addr})
+                data_addr += 1;
+
+        for i in range(self.N_ATTRS):
+            makeTemplateInstance(_NDAttrPlotAttrTemplate, locals(),
+                    {'ATTR_IND' : ("%d" % i)})
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+            PORT = Simple("Asyn port name", str),
+            QUEUE = Simple('Input array queue size', int),
+            BLOCK = Simple('Blocking callbacks?', int),
+            NDARRAY_PORT = Ident("Asyn port of the callback source", AsynPort),
+            NDARRAY_ADDR = Simple("Asyn address of the callback source", int),
+            N_CACHE  = Simple("Number of NDArrays to store in cache", int))
+
+    def Initialise(self):
+        print ('NDAttrPlotConfig("%(PORT)s", %(N_ATTRS)d, %(N_CACHE)d, '
+               '%(N_BLOCKS)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)d, '
+               '%(QUEUE)d, %(BLOCK)d)' % self.__dict__ )
+              
