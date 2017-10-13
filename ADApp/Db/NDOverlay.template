@@ -66,12 +66,18 @@
 # % gui, $(PORT), demand, X Position 1,   $(P)$(R)1:PositionX
 # % gui, $(PORT), readback, X Position 1,   $(P)$(R)1:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 1,   $(P)$(R)1:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 1,   $(P)$(R)1:CenterX
+# % gui, $(PORT), readback, X Center 1,   $(P)$(R)1:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 1,   $(P)$(R)1:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 1,   $(P)$(R)1:SizeX
 # % gui, $(PORT), readback, X Size 1,   $(P)$(R)1:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 1,   $(P)$(R)1:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 1,   $(P)$(R)1:PositionY
 # % gui, $(PORT), readback, Y Position 1,   $(P)$(R)1:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 1,   $(P)$(R)1:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 1,   $(P)$(R)1:CenterY
+# % gui, $(PORT), readback, Y Center 1,   $(P)$(R)1:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 1,   $(P)$(R)1:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 1,   $(P)$(R)1:SizeY
 # % gui, $(PORT), readback, Y Size 1,   $(P)$(R)1:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 1,   $(P)$(R)1:SizeYLink.DOL
@@ -92,12 +98,18 @@
 # % gui, $(PORT), demand, X Position 2,   $(P)$(R)2:PositionX
 # % gui, $(PORT), readback, X Position 2,   $(P)$(R)2:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 2,   $(P)$(R)2:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 2,   $(P)$(R)2:CenterX
+# % gui, $(PORT), readback, X Center 2,   $(P)$(R)2:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 2,   $(P)$(R)2:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 2,   $(P)$(R)2:SizeX
 # % gui, $(PORT), readback, X Size 2,   $(P)$(R)2:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 2,   $(P)$(R)2:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 2,   $(P)$(R)2:PositionY
 # % gui, $(PORT), readback, Y Position 2,   $(P)$(R)2:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 2,   $(P)$(R)2:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 2,   $(P)$(R)2:CenterY
+# % gui, $(PORT), readback, Y Center 2,   $(P)$(R)2:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 2,   $(P)$(R)2:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 2,   $(P)$(R)2:SizeY
 # % gui, $(PORT), readback, Y Size 2,   $(P)$(R)2:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 2,   $(P)$(R)2:SizeYLink.DOL
@@ -118,12 +130,18 @@
 # % gui, $(PORT), demand, X Position 3,   $(P)$(R)3:PositionX
 # % gui, $(PORT), readback, X Position 3,   $(P)$(R)3:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 3,   $(P)$(R)3:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 3,   $(P)$(R)3:CenterX
+# % gui, $(PORT), readback, X Center 3,   $(P)$(R)3:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 3,   $(P)$(R)3:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 3,   $(P)$(R)3:SizeX
 # % gui, $(PORT), readback, X Size 3,   $(P)$(R)3:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 3,   $(P)$(R)3:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 3,   $(P)$(R)3:PositionY
 # % gui, $(PORT), readback, Y Position 3,   $(P)$(R)3:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 3,   $(P)$(R)3:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 3,   $(P)$(R)3:CenterY
+# % gui, $(PORT), readback, Y Center 3,   $(P)$(R)3:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 3,   $(P)$(R)3:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 3,   $(P)$(R)3:SizeY
 # % gui, $(PORT), readback, Y Size 3,   $(P)$(R)3:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 3,   $(P)$(R)3:SizeYLink.DOL
@@ -144,12 +162,18 @@
 # % gui, $(PORT), demand, X Position 4,   $(P)$(R)4:PositionX
 # % gui, $(PORT), readback, X Position 4,   $(P)$(R)4:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 4,   $(P)$(R)4:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 4,   $(P)$(R)4:CenterX
+# % gui, $(PORT), readback, X Center 4,   $(P)$(R)4:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 4,   $(P)$(R)4:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 4,   $(P)$(R)4:SizeX
 # % gui, $(PORT), readback, X Size 4,   $(P)$(R)4:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 4,   $(P)$(R)4:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 4,   $(P)$(R)4:PositionY
 # % gui, $(PORT), readback, Y Position 4,   $(P)$(R)4:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 4,   $(P)$(R)4:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 4,   $(P)$(R)4:CenterY
+# % gui, $(PORT), readback, Y Center 4,   $(P)$(R)4:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 4,   $(P)$(R)4:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 4,   $(P)$(R)4:SizeY
 # % gui, $(PORT), readback, Y Size 4,   $(P)$(R)4:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 4,   $(P)$(R)4:SizeYLink.DOL
@@ -170,12 +194,18 @@
 # % gui, $(PORT), demand, X Position 5,   $(P)$(R)5:PositionX
 # % gui, $(PORT), readback, X Position 5,   $(P)$(R)5:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 5,   $(P)$(R)5:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 5,   $(P)$(R)5:CenterX
+# % gui, $(PORT), readback, X Center 5,   $(P)$(R)5:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 5,   $(P)$(R)5:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 5,   $(P)$(R)5:SizeX
 # % gui, $(PORT), readback, X Size 5,   $(P)$(R)5:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 5,   $(P)$(R)5:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 5,   $(P)$(R)5:PositionY
 # % gui, $(PORT), readback, Y Position 5,   $(P)$(R)5:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 5,   $(P)$(R)5:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 5,   $(P)$(R)5:CenterY
+# % gui, $(PORT), readback, Y Center 5,   $(P)$(R)5:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 5,   $(P)$(R)5:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 5,   $(P)$(R)5:SizeY
 # % gui, $(PORT), readback, Y Size 5,   $(P)$(R)5:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 5,   $(P)$(R)5:SizeYLink.DOL
@@ -196,12 +226,18 @@
 # % gui, $(PORT), demand, X Position 6,   $(P)$(R)6:PositionX
 # % gui, $(PORT), readback, X Position 6,   $(P)$(R)6:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 6,   $(P)$(R)6:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 6,   $(P)$(R)6:CenterX
+# % gui, $(PORT), readback, X Center 6,   $(P)$(R)6:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 6,   $(P)$(R)6:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 6,   $(P)$(R)6:SizeX
 # % gui, $(PORT), readback, X Size 6,   $(P)$(R)6:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 6,   $(P)$(R)6:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 6,   $(P)$(R)6:PositionY
 # % gui, $(PORT), readback, Y Position 6,   $(P)$(R)6:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 6,   $(P)$(R)6:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 6,   $(P)$(R)6:CenterY
+# % gui, $(PORT), readback, Y Center 6,   $(P)$(R)6:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 6,   $(P)$(R)6:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 6,   $(P)$(R)6:SizeY
 # % gui, $(PORT), readback, Y Size 6,   $(P)$(R)6:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 6,   $(P)$(R)6:SizeYLink.DOL
@@ -222,12 +258,18 @@
 # % gui, $(PORT), demand, X Position 7,   $(P)$(R)7:PositionX
 # % gui, $(PORT), readback, X Position 7,   $(P)$(R)7:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 7,   $(P)$(R)7:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 7,   $(P)$(R)7:CenterX
+# % gui, $(PORT), readback, X Center 7,   $(P)$(R)7:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 7,   $(P)$(R)7:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 7,   $(P)$(R)7:SizeX
 # % gui, $(PORT), readback, X Size 7,   $(P)$(R)7:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 7,   $(P)$(R)7:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 7,   $(P)$(R)7:PositionY
 # % gui, $(PORT), readback, Y Position 7,   $(P)$(R)7:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 7,   $(P)$(R)7:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 7,   $(P)$(R)7:CenterY
+# % gui, $(PORT), readback, Y Center 7,   $(P)$(R)7:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 7,   $(P)$(R)7:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 7,   $(P)$(R)7:SizeY
 # % gui, $(PORT), readback, Y Size 7,   $(P)$(R)7:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 7,   $(P)$(R)7:SizeYLink.DOL
@@ -248,12 +290,18 @@
 # % gui, $(PORT), demand, X Position 8,   $(P)$(R)8:PositionX
 # % gui, $(PORT), readback, X Position 8,   $(P)$(R)8:PositionX_RBV
 # % gui, $(PORT), demand, X Position Link 8,   $(P)$(R)8:PositionXLink.DOL
+# % gui, $(PORT), demand, X Center 8,   $(P)$(R)8:CenterX
+# % gui, $(PORT), readback, X Center 8,   $(P)$(R)8:CenterX_RBV
+# % gui, $(PORT), demand, X Center Link 8,   $(P)$(R)8:CenterXLink.DOL
 # % gui, $(PORT), demand, X Size 8,   $(P)$(R)8:SizeX
 # % gui, $(PORT), readback, X Size 8,   $(P)$(R)8:SizeX_RBV
 # % gui, $(PORT), demand, X Size Link 8,   $(P)$(R)8:SizeXLink.DOL
 # % gui, $(PORT), demand, Y Position 8,   $(P)$(R)8:PositionY
 # % gui, $(PORT), readback, Y Position 8,   $(P)$(R)8:PositionY_RBV
 # % gui, $(PORT), demand, Y Position Link 8,   $(P)$(R)8:PositionYLink.DOL
+# % gui, $(PORT), demand, Y Center 8,   $(P)$(R)8:CenterY
+# % gui, $(PORT), readback, Y Center 8,   $(P)$(R)8:CenterY_RBV
+# % gui, $(PORT), demand, Y Center Link 8,   $(P)$(R)8:CenterYLink.DOL
 # % gui, $(PORT), demand, Y Size 8,   $(P)$(R)8:SizeY
 # % gui, $(PORT), readback, Y Size 8,   $(P)$(R)8:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 8,   $(P)$(R)8:SizeYLink.DOL

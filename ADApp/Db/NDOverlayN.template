@@ -14,6 +14,8 @@
 # % macro, NAME, Name for the overlay
 # % macro, XPOS, Link for the XPos of the overlay
 # % macro, YPOS, Link for the YPos of the overlay
+# % macro, XCENT, Link for the XCent of the overlay
+# % macro, YCENT, Link for the YCent of the overlay
 # % macro, XSIZE, Link for the XSize of the overlay
 # % macro, YSIZE, Link for the YSize of the overlay
 # % macro, XWIDTH, Link for the XWidth of the overlay
