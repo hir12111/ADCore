@@ -496,6 +496,8 @@ asynStatus NDPluginOverlay::writeInt32(asynUser *pasynUser, epicsInt32 value)
   getIntegerParam(addr, NDPluginOverlayPositionY, &positionY);
   getIntegerParam(addr, NDPluginOverlaySizeX,     &sizeX);
   getIntegerParam(addr, NDPluginOverlaySizeY,     &sizeY);
+  getIntegerParam(addr, NDPluginOverlayCenterX,   &centerX);
+  getIntegerParam(addr, NDPluginOverlayCenterY,   &centerY);
 
   if (function == NDPluginOverlayCenterX) {
     positionX = (int)(value - sizeX/2. + 0.5);
@@ -510,11 +512,11 @@ asynStatus NDPluginOverlay::writeInt32(asynUser *pasynUser, epicsInt32 value)
     centerY = (int)(value + sizeY/2. + 0.5);
     setIntegerParam(addr, NDPluginOverlayCenterY, centerY);
   } else if (function == NDPluginOverlaySizeX) {
-    centerX = (int)(positionX + value/2. + 0.5);
-    setIntegerParam(addr, NDPluginOverlayCenterX, centerX);
+    positionX = (int)(centerX - value/2.);
+    setIntegerParam(addr, NDPluginOverlayPositionX, positionX);
   } else if (function == NDPluginOverlaySizeY) {
-    centerY = (int)(positionY + value/2. + 0.5);
-    setIntegerParam(addr, NDPluginOverlayCenterY, centerY);
+    positionY = (int)(centerY - value/2.);
+    setIntegerParam(addr, NDPluginOverlayPositionY, positionY);
   } else if (function < FIRST_NDPLUGIN_OVERLAY_PARAM) {
     NDPluginDriver::writeInt32(pasynUser, value);
   }
