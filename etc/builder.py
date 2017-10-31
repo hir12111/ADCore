@@ -898,7 +898,7 @@ class _NDAttrPlotAttrTemplate(AutoSubstitution):
 class NDAttrPlot(AsynPort):
     UniqueName = "PORT"
     N_Y_BLOCKS = 4
-    N_ATTRS = 64
+    N_ATTRS = 198
 
     Dependencies = (Asyn,)
     _SpecificTemplate = _NDAttrPlotTemplate
