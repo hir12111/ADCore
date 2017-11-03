@@ -17,9 +17,16 @@ typedef enum {
     NDOverlayXOR
 } NDOverlayDrawMode_t;
 
+typedef struct {
+    std::vector<int> addressOffset;
+    bool changed;
+    bool freezePositionX;
+    bool freezePositionY;
+} NDOverlayPvt_t;
+
 /** Structure defining an overlay */
 typedef struct NDOverlay {
-    bool changed;
+    int use;
     int PositionX;
     int PositionY;
     int SizeX;
@@ -34,7 +41,7 @@ typedef struct NDOverlay {
     char TimeStampFormat[64];
     int Font;
     char DisplayText[256];
-    std::vector<long> addressOffset;
+    NDOverlayPvt_t pvt;
 } NDOverlay_t;
 
 
@@ -48,6 +55,8 @@ typedef struct NDOverlay {
 #define NDPluginOverlayCenterYString            "OVERLAY_CENTER_Y"      /* (asynInt32,   r/w) Y center of overlay */
 #define NDPluginOverlaySizeXString              "OVERLAY_SIZE_X"        /* (asynInt32,   r/o) X size of overlay */
 #define NDPluginOverlaySizeYString              "OVERLAY_SIZE_Y"        /* (asynInt32,   r/w) Y size of overlay */
+#define NDPluginOverlayResizeModeXString       "OVERLAY_RESIZE_MODE_X"  /* (asynInt32,   r/w) X resize mode of overlay */
+#define NDPluginOverlayResizeModeYString       "OVERLAY_RESIZE_MODE_Y"  /* (asynInt32,   r/w) Y resize mode of overlay */
 #define NDPluginOverlayWidthXString             "OVERLAY_WIDTH_X"       /* (asynInt32,   r/o) X width of overlay */
 #define NDPluginOverlayWidthYString             "OVERLAY_WIDTH_Y"       /* (asynInt32,   r/w) Y width of overlay */
 #define NDPluginOverlayShapeString              "OVERLAY_SHAPE"         /* (asynInt32,   r/w) Shape of overlay */
@@ -70,11 +79,6 @@ public:
     void processCallbacks(NDArray *pArray);
     asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
 
-    /* These methods are new to this class */
-    template <typename epicsType> void doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay);
-    int doOverlay(NDArray *pArray, NDOverlay_t *pOverlay);
-    template <typename epicsType> void setPixel(epicsType *pValue, NDOverlay_t *pOverlay);
-
 protected:
     int NDPluginOverlayMaxSizeX;
     #define FIRST_NDPLUGIN_OVERLAY_PARAM NDPluginOverlayMaxSizeX
@@ -87,6 +91,8 @@ protected:
     int NDPluginOverlayCenterY;
     int NDPluginOverlaySizeX;
     int NDPluginOverlaySizeY;
+    int NDPluginOverlayResizeModeX;
+    int NDPluginOverlayResizeModeY;
     int NDPluginOverlayWidthX;
     int NDPluginOverlayWidthY;
     int NDPluginOverlayShape;
@@ -98,13 +104,15 @@ protected:
     int NDPluginOverlayFont;
     int NDPluginOverlayDisplayText;
     #define LAST_NDPLUGIN_OVERLAY_PARAM NDPluginOverlayDisplayText
-                                
-private:
-    int maxOverlays;
-    NDArrayInfo arrayInfo;
-    NDOverlay_t *pOverlays;    /* Array of NDOverlay structures */
-    NDOverlay_t *pOverlay;
 
+private:
+    int maxOverlays_;
+    NDArrayInfo prevArrayInfo_;
+    std::vector<NDOverlay_t> prevOverlays_;    /* Vector of NDOverlay structures */
+    inline void addPixel(NDOverlay_t *pOverlay, int ix, int iy, NDArrayInfo_t *pArrayInfo);
+    template <typename epicsType> void doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay, NDArrayInfo_t *pArrayInfo);
+    int doOverlay(NDArray *pArray, NDOverlay_t *pOverlay, NDArrayInfo_t *pArrayInfo);
+    template <typename epicsType> void setPixel(epicsType *pValue, NDOverlay_t *pOverlay, NDArrayInfo_t *pArrayInfo);
 };
 #define NUM_NDPLUGIN_OVERLAY_PARAMS ((int)(&LAST_NDPLUGIN_OVERLAY_PARAM - &FIRST_NDPLUGIN_OVERLAY_PARAM + 1))
     

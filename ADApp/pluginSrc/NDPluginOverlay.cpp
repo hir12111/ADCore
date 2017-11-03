@@ -31,31 +31,36 @@
 #define MAX(A,B) (A)>(B)?(A):(B)
 #define MIN(A,B) (A)<(B)?(A):(B)
 
-#define CLIPX(a) (MIN(MAX(a,0), (int)this->arrayInfo.xSize-1))
-#define CLIPY(a) (MIN(MAX(a,0), (int)this->arrayInfo.ySize-1))
 #ifndef M_PI
 #  define M_PI 3.14159265358979323846
 #endif
 
 static const char *driverName="NDPluginOverlay";
 
-template <typename epicsType>
-void NDPluginOverlay::setPixel(epicsType *pValue, NDOverlay_t *pOverlay)
+void NDPluginOverlay::addPixel(NDOverlay_t *pOverlay, int ix, int iy, NDArrayInfo_t *pArrayInfo)
 {
-  if ((this->arrayInfo.colorMode == NDColorModeRGB1) ||
-      (this->arrayInfo.colorMode == NDColorModeRGB2) ||
-      (this->arrayInfo.colorMode == NDColorModeRGB3)) {
+  if ((ix >= 0) && (ix < (int)pArrayInfo->xSize) &&
+      (iy >= 0) && (iy < (int)pArrayInfo->ySize))
+    pOverlay->pvt.addressOffset.push_back(iy*pArrayInfo->yStride + ix*pArrayInfo->xStride);
+}
+
+template <typename epicsType>
+void NDPluginOverlay::setPixel(epicsType *pValue, NDOverlay_t *pOverlay, NDArrayInfo_t *pArrayInfo)
+{
+  if ((pArrayInfo->colorMode == NDColorModeRGB1) ||
+      (pArrayInfo->colorMode == NDColorModeRGB2) ||
+      (pArrayInfo->colorMode == NDColorModeRGB3)) {
     if (pOverlay->drawMode == NDOverlaySet) {
       *pValue = (epicsType)pOverlay->red;
-      pValue += this->arrayInfo.colorStride;
+      pValue += pArrayInfo->colorStride;
       *pValue = (epicsType)pOverlay->green;
-      pValue += this->arrayInfo.colorStride;
+      pValue += pArrayInfo->colorStride;
       *pValue = (epicsType)pOverlay->blue;
     } else if (pOverlay->drawMode == NDOverlayXOR) {
       *pValue = (epicsType)((int)*pValue ^ (int)pOverlay->red);
-      pValue += this->arrayInfo.colorStride;
+      pValue += pArrayInfo->colorStride;
       *pValue = (epicsType)((int)*pValue ^ (int)pOverlay->green);
-      pValue += this->arrayInfo.colorStride;
+      pValue += pArrayInfo->colorStride;
       *pValue = (epicsType)((int)*pValue ^ (int)pOverlay->blue);
     }
   }
@@ -70,14 +75,13 @@ void NDPluginOverlay::setPixel(epicsType *pValue, NDOverlay_t *pOverlay)
 
 
 template <typename epicsType>
-void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
+void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay, NDArrayInfo_t *pArrayInfo)
 {
   int xmin, xmax, ymin, ymax, xcent, ycent, xsize, ysize, ix, iy, ii, jj, ib;
   int xwide, ywide, xwidemax_line, xwidemin_line;
-  std::vector<long>::iterator it;
+  std::vector<int>::iterator it;
   int nSteps;
   double theta, thetaStep;
-  int rowOffset;
   epicsType *pData=(epicsType *)pArray->pData;
   char textOutStr[512];                    // our string, maybe with a time stamp, to place into the image array
   char *cp;                                // character pointer to current character being rendered
@@ -90,45 +94,44 @@ void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
   //static const char *functionName = "doOverlayT";
 
   asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-    "NDPluginOverlay::DoOverlayT, shape=%d, Xpos=%ld, Ypos=%ld, Xsize=%ld, Ysize=%ld\n",
-    pOverlay->shape, (long)pOverlay->PositionX, (long)pOverlay->PositionY, 
-    (long)pOverlay->SizeX, (long)pOverlay->SizeY);
+    "NDPluginOverlay::DoOverlayT, shape=%d, Xpos=%d, Ypos=%d, Xsize=%d, Ysize=%d\n",
+    pOverlay->shape, (int)pOverlay->PositionX, (int)pOverlay->PositionY, 
+    (int)pOverlay->SizeX, (int)pOverlay->SizeY);
 
-  if (pOverlay->changed) {
-    pOverlay->addressOffset.clear();
+  if (pOverlay->pvt.changed) {
+    pOverlay->pvt.addressOffset.clear();
 
     switch(pOverlay->shape) {
       case NDOverlayCross:
-        xcent = pOverlay->PositionX + pOverlay->SizeX/2. + 0.5;
-        ycent = pOverlay->PositionY + pOverlay->SizeY/2. + 0.5;
-        xmin = CLIPX(xcent - pOverlay->SizeX/2. + 0.5);
-        xmax = CLIPX(xcent + pOverlay->SizeX/2. + 0.5);
-        ymin = CLIPY(ycent - pOverlay->SizeY/2. + 0.5);
-        ymax = CLIPY(ycent + pOverlay->SizeY/2. + 0.5);
+        xcent = pOverlay->PositionX + pOverlay->SizeX/2;
+        ycent = pOverlay->PositionY + pOverlay->SizeY/2;
+        xmin = xcent - pOverlay->SizeX/2;
+        xmax = xcent + pOverlay->SizeX/2;
+        ymin = ycent - pOverlay->SizeY/2;
+        ymax = ycent + pOverlay->SizeY/2;
         xwide = pOverlay->WidthX / 2;
         ywide = pOverlay->WidthY / 2;
 
         for (iy=ymin; iy<=ymax; iy++) {
-          rowOffset = iy*this->arrayInfo.yStride;
           if ((iy >= (ycent - ywide)) && (iy <= ycent + ywide)) {
             for (ix=xmin; ix<=xmax; ++ix) {
-              pOverlay->addressOffset.push_back(rowOffset + ix*this->arrayInfo.xStride);
+              addPixel(pOverlay, ix, iy, pArrayInfo);
             }
           } else {
             xwidemin_line = xcent - xwide;
             xwidemax_line = xcent + xwide;
-            for (int line=xwidemin_line; line<=xwidemax_line; ++line) {
-              pOverlay->addressOffset.push_back(rowOffset + line*this->arrayInfo.xStride);
+            for (ix=xwidemin_line; ix<=xwidemax_line; ++ix) {
+              addPixel(pOverlay, ix, iy, pArrayInfo);
             }
           }
         }
         break;
 
       case NDOverlayRectangle:
-        xmin = CLIPX(pOverlay->PositionX);
-        xmax = CLIPX(pOverlay->PositionX + pOverlay->SizeX);
-        ymin = CLIPY(pOverlay->PositionY);
-        ymax = CLIPY(pOverlay->PositionY + pOverlay->SizeY);
+        xmin = pOverlay->PositionX;
+        xmax = pOverlay->PositionX + pOverlay->SizeX;
+        ymin = pOverlay->PositionY;
+        ymax = pOverlay->PositionY + pOverlay->SizeY;
         xwide = pOverlay->WidthX;
         ywide = pOverlay->WidthY;
         xwide = MIN(xwide, (int)pOverlay->SizeX-1);
@@ -136,17 +139,17 @@ void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
 
         //For non-zero width, grow the rectangle towards the center.
         for (iy=ymin; iy<=ymax; iy++) {
-          rowOffset = iy*arrayInfo.yStride;
-          if (iy < (ymin + ywide)) {
-            for (ix=xmin; ix<=xmax; ix++) pOverlay->addressOffset.push_back(rowOffset + ix*this->arrayInfo.xStride);
-          } else if (iy > (ymax - ywide)) {
-            for (ix=xmin; ix<=xmax; ix++) pOverlay->addressOffset.push_back(rowOffset + ix*this->arrayInfo.xStride);
-          } else {
-            for (int line=xmin; line<CLIPX(xmin+xwide); ++line) {
-              pOverlay->addressOffset.push_back(rowOffset + line*this->arrayInfo.xStride);
+          if ((iy < (ymin + ywide)) || 
+              (iy > (ymax - ywide))) {
+            for (ix=xmin; ix<=xmax; ix++) {
+              addPixel(pOverlay, ix, iy, pArrayInfo);
             }
-            for (int line=CLIPX(xmax-xwide+1); line<=xmax; ++line) {
-              pOverlay->addressOffset.push_back(rowOffset + line*this->arrayInfo.xStride);
+          } else {
+            for (ix=xmin; ix<(xmin+xwide); ++ix) {
+              addPixel(pOverlay, ix, iy, pArrayInfo);
+            }
+            for (ix=(xmax-xwide+1); ix<=xmax; ++ix) {
+              addPixel(pOverlay, ix, iy, pArrayInfo);
             }
           }
         }
@@ -157,12 +160,12 @@ void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
         ywide = pOverlay->WidthY;
         xwide = MIN(xwide, (int)pOverlay->SizeX-1);
         ywide = MIN(ywide, (int)pOverlay->SizeY-1);
-        xcent = pOverlay->PositionX + pOverlay->SizeX/2. + 0.5;
-        ycent = pOverlay->PositionY + pOverlay->SizeY/2. + 0.5;
+        xcent = pOverlay->PositionX + pOverlay->SizeX/2;
+        ycent = pOverlay->PositionY + pOverlay->SizeY/2;
         xsize = pOverlay->SizeX/2;
         ysize = pOverlay->SizeY/2;
-        xmax = this->arrayInfo.xSize-1;
-        ymax = this->arrayInfo.ySize-1;
+        xmax = (int)(pArrayInfo->xSize-1);
+        ymax = (int)(pArrayInfo->ySize-1);
 
         // Use the parametric equation for an ellipse.  
         // Only need to compute 0 to pi/2, other quadrants by symmetry
@@ -171,33 +174,19 @@ void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
         thetaStep = M_PI / 2. / nSteps;
         for (ii=0, theta=0.; ii<=nSteps; ii++, theta+=thetaStep) {
           for (jj=0; jj<xwide; jj++) {
-            ix = (xsize-jj) * cos(theta) + 0.5;
-            iy = (ysize-jj) * sin(theta) + 0.5;
-            if (((ycent + iy - 1) >= 0) && ((ycent + iy) <= ymax)) {
-              rowOffset = (ycent + iy)*arrayInfo.yStride;
-              if (((xcent + ix) >= 0) && ((xcent + ix) <= xmax)) {
-                pOverlay->addressOffset.push_back(rowOffset + (xcent + ix)*this->arrayInfo.xStride);
-              }
-              if (((xcent - ix) >= 0) && ((xcent - ix) <= xmax)) {
-                pOverlay->addressOffset.push_back(rowOffset + (xcent - ix)*this->arrayInfo.xStride);
-              }
-            }
-            if (((ycent - iy) >= 0) && ((ycent - iy) <= ymax)) {
-              rowOffset = (ycent - iy)*arrayInfo.yStride; 
-              if (((xcent + ix) >= 0) && ((xcent + ix) <= xmax)) {
-                pOverlay->addressOffset.push_back(rowOffset + (xcent + ix)*this->arrayInfo.xStride);
-              }
-              if (((xcent - ix) >= 0) && ((xcent - ix) <= xmax)) {
-                pOverlay->addressOffset.push_back(rowOffset + (xcent - ix)*this->arrayInfo.xStride);
-              }
-            }
+            ix = (int)((xsize-jj) * cos(theta) + 0.5);
+            iy = (int)((ysize-jj) * sin(theta) + 0.5);
+            addPixel(pOverlay, (xcent + ix), (ycent + iy), pArrayInfo);
+            addPixel(pOverlay, (xcent + ix), (ycent - iy), pArrayInfo);
+            addPixel(pOverlay, (xcent - ix), (ycent + iy), pArrayInfo);
+            addPixel(pOverlay, (xcent - ix), (ycent - iy), pArrayInfo);
           }
         }
         // There may be duplicate pixels in the address list.  
         // We must remove them or the XOR draw mode won't work because the pixel will be set and then unset
-        std::sort(pOverlay->addressOffset.begin(), pOverlay->addressOffset.end());
-        it = std::unique(pOverlay->addressOffset.begin(), pOverlay->addressOffset.end());
-        pOverlay->addressOffset.resize(std::distance(pOverlay->addressOffset.begin(), it));
+        std::sort(pOverlay->pvt.addressOffset.begin(), pOverlay->pvt.addressOffset.end());
+        it = std::unique(pOverlay->pvt.addressOffset.begin(), pOverlay->pvt.addressOffset.end());
+        pOverlay->pvt.addressOffset.resize(std::distance(pOverlay->pvt.addressOffset.begin(), it));
         break;
 
       case NDOverlayText:
@@ -219,16 +208,14 @@ void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
         textOutStr[sizeof(textOutStr)-1] = 0;
 
         cp   = textOutStr;
-        xmin = CLIPX(pOverlay->PositionX);
-        xmax = CLIPX(pOverlay->PositionX + pOverlay->SizeX);
-        ymin = CLIPY(pOverlay->PositionY);
+        xmin = pOverlay->PositionX;
+        xmax = pOverlay->PositionX + pOverlay->SizeX;
+        ymin = pOverlay->PositionY;
         ymax = pOverlay->PositionY + pOverlay->SizeY;
         ymax = MIN(ymax, pOverlay->PositionY + bmp->height);
-        ymax = CLIPY(ymax);
 
         // Loop over vertical lines
         for (jj=0, iy=ymin; iy<ymax; jj++, iy++) {
-          rowOffset = iy*arrayInfo.yStride;
 
           // Loop over characters
           for (ii=0; cp[ii]!=0; ii++) {
@@ -247,7 +234,7 @@ void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
               if (ix >= xmax)
                 break;
               if (mask & bmc) {
-                pOverlay->addressOffset.push_back(rowOffset + ix*this->arrayInfo.xStride);
+                addPixel(pOverlay, ix, iy, pArrayInfo);
               }
               mask >>= 1;
               if (!mask) {
@@ -260,40 +247,40 @@ void NDPluginOverlay::doOverlayT(NDArray *pArray, NDOverlay_t *pOverlay)
         }
         break;
     } // switch(pOverlay->shape)
-  } // if (pOverlay->changed)
+  } // if (pOverlay->pvt.changed)
 
   // Set the pixels in the image from the addressOffset vector list
-  for (ii=0; ii<(int)pOverlay->addressOffset.size(); ii++) {
-    setPixel(pData + pOverlay->addressOffset[ii], pOverlay);
+  for (ii=0; ii<(int)pOverlay->pvt.addressOffset.size(); ii++) {
+    setPixel(pData + pOverlay->pvt.addressOffset[ii], pOverlay, pArrayInfo);
   }
 }
 
-int NDPluginOverlay::doOverlay(NDArray *pArray, NDOverlay_t *pOverlay)
+int NDPluginOverlay::doOverlay(NDArray *pArray, NDOverlay_t *pOverlay, NDArrayInfo_t *pArrayInfo)
 {
   switch(pArray->dataType) {
     case NDInt8:
-      doOverlayT<epicsInt8>(pArray, pOverlay);
+      doOverlayT<epicsInt8>(pArray, pOverlay, pArrayInfo);
       break;
     case NDUInt8:
-      doOverlayT<epicsUInt8>(pArray, pOverlay);
+      doOverlayT<epicsUInt8>(pArray, pOverlay, pArrayInfo);
       break;
     case NDInt16:
-      doOverlayT<epicsInt16>(pArray, pOverlay);
+      doOverlayT<epicsInt16>(pArray, pOverlay, pArrayInfo);
       break;
     case NDUInt16:
-      doOverlayT<epicsUInt16>(pArray, pOverlay);
+      doOverlayT<epicsUInt16>(pArray, pOverlay, pArrayInfo);
       break;
     case NDInt32:
-      doOverlayT<epicsInt32>(pArray, pOverlay);
+      doOverlayT<epicsInt32>(pArray, pOverlay, pArrayInfo);
       break;
     case NDUInt32:
-      doOverlayT<epicsUInt32>(pArray, pOverlay);
+      doOverlayT<epicsUInt32>(pArray, pOverlay, pArrayInfo);
       break;
     case NDFloat32:
-      doOverlayT<epicsFloat32>(pArray, pOverlay);
+      doOverlayT<epicsFloat32>(pArray, pOverlay, pArrayInfo);
       break;
     case NDFloat64:
-      doOverlayT<epicsFloat64>(pArray, pOverlay);
+      doOverlayT<epicsFloat64>(pArray, pOverlay, pArrayInfo);
       break;
     default:
       return(ND_ERROR);
@@ -311,56 +298,43 @@ void NDPluginOverlay::processCallbacks(NDArray *pArray)
 {
   /* This function draws overlays
    * It is called with the mutex already locked.  It unlocks it during long calculations when private
-   * structures don't need to be protected.
+   * structures don't need to be protected.ks
    */
 
-  int use;
   int overlay;
   int itemp;
   NDArray *pOutput;
-  NDArrayInfo prevInfo;
-  NDOverlay_t prevOverlay;
+  NDArrayInfo_t arrayInfo;
+  std::vector<NDOverlay_t>pOverlays;
+  NDOverlay_t *pOverlay;
   bool arrayInfoChanged;
-  int overlayUserLen = sizeof(prevOverlay) - sizeof(prevOverlay.addressOffset);
-  
-  //static const char* functionName = "processCallbacks";
+  int overlayUserLen = sizeof(*pOverlay) - sizeof(pOverlay->pvt);
+  static const char* functionName = "processCallbacks";
 
   /* Call the base class method */
   NDPluginDriver::processCallbacks(pArray);
 
-  /* We always keep the last array so read() can use it.
-   * Release previous one. */
-  if (this->pArrays[0]) {
-    this->pArrays[0]->release();
-  }
   /* Copy the input array so we can modify it. */
-  this->pArrays[0] = this->pNDArrayPool->copy(pArray, NULL, 1);
-  pOutput = this->pArrays[0];
+  pOutput = this->pNDArrayPool->copy(pArray, NULL, 1);
   
   /* Get information about the array needed later */
-  memcpy(&prevInfo, &this->arrayInfo, sizeof(prevInfo));
-  pOutput->getInfo(&this->arrayInfo);
-  arrayInfoChanged = (memcmp(&prevInfo, &this->arrayInfo, sizeof(prevInfo)) != 0);
+  pOutput->getInfo(&arrayInfo);
+  arrayInfoChanged = (memcmp(&arrayInfo, &this->prevArrayInfo_, sizeof(arrayInfo)) != 0);
+  this->prevArrayInfo_ = arrayInfo;
   setIntegerParam(NDPluginOverlayMaxSizeX, (int)arrayInfo.xSize);
   setIntegerParam(NDPluginOverlayMaxSizeY, (int)arrayInfo.ySize);
-   
+ 
+  /* Copy the previous contents of each overlay */
+  pOverlays = this->prevOverlays_;
+  
   /* Loop over the overlays in this driver */
-  for (overlay=0; overlay<this->maxOverlays; overlay++) {
-    pOverlay = &this->pOverlays[overlay];
-    getIntegerParam(overlay, NDPluginOverlayUse, &use);
-    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-      "NDPluginOverlay::processCallbacks, overlay=%d, use=%d\n",
-      overlay, use);
-    if (!use) continue;
-    // Make a copy of the current overlay so we can see if anything has changed
-    memcpy(&prevOverlay, pOverlay, overlayUserLen);
-    /* Need to fetch all of these parameters while we still have the mutex */
+  for (overlay=0; overlay<this->maxOverlays_; overlay++) {
+    pOverlay = &pOverlays[overlay];
+    getIntegerParam(overlay, NDPluginOverlayUse, &pOverlay->use);
+    if (!pOverlay->use) continue;
+     /* Need to fetch all of these parameters while we still have the mutex */
     getIntegerParam(overlay, NDPluginOverlayPositionX,  &pOverlay->PositionX);
-    pOverlay->PositionX = MAX(pOverlay->PositionX, 0);
-    pOverlay->PositionX = MIN(pOverlay->PositionX, (int)this->arrayInfo.xSize-1);
     getIntegerParam(overlay, NDPluginOverlayPositionY,  &pOverlay->PositionY);
-    pOverlay->PositionY = MAX(pOverlay->PositionY, 0);
-    pOverlay->PositionY = MIN(pOverlay->PositionY, (int)this->arrayInfo.ySize-1);
     getIntegerParam(overlay, NDPluginOverlaySizeX,      &pOverlay->SizeX);
     getIntegerParam(overlay, NDPluginOverlaySizeY,      &pOverlay->SizeY);
     getIntegerParam(overlay, NDPluginOverlayWidthX,     &pOverlay->WidthX);
@@ -373,31 +347,35 @@ void NDPluginOverlay::processCallbacks(NDArray *pArray)
     getStringParam( overlay, NDPluginOverlayTimeStampFormat, sizeof(pOverlay->TimeStampFormat), pOverlay->TimeStampFormat);
     getIntegerParam(overlay, NDPluginOverlayFont,       &pOverlay->Font);
     getStringParam( overlay, NDPluginOverlayDisplayText, sizeof(pOverlay->DisplayText), pOverlay->DisplayText);
-
+    
     pOverlay->DisplayText[sizeof(pOverlay->DisplayText)-1] = 0;
     
     // Compare to see if any fields in the overlay have changed
-    pOverlay->changed = false;
-    prevOverlay.changed = false;
-    pOverlay->changed = (memcmp(&prevOverlay, pOverlay, overlayUserLen) != 0);
-    if (arrayInfoChanged) pOverlay->changed = true;
+    pOverlay->pvt.changed = (memcmp(&this->prevOverlays_[overlay], pOverlay, overlayUserLen) != 0);
+    if (arrayInfoChanged) pOverlay->pvt.changed = true;
     /* If this is a text overlay with a non-blank time stamp format then it always needs to be updated */
     if ((pOverlay->shape == NDOverlayText) && (strlen(pOverlay->TimeStampFormat) > 0)) {
-        pOverlay->changed = true;
+        pOverlay->pvt.changed = true;
     }
-    /* This function is called with the lock taken, and it must be set when we exit.
-     * The following code can be exected without the mutex because we are not accessing memory
-     * that other threads can access. */
-    this->unlock();
-    this->doOverlay(pOutput, pOverlay);
-    this->lock();
+  }
+  /* This function is called with the lock taken, and it must be set when we exit.
+   * The following code can be exected without the mutex because we are not accessing memory
+   * that other threads can access. */
+  this->unlock();
+  for (overlay=0; overlay<this->maxOverlays_; overlay++) {
+    pOverlay = &pOverlays[overlay];
+    if (!pOverlay->use) continue;
+    this->doOverlay(pOutput, pOverlay, &arrayInfo);
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+      "%s::%s overlay %d, changed=%d, points=%d\n", 
+      driverName, functionName, overlay, pOverlay->pvt.changed, (int)pOverlay->pvt.addressOffset.size());
   }
   /* Get the attributes for this driver */
-  this->getAttributes(this->pArrays[0]->pAttributeList);
+  this->getAttributes(pOutput->pAttributeList);
   /* Call any clients who have registered for NDArray callbacks */
-  this->unlock();
-  doCallbacksGenericPointer(this->pArrays[0], NDArrayData, 0);
+  doCallbacksGenericPointer(pOutput, NDArrayData, 0);
   this->lock();
+  this->prevOverlays_ = pOverlays;
   callParamCallbacks();
 }
 
@@ -434,11 +412,11 @@ NDPluginOverlay::NDPluginOverlay(const char *portName, int queueSize, int blocki
            asynGenericPointerMask,
            ASYN_MULTIDEVICE, 1, priority, stackSize)
 {
-  static const char *functionName = "NDPluginOverlay";
+  //static const char *functionName = "NDPluginOverlay";
 
 
-  this->maxOverlays = maxOverlays;
-  this->pOverlays = (NDOverlay_t *)callocMustSucceed(maxOverlays, sizeof(*this->pOverlays), functionName);
+  this->maxOverlays_ = maxOverlays;
+  this->prevOverlays_.resize(maxOverlays_);
 
   createParam(NDPluginOverlayMaxSizeXString,        asynParamInt32, &NDPluginOverlayMaxSizeX);
   createParam(NDPluginOverlayMaxSizeYString,        asynParamInt32, &NDPluginOverlayMaxSizeY);
@@ -484,39 +462,55 @@ asynStatus NDPluginOverlay::writeInt32(asynUser *pasynUser, epicsInt32 value)
   int function = pasynUser->reason;
   asynStatus status = asynSuccess;
   int addr = 0;
+  NDOverlay_t *pOverlay;
   int positionX, positionY, sizeX, sizeY, centerX, centerY;
   static const char* functionName = "writeInt32";
 
-  getAddress(pasynUser, &addr); 
+  getAddress(pasynUser, &addr);
+  pOverlay = &prevOverlays_[addr];
 
   /* Set parameter and readback in parameter library */
   setIntegerParam(addr, function, value);
   
   getIntegerParam(addr, NDPluginOverlayPositionX, &positionX);
   getIntegerParam(addr, NDPluginOverlayPositionY, &positionY);
-  getIntegerParam(addr, NDPluginOverlaySizeX,     &sizeX);
-  getIntegerParam(addr, NDPluginOverlaySizeY,     &sizeY);
   getIntegerParam(addr, NDPluginOverlayCenterX,   &centerX);
   getIntegerParam(addr, NDPluginOverlayCenterY,   &centerY);
+  getIntegerParam(addr, NDPluginOverlaySizeX,     &sizeX);
+  getIntegerParam(addr, NDPluginOverlaySizeY,     &sizeY);
 
   if (function == NDPluginOverlayCenterX) {
-    positionX = (int)(value - sizeX/2. + 0.5);
+    positionX = value - sizeX/2;
     setIntegerParam(addr, NDPluginOverlayPositionX, positionX);
+    pOverlay->pvt.freezePositionX = false;
   } else if (function == NDPluginOverlayCenterY) {
-    positionY = (int)(value - sizeY/2. + 0.5);
+    positionY = value - sizeY/2;
     setIntegerParam(addr, NDPluginOverlayPositionY, positionY);
+    pOverlay->pvt.freezePositionY = false;
   } else if (function == NDPluginOverlayPositionX) {
-    centerX = (int)(value + sizeX/2. + 0.5);
+    centerX = value + sizeX/2;
     setIntegerParam(addr, NDPluginOverlayCenterX, centerX);
+    pOverlay->pvt.freezePositionX = true;
   } else if (function == NDPluginOverlayPositionY) {
-    centerY = (int)(value + sizeY/2. + 0.5);
+    centerY = value + sizeY/2;
     setIntegerParam(addr, NDPluginOverlayCenterY, centerY);
+    pOverlay->pvt.freezePositionY = true;
   } else if (function == NDPluginOverlaySizeX) {
-    positionX = (int)(centerX - value/2.);
-    setIntegerParam(addr, NDPluginOverlayPositionX, positionX);
+    if (pOverlay->pvt.freezePositionX) {
+        centerX = positionX + value/2;
+        setIntegerParam(addr, NDPluginOverlayCenterX, centerX);
+    } else {
+        positionX = centerX - value/2;
+        setIntegerParam(addr, NDPluginOverlayPositionX, positionX);
+    }
   } else if (function == NDPluginOverlaySizeY) {
-    positionY = (int)(centerY - value/2.);
-    setIntegerParam(addr, NDPluginOverlayPositionY, positionY);
+    if (pOverlay->pvt.freezePositionY) {
+        centerY = positionY + value/2;
+        setIntegerParam(addr, NDPluginOverlayCenterY, centerY);
+    } else {
+        positionY = centerY - value/2;
+        setIntegerParam(addr, NDPluginOverlayPositionY, positionY);
+    }
   } else if (function < FIRST_NDPLUGIN_OVERLAY_PARAM) {
     NDPluginDriver::writeInt32(pasynUser, value);
   }
@@ -581,3 +575,4 @@ extern "C" void NDOverlayRegister(void)
 extern "C" {
 epicsExportRegistrar(NDOverlayRegister);
 }
+
