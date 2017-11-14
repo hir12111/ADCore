@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 558
-y 248
+x 1164
+y 353
 w 380
-h 370
+h 330
 font "arial-bold-r-12.0"
 ctlFont "arial-bold-r-12.0"
 btnFont "arial-bold-r-12.0"
@@ -30,8 +30,8 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 50
-y 30
+x 45
+y 80
 w 120
 h 20
 fgColor index 25
@@ -39,8 +39,8 @@ bgColor index 3
 inconsistentColor index 0
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(P)$(R)$(O)Use"
-indicatorPv "$(P)$(R)$(O)Use_RBV"
+controlPv "$(P)$(R)$(O)Font"
+indicatorPv "$(P)$(R)$(O)Font_RBV"
 font "arial-bold-r-12.0"
 endObjectProperties
 
@@ -51,34 +51,16 @@ major 4
 minor 1
 release 1
 x 5
-y 30
-w 70
+y 80
+w 35
 h 20
 font "arial-bold-r-12.0"
 fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Use?"
+  "Font"
 }
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 50
-y 5
-w 325
-h 20
-controlPv "$(P)$(R)$(O)Name"
-fgColor index 25
-fgAlarm
-bgColor index 3
-fill
-font "arial-bold-r-12.0"
 endObjectProperties
 
 # (Static Text)
@@ -107,252 +89,6 @@ major 4
 minor 1
 release 1
 x 5
-y 55
-w 45
-h 20
-font "arial-bold-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Shape"
-}
-endObjectProperties
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 50
-y 55
-w 120
-h 20
-fgColor index 25
-bgColor index 3
-inconsistentColor index 0
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(P)$(R)$(O)Shape"
-indicatorPv "$(P)$(R)$(O)Shape_RBV"
-font "arial-bold-r-12.0"
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 5
-y 80
-w 45
-h 20
-font "arial-bold-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Mode"
-}
-endObjectProperties
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 50
-y 80
-w 120
-h 20
-fgColor index 25
-bgColor index 3
-inconsistentColor index 0
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(P)$(R)$(O)DrawMode"
-indicatorPv "$(P)$(R)$(O)DrawMode_RBV"
-font "arial-bold-r-12.0"
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 180
-y 30
-w 70
-h 20
-font "arial-bold-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Red"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 180
-y 55
-w 70
-h 20
-font "arial-bold-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Green/Mono"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 180
-y 80
-w 70
-h 20
-font "arial-bold-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Blue"
-}
-endObjectProperties
-
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 320
-y 30
-w 55
-h 20
-controlPv "$(P)$(R)$(O)Red_RBV"
-fgColor index 16
-fgAlarm
-bgColor index 10
-fill
-font "arial-bold-r-12.0"
-fontAlign "center"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 260
-y 30
-w 55
-h 20
-controlPv "$(P)$(R)$(O)Red"
-fgColor index 25
-fgAlarm
-bgColor index 3
-fill
-font "arial-bold-r-12.0"
-endObjectProperties
-
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 320
-y 55
-w 55
-h 20
-controlPv "$(P)$(R)$(O)Green_RBV"
-fgColor index 16
-fgAlarm
-bgColor index 10
-fill
-font "arial-bold-r-12.0"
-fontAlign "center"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 260
-y 55
-w 55
-h 20
-controlPv "$(P)$(R)$(O)Green"
-fgColor index 25
-fgAlarm
-bgColor index 3
-fill
-font "arial-bold-r-12.0"
-endObjectProperties
-
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 320
-y 80
-w 55
-h 20
-controlPv "$(P)$(R)$(O)Blue_RBV"
-fgColor index 16
-fgAlarm
-bgColor index 10
-fill
-font "arial-bold-r-12.0"
-fontAlign "center"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 260
-y 80
-w 55
-h 20
-controlPv "$(P)$(R)$(O)Blue"
-fgColor index 25
-fgAlarm
-bgColor index 3
-fill
-font "arial-bold-r-12.0"
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 5
 y 115
 w 70
 h 20
@@ -361,7 +97,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "X Center"
+  "X Position"
 }
 endObjectProperties
 
@@ -375,7 +111,7 @@ x 135
 y 115
 w 55
 h 20
-controlPv "$(P)$(R)$(O)CenterX_RBV"
+controlPv "$(P)$(R)$(O)PositionX_RBV"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -394,7 +130,7 @@ x 75
 y 115
 w 55
 h 20
-controlPv "$(P)$(R)$(O)CenterX"
+controlPv "$(P)$(R)$(O)PositionX"
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -436,7 +172,7 @@ bgColor index 3
 2ndBgColor index 3
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(P)$(R)$(O)CenterX"
+controlPv "$(P)$(R)$(O)PositionX"
 controlLabelType "pvName"
 font "arial-bold-r-12.0"
 limitsFromDb
@@ -452,7 +188,7 @@ x 75
 y 140
 w 300
 h 17
-controlPv "$(P)$(R)$(O)CenterXLink.DOL"
+controlPv "$(P)$(R)$(O)PositionXLink.DOL"
 font "arial-bold-r-12.0"
 fgColor index 25
 bgColor index 3
@@ -483,7 +219,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Y Center"
+  "Y Position"
 }
 endObjectProperties
 
@@ -497,7 +233,7 @@ x 135
 y 225
 w 55
 h 20
-controlPv "$(P)$(R)$(O)CenterY_RBV"
+controlPv "$(P)$(R)$(O)PositionY_RBV"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -516,7 +252,7 @@ x 75
 y 225
 w 55
 h 20
-controlPv "$(P)$(R)$(O)CenterY"
+controlPv "$(P)$(R)$(O)PositionY"
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -539,7 +275,7 @@ bgColor index 3
 2ndBgColor index 3
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(P)$(R)$(O)CenterY"
+controlPv "$(P)$(R)$(O)PositionY"
 controlLabelType "pvName"
 font "arial-bold-r-12.0"
 limitsFromDb
@@ -555,7 +291,7 @@ x 75
 y 250
 w 300
 h 17
-controlPv "$(P)$(R)$(O)CenterYLink.DOL"
+controlPv "$(P)$(R)$(O)PositionYLink.DOL"
 font "arial-bold-r-12.0"
 fgColor index 25
 bgColor index 3
@@ -605,7 +341,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "X Size"
+  "X Width"
 }
 endObjectProperties
 
@@ -619,7 +355,7 @@ x 135
 y 170
 w 55
 h 20
-controlPv "$(P)$(R)$(O)SizeX_RBV"
+controlPv "$(P)$(R)$(O)WidthX_RBV"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -638,7 +374,7 @@ x 75
 y 170
 w 55
 h 20
-controlPv "$(P)$(R)$(O)SizeX"
+controlPv "$(P)$(R)$(O)WidthX"
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -665,27 +401,6 @@ value {
 }
 endObjectProperties
 
-# (Motif Slider)
-object activeMotifSliderClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 195
-y 170
-w 180
-h 20
-fgColor index 25
-bgColor index 3
-2ndBgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(P)$(R)$(O)SizeX"
-controlLabelType "pvName"
-font "arial-bold-r-12.0"
-limitsFromDb
-endObjectProperties
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -695,8 +410,8 @@ release 0
 x 75
 y 195
 w 300
-h 18
-controlPv "$(P)$(R)$(O)SizeXLink.DOL"
+h 17
+controlPv "$(P)$(R)$(O)WidthXLink.DOL"
 font "arial-bold-r-12.0"
 fgColor index 25
 bgColor index 3
@@ -727,7 +442,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Y Size"
+  "Y Width"
 }
 endObjectProperties
 
@@ -741,7 +456,7 @@ x 135
 y 280
 w 55
 h 20
-controlPv "$(P)$(R)$(O)SizeY_RBV"
+controlPv "$(P)$(R)$(O)WidthY_RBV"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -760,7 +475,7 @@ x 75
 y 280
 w 55
 h 20
-controlPv "$(P)$(R)$(O)SizeY"
+controlPv "$(P)$(R)$(O)WidthY"
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -787,27 +502,6 @@ value {
 }
 endObjectProperties
 
-# (Motif Slider)
-object activeMotifSliderClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 195
-y 280
-w 180
-h 20
-fgColor index 25
-bgColor index 3
-2ndBgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(P)$(R)$(O)SizeY"
-controlLabelType "pvName"
-font "arial-bold-r-12.0"
-limitsFromDb
-endObjectProperties
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -817,8 +511,8 @@ release 0
 x 75
 y 305
 w 300
-h 18
-controlPv "$(P)$(R)$(O)SizeYLink.DOL"
+h 17
+controlPv "$(P)$(R)$(O)WidthYLink.DOL"
 font "arial-bold-r-12.0"
 fgColor index 25
 bgColor index 3
@@ -834,31 +528,103 @@ newPos
 objType "controls"
 endObjectProperties
 
-# (Related Display)
-object relatedDisplayClass
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 50
+y 5
+w 325
+h 20
+controlPv "$(P)$(R)$(O)Name_RBV"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
 beginObjectProperties
 major 4
-minor 4
-release 0
+minor 1
+release 1
 x 5
-y 335
-w 185
-h 25
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
+y 30
+w 75
+h 20
 font "arial-bold-r-12.0"
-xPosOffset 385
-yPosOffset -325
-buttonLabel "Extended Options"
-numPvs 4
-numDsps 1
-displayFileName {
-  0 "NDOverlayNExtended.edl"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Display Text"
 }
-setPosition {
-  0 "button"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 5
+y 55
+w 115
+h 20
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Timestamp Format"
 }
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 125
+y 55
+w 250
+h 20
+controlPv "$(P)$(R)$(O)TimeStampFormat"
+fgColor index 25
+fgAlarm
+bgColor index 3
+fill
+font "arial-bold-r-12.0"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 85
+y 30
+w 290
+h 20
+controlPv "$(P)$(R)$(O)DisplayText"
+font "arial-bold-r-12.0"
+fgColor index 25
+bgColor index 3
+editable
+motifWidget
+limitsFromDb
+nullColor index 0
+useKp
+useHexPrefix
+newPos
+inputFocusUpdates
+objType "controls"
 endObjectProperties
 
