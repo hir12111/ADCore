@@ -28,6 +28,8 @@
 #include "NDPluginOverlayTextFont.h"
 #include "NDPluginOverlay.h"
 
+#include <iostream>
+
 #define MAX(A,B) (A)>(B)?(A):(B)
 #define MIN(A,B) (A)<(B)?(A):(B)
 
@@ -314,8 +316,14 @@ void NDPluginOverlay::processCallbacks(NDArray *pArray)
   /* Call the base class method */
   NDPluginDriver::processCallbacks(pArray);
 
+  /* We always keep the last array so read() can use it.
+   * Release previous one. */
+  if (this->pArrays[0]) {
+    this->pArrays[0]->release();
+  }
   /* Copy the input array so we can modify it. */
   pOutput = this->pNDArrayPool->copy(pArray, NULL, 1);
+  this->pArrays[0] = pOutput;
   
   /* Get information about the array needed later */
   pOutput->getInfo(&arrayInfo);
