@@ -941,4 +941,40 @@ class NDAttrPlot(AsynPort):
         print ('NDAttrPlotConfig("%(PORT)s", %(N_ATTRS)d, %(N_CACHE)d, '
                '%(N_BLOCKS)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)d, '
                '%(QUEUE)d, %(BLOCK)d)' % self.__dict__ )
-              
+
+#############################
+
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDTimeSeriesTemplate(AutoSubstitution):
+    """Template containing the records for a NDTimeSeries"""
+    TemplateFile = 'NDTimeSeries.template'
+
+class NDTimeSeries(AsynPort):
+    """This plugin creates time series arrays from callback data"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDTimeSeriesTemplate
+    def __init__(self, PORT, NDARRAY_PORT, SIGNALS = 1, QUEUE = 2, BUFFERS = 50, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    # __init__ arguments
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDTimeSeries plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        SIGNALS = Simple('Maximum number of time series signals', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
+        PRIORITY = Simple('Plugin priority', int),
+        STACKSIZE = Simple('Max buffers to allocate', int))
+
+    def Initialise(self):
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)'
+        print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(SIGNALS)d, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
