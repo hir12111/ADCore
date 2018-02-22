@@ -2,15 +2,18 @@
 # Template file: NDFFT.template
 ###################################################################
 #
-# Database template for FFT plugin. 
-# Macros:
-# P,R - Base PV name
-# PORT - Asyn port name
-# ADDR - The Asyn address
-# TIMEOUT - Asyn port timeout
-#
 # Mark Rivers
 # March 2016
+#
+# Macros:
+# % macro, P, Device prefix
+# % macro, R, Device suffix
+# % macro, PORT, Asyn port name
+# % macro, ADDR, Asyn port address
+# % macro, TIMEOUT, Asyn port timeout
+# % macro, NCHANS, Length of time series waveform
+# % macro, TIME_LINK, Sample time
+# % macro, NAME, Signal name
 #
 ###################################################################
 
