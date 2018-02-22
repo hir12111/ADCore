@@ -971,6 +971,7 @@ class NDTimeSeries(AsynPort):
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         SIGNALS = Simple('Maximum number of time series signals', int),
+        BUFFERS      = Simple('Max number of buffers to allocate', int),
         MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
         PRIORITY = Simple('Plugin priority', int),
         STACKSIZE = Simple('Max buffers to allocate', int))
@@ -978,3 +979,5 @@ class NDTimeSeries(AsynPort):
     def Initialise(self):
         print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)'
         print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(SIGNALS)d, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+
+        
