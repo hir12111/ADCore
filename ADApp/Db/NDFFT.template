@@ -15,6 +15,9 @@
 # % macro, TIME_LINK, Sample time
 # % macro, NAME, Signal name
 #
+# EDM screen:
+# % gui, $(PORT), edmtab, NDFFT.edl, P=$(P),R=$(R)
+#
 ###################################################################
 
 include "NDPluginBase.template"

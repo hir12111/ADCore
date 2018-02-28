@@ -977,8 +977,9 @@ class NDTimeSeries(AsynPort):
         for i in range(NSIGNALS):
             # Append signal number to R suffix
             RSignal = R + str(i) + ":"
+            TSName = "TS" + str(i)
             NDTimeSeriesNTemplate(P = P, R = RSignal, PORT = PORT, ADDR = i, 
-                TIMEOUT = TIMEOUT, NCHANS = NCHANS, NAME = i)
+                TIMEOUT = TIMEOUT, NCHANS = NCHANS, NAME = TSName)
 
     # __init__ arguments
     ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
