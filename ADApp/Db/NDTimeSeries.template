@@ -12,7 +12,7 @@
 # % macro, ADDR, Asyn port address
 # % macro, TIMEOUT, Asyn port timeout
 # % macro, NCHANS, Length of time series waveform
-# % macro, TIME_LINK, Time in seconds between points (Points to a record, usually with CP)
+# % macro, TIME_LINK, Time in seconds between points (Points to a record, usually with CP attribute)
 #
 # EDM screen:
 # % gui, $(PORT), edmtab, NDTimeSeries.edl, P=$(P),R=$(R)
