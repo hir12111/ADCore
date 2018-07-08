@@ -2,10 +2,10 @@
 
 # These following four base definitions are overwritten by definitions in 
 # the RELEASE.<arch>.Common files. Included here for information only.
-# SUPPORT         = /dls_sw/prod/R3.14.12.3/support
-# WORK            = /dls_sw/work/R3.14.12.3/support
-# AREA_DETECTOR   = /dls_sw/work/R3.14.12.3/support
-# EPICS_BASE      = /dls_sw/epics/R3.14.12.3/base
+# SUPPORT         = /dls_sw/prod/R3.14.12.7/support
+# WORK            = /dls_sw/work/R3.14.12.7/support
+# AREA_DETECTOR   = /dls_sw/work/R3.14.12.7/support
+# EPICS_BASE      = /dls_sw/epics/R3.14.12.7/base
 
 
 # Note:
@@ -17,25 +17,25 @@
 
 TEMPLATE_TOP = $(EPICS_BASE)/templates/makeBaseApp/top
 
-AREA_DETECTOR = $(SUPPORT)
+#AREA_DETECTOR = $(WORK)
 
 # ASYN is needed for base classes
-ASYN = $(SUPPORT)/asyn/4-31
+ASYN = $(SUPPORT)/asyn/4-33
 
 # BUSY is needed for busy record
-BUSY = $(SUPPORT)/busy/1-6-1dls1
+BUSY = $(SUPPORT)/busy/1-7
 
 # SSCAN is needed for scanning threshold on Pilatus and general scanning
-SSCAN = $(SUPPORT)/sscan/2-8-1
+SSCAN = $(SUPPORT)/sscan/2-11
 
 # CALC is needed for the NDStats plugin
-CALC = $(SUPPORT)/calc/3-1
+CALC = $(SUPPORT)/calc/3-7
 
 # PVA Sources
-PVACCESSCPP       = $(SUPPORT)/pvAccessCPP/4-1-3
-PVDATABASECPP     = $(SUPPORT)/pvDatabaseCPP/4-1-1
-PVDATACPP         = $(SUPPORT)/pvDataCPP/5-0-4
-NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-0-2
+PVACCESSCPP       = $(WORK)/EPICS-CPP-4.7.0/pvAccessCPP
+PVDATABASECPP     = $(WORK)/EPICS-CPP-4.7.0/pvDatabaseCPP
+PVDATACPP         = $(WORK)/EPICS-CPP-4.7.0/pvDataCPP
+NORMATIVETYPESCPP = $(WORK)/EPICS-CPP-4.7.0/normativeTypesCPP
 
 # ADSupport is needed for Windows (contains HDF5 and other external libs)
-ADSUPPORT = $(SUPPORT)/ADSupport/1-2
+ADSUPPORT = $(WORK)/ADSupport
