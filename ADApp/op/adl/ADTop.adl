@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/areaDetector/ADCore/ADApp/op/adl/ADTop.adl"
-	version=030107
+	name="/home/epics/devel/areaDetector-3-2/ADCore/ADApp/op/adl/ADTop.adl"
+	version=030109
 }
 display {
 	object {
 		x=171
 		y=78
 		width=225
-		height=615
+		height=675
 	}
 	clr=14
 	bclr=4
@@ -466,10 +466,76 @@ text {
 	textix="ADC Simulator"
 	align="horiz. right"
 }
+text {
+	object {
+		x=20
+		y=335
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Perkin Elmer"
+	align="horiz. right"
+}
 "related display" {
 	object {
 		x=145
-		y=435
+		y=335
+		width=64
+		height=20
+	}
+	display[0] {
+		label="Perkin Elmer #1 general"
+		name="ADBase.adl"
+		args="P=13PE1:, R=cam1: "
+	}
+	display[1] {
+		label="Perkin Elmer #1 specific"
+		name="PerkinElmer.adl"
+		args="P=13PE1:, R=cam1:"
+	}
+	clr=14
+	bclr=51
+}
+text {
+	object {
+		x=30
+		y=310
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="NDStdArrays"
+	align="horiz. right"
+}
+"related display" {
+	object {
+		x=145
+		y=310
+		width=64
+		height=20
+	}
+	display[0] {
+		label="NDStdArrays #1 general"
+		name="ADBase.adl"
+		args="P=13NDSA1:, R=cam1: "
+	}
+	display[1] {
+		label="NDStdArrays #1 specific"
+		name="NDDriverStdArrays.adl"
+		args="P=13NDSA1:, R=cam1:"
+	}
+	clr=14
+	bclr=51
+}
+"related display" {
+	object {
+		x=145
+		y=460
 		width=64
 		height=20
 	}
@@ -499,7 +565,7 @@ text {
 text {
 	object {
 		x=50
-		y=435
+		y=460
 		width=90
 		height=20
 	}
@@ -512,7 +578,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=360
+		y=385
 		width=64
 		height=20
 	}
@@ -532,7 +598,7 @@ text {
 text {
 	object {
 		x=70
-		y=360
+		y=385
 		width=70
 		height=20
 	}
@@ -545,7 +611,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=385
+		y=410
 		width=64
 		height=20
 	}
@@ -565,7 +631,7 @@ text {
 text {
 	object {
 		x=69
-		y=385
+		y=410
 		width=70
 		height=20
 	}
@@ -578,7 +644,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=410
+		y=435
 		width=64
 		height=20
 	}
@@ -598,7 +664,7 @@ text {
 text {
 	object {
 		x=39
-		y=410
+		y=435
 		width=100
 		height=20
 	}
@@ -611,7 +677,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=560
+		y=585
 		width=64
 		height=20
 	}
@@ -641,7 +707,7 @@ text {
 text {
 	object {
 		x=50
-		y=560
+		y=585
 		width=90
 		height=20
 	}
@@ -654,7 +720,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=535
+		y=560
 		width=64
 		height=20
 	}
@@ -674,7 +740,7 @@ text {
 text {
 	object {
 		x=90
-		y=535
+		y=560
 		width=50
 		height=20
 	}
@@ -687,40 +753,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=585
-		width=64
-		height=20
-	}
-	display[0] {
-		label="URL #1 general"
-		name="ADBase.adl"
-		args="P=13URL1:, R=cam1: "
-	}
-	display[1] {
-		label="URL #1 specific"
-		name="URLDriver.adl"
-		args="P=13URL1:, R=cam1:"
-	}
-	clr=14
-	bclr=51
-}
-text {
-	object {
-		x=110
-		y=585
-		width=30
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="URL"
-	align="horiz. right"
-}
-"related display" {
-	object {
-		x=145
-		y=510
+		y=535
 		width=64
 		height=20
 	}
@@ -740,7 +773,7 @@ text {
 text {
 	object {
 		x=109
-		y=510
+		y=535
 		width=30
 		height=20
 	}
@@ -753,7 +786,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=485
+		y=510
 		width=64
 		height=20
 	}
@@ -773,7 +806,7 @@ text {
 text {
 	object {
 		x=90
-		y=485
+		y=510
 		width=50
 		height=20
 	}
@@ -786,7 +819,7 @@ text {
 "related display" {
 	object {
 		x=145
-		y=460
+		y=485
 		width=64
 		height=20
 	}
@@ -805,9 +838,9 @@ text {
 }
 text {
 	object {
-		x=90
-		y=460
-		width=50
+		x=50
+		y=485
+		width=90
 		height=20
 	}
 	"basic attribute" {
@@ -816,79 +849,101 @@ text {
 	textix="PvaDriver"
 	align="horiz. right"
 }
-composite {
-	object {
-		x=20
-		y=335
-		width=189
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=20
-				y=335
-				width=120
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Perkin Elmer"
-			align="horiz. right"
-		}
-		"related display" {
-			object {
-				x=145
-				y=335
-				width=64
-				height=20
-			}
-			display[0] {
-				label="Perkin Elmer #1 general"
-				name="ADBase.adl"
-				args="P=13PE1:, R=cam1: "
-			}
-			display[1] {
-				label="Perkin Elmer #1 specific"
-				name="PerkinElmer.adl"
-				args="P=13PE1:, R=cam1:"
-			}
-			clr=14
-			bclr=51
-		}
-	}
-}
 text {
 	object {
-		x=20
-		y=310
-		width=120
+		x=50
+		y=360
+		width=90
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="NDStdArrays"
+	textix="Photon II"
 	align="horiz. right"
 }
 "related display" {
 	object {
 		x=145
-		y=310
+		y=360
 		width=64
 		height=20
 	}
 	display[0] {
-		label="NDStdArrays #1 general"
+		label="Photon II #1 general"
 		name="ADBase.adl"
-		args="P=13NDSA1:, R=cam1: "
+		args="P=13PII_1:, R=cam1: "
 	}
 	display[1] {
-		label="NDStdArrays #1 specific"
-		name="NDDriverStdArrays.adl"
-		args="P=13NDSA1:, R=cam1:"
+		label="Photon II #1 specific"
+		name="PhotonII.adl"
+		args="P=13PII_1:, R=cam1:"
+	}
+	clr=14
+	bclr=51
+}
+text {
+	object {
+		x=110
+		y=635
+		width=30
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="URL"
+	align="horiz. right"
+}
+"related display" {
+	object {
+		x=145
+		y=635
+		width=64
+		height=20
+	}
+	display[0] {
+		label="URL #1 general"
+		name="ADBase.adl"
+		args="P=13URL1:, R=cam1: "
+	}
+	display[1] {
+		label="URL #1 specific"
+		name="URLDriver.adl"
+		args="P=13URL1:, R=cam1:"
+	}
+	clr=14
+	bclr=51
+}
+text {
+	object {
+		x=50
+		y=610
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Spinnaker"
+	align="horiz. right"
+}
+"related display" {
+	object {
+		x=145
+		y=610
+		width=64
+		height=20
+	}
+	display[0] {
+		label="Spinnaker #1 general"
+		name="ADBase.adl"
+		args="P=13SP1:, R=cam1: "
+	}
+	display[1] {
+		label="Spinnaker #1 specific"
+		name="ADSpinnaker.adl"
+		args="P=13SP1:, R=cam1:"
 	}
 	clr=14
 	bclr=51

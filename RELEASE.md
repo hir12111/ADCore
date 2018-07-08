@@ -19,6 +19,439 @@ files respectively, in the configure/ directory of the appropriate release of th
 
 Release Notes
 =============
+R3-3-1 (July 1, 2018)
+======================
+### ADApp/commonDriverMakefile
+* Added qsrv dbd and lib files so that areaDetector IOCs can serve normal EPICS PVs using pvAccess.
+  Thanks to Pete Jemian for this.
+### ADApp/ADSrc
+* Changes in include statements in several files to eliminate warning when building dynamically with
+  Visual Studio.
+### ADApp/ADSrc/Makefile, ADApp/pluginSrc/Makefile, ADApp/pluginTests/Makefile
+* Changed USR_INCLUDES definitions for all user-defined include directories,
+  (for example XML_INCLUDE) from this:
+  ```
+  USR_INCLUDES += -I$(XML2_INCLUDE)
+  ```
+  to this:
+  ```
+  USR_INCLUDES += $(addprefix -I, $(XML2_INCLUDE))
+  ```
+  This allows XML2_INCLUDE to contain multiple directory paths. 
+  
+  Note that these user-defined include directories must __not__ contain the -I in their definitions.  
+  Prior to areaDetector R3-3-1 the areaDetector/configure/EXAMPLE_CONFIG_SITE.local* files incorrectly had
+  the -I flags in them, and these would not work correctly with the Makefiles in this release 
+  (or prior releases) of ADCore or other repositories.
+
+R3-3 (June 27, 2018)
+======================
+### NDArrayPool design changes
+* Previously each plugin used its own NDArrayPool. This design had the problem that it was not really possible 
+  to enforce the maxMemory limits for the driver and plugin chain.  It is the sum of the memory use by the driver 
+  and all plugins that matters, not the use by each individual driver and plugin.  
+* The NDPluginDriver base class was changed to set its pNDArrayPool pointer to the address passed to it in the 
+  NDArray.pNDArrayPool for the NDArray in the callback.  Ultimately all NDArrays are derived from the driver,
+  either directly, or via the NDArrayPool.copy() or NDArrayPool.convert() methods.  This means that plugins
+  now allocate NDArrays from the driver's NDArrayPool, not their own.  Any NDArrays allocated before the first
+  callback still use the plugin's private NDArrayPool, but only a few plugins do this, and these only allocate
+  a single NDArray so they don't use much memory.
+* This means that the maxMemory argument to the driver constuctor now controls
+  the total amount of memory that can be allocated for the driver and all downstream plugins.
+* The maxBuffers argument to all driver and plugin constructors is now ignored.
+  There is now no limit on the number of NDArrays, only on the total amount of memory.
+* The maxBuffers argument to the ADDriver and NDPluginDriver base class constructors are still present so existing drivers 
+  and plugins will work with no changes. This argument is simply ignored. 
+  A second constructor will be added to each base class in the future and the old one will be deprecated.
+* The maxMemory argument to the NDPluginDriver constructor is only used for NDArrays allocated before the
+  first callback, so it can safely be set to 0 (unlimited).
+* The freelist in NDArrayPool was changed from being an EPICS ellList to an std::multiset.  The freelist is 
+  now sorted by the size of the NDArray.  This allows quickly finding an NDArray of the correct size, 
+  and knowing if no such NDArray exists.
+* Previously there was no way to free the memory in the freelist, giving the memory back to the operating system
+  after a large number of NDArrays had been allocated, without restarting the IOC.  The NDArrayPool class now
+  has an emptyFreeList() method that deletes all of the NDArrays in the freelist.  asynNDArrayDriver has a
+  new NDPoolEmptyFreeList parameter, and NDArrayBase.template has a new bo record called $(P)$(R)EmptyFreeList
+  that will empty the freelist when processed.  Note that on Linux the freed memory may not actually be returned
+  to the operating system.  On Centos7 (and presumably many other versions of Linux) setting the value of the 
+  environment variable MALLOC_TRIM_THRESHOLD_ to a small value will allow the memory to actually be returned
+  to the operating system.
+* Improved the efficiency of memory allocation.  Previously the first NDArray that is large enough was returned.
+  Now if the size of the smallest available NDArray exceeds the requested size by a factor of 1.5 then the
+  memory in that NDArray is freed and reallocated to be the requested size.  Thanks to Michael Huth for the first
+  implementation of this.
+* These changes are generally backwards compatible. However, startup scripts that set a non-zero value for 
+  maxMemory in the driver may need to increase this value because all NDArrays are now allocated from this NDArrayPool.
+### Queued array counting and waiting for plugins to complete
+* Previously if one wanted to wait for plugins to complete before the driver indicated that acquisition was complete
+  then one needed to set CallbacksBlock=Yes for each plugin in the chain.
+  Waiting for plugins is needed in cases like the following, for example:
+  - One is doing a step scan and one of the counters for the step-scan is a PV from the statistics plugin. It is necessary to
+    wait for the statistics plugin to complete to be sure the PV value is for current NDArray and not the previous one.
+  - One is doing a scan and writing the NDArrays to a file with one of the file plugins. It is necessary to wait
+    for the file plugin to complete before changing the file name for the next point.
+* There are 2 problems with setting CallbacksBlock=Yes.
+  - It slows down the driver because the plugin is executing in the driver thread and not in its own thread.
+  - It is complicated to change all of the required plugin settings from CallbacksBlock=No to CallbacksBlock=Yes.
+* The NDPluginDriver base class now increments a NumQueuedArrays counter in the driver that owns each NDArray as it is queued, 
+  and decrements the counter after the processing is done. 
+* All drivers have 3 new records:
+  - NumQueuedArrays: This record indicates the total number of NDArrays that are currently processing or are queued
+    for processing by this driver.
+  - WaitForPlugins: This record determines whether AcquireBusy waits for NumQueuedArrays to go to 0 before changing to 0 when acquisition completes.
+  - AcquireBusy This is a busy record that is set to 1 when Acquire changes to 1. It changes back to 0 when acquisition completes, 
+    i.e. when Acquire_RBV=0. If WaitForPlugins is Yes then it also waits for NumQueuedArrays to go to 0 before changing to 0.
+* The ADCollect sub-screen now contains these 3 PVs.
+* The ADBase screen contains the ADCollect screen, so it shows these PVs.
+* Driver screens typically do not use the ADCollect sub-screen, so they need to be individually edited to contain these PVs.  
+  They are not yet all complete.
+* With this new design it should rarely be necessary to change plugins to use CallbacksBlock=Yes.
+### NDArray, NDArrayPool
+* Changes to allow the NDArray class to be inherited by derived classes.  Thanks to Sinisa Veseli for this. 
+* Added the epicsTS (EPICS time stamp) field to the report() output. 
+  Previously the timeStamp field was in the report, but not the epicsTS field was not.
+* NDArrayPool::report() now prints a summary of the freeList entries if details>5 and shows the details
+  of each array in the freeList if details>10.  This information can be printed with "asynReport 6 driverName" for example.
+### NDPluginPva
+* Added call to NDPluginDriver::endProcessCallbacks at the end of processCallbacks().
+  This will do NDArray callbacks if enabled and will copy the last NDArray to pArrays[0] for asynReport.
+### ntndArrayConverter.cpp
+* Added conversion of the NDArray.timeStamp and NDArray.epicsTS fields from EPICS epoch (Jan. 1 1990) to
+  Posix epoch (Jan. 1, 1970). Needed because NDArrays use EPICS epoch but pvAccess uses Posix epoch and the
+  timestamps shown by pvGet were incorrect for the NTNDArrays.
+### NDPluginFile
+* Fixes to readFileBase() so that the ReadFile PV actually works.  This has now been implemented for NDFileTIFF.
+* Return an error if Capture mode is enabled in NDFileModeSingle.
+### NDFileTIFF
+* Added support for readFile() so it is now possible to read a TIFF file into an NDArray using this plugin and 
+  do callbacks to downstream plugins.  
+  - All datatypes (NDDataType_t) are supported.  
+  - It supports Mono, RGB1, and RGB3 color modes.  It also correctly reads files written with RGB2 color mode.
+  - It restores the NDArray fields uniqueID, timeStamp, and epicsTS if they are present.  
+  - It restores all of the NDArray NDAttributes that were written to the TIFF file.  
+    Because of the way the NDAttributes are stored in the TIFF file the restored attributes are all of type NDAttrString, 
+    rather than the numeric data types the attributes may have originally used.
+  - One motivation for adding this capability is for the NDPluginProcess plugin to be able to read TIFF files
+    for the background and flat field images, rather than needing to collect them each time it is used.
+### NDPluginProcess
+* Load a dedicated TIFF plugin for the NDPluginProcess plugin in commonPlugins.cmd.  This TIFF plugin is used for reading
+  background or flatfield TIFF files.
+* Add an sseq record to load the background image from a TIFF file. This executes all the following steps:
+  1. Saves the current NDArrayPort fo the Process plugin to a temporary location
+  2. Sets the NDArrayPort to the TIFF plugin.
+  3. Enables ArrayCallbacks for the TIFF plugin in case they were disabled.
+  4. Process the ReadFile record in the TIFF plugin.  This reads the TIFF file and does callback to the Process plugin.
+  5. Loads the NDArray from the callback into the background image.
+  6. Restores the previous NDArrayPort from the temporary location.
+* Add an sseq record to load the flatfile from a TIFF file.  This executes the same steps as for the background
+  above, except that in step 5 it loads the NDArray into the flatfile image.
+### NDPluginStats
+* Changed the time series to use NDPluginTimeSeries, rather than having the time series logic in NDPluginStats.
+  This reduced the code by 240 lines, while adding the capability of running in Circular Buffer mode, 
+  not just a fixed number of time points.
+* NOTE: The names of the time series arrays for each statistic have not changed.  However, the name of the PVs to control
+  the time series acquisition have changed, for example from $(P)$(R)TSControl, to $(P)$(R)TS:TSAcquire.  This may
+  require changes to clients that were controlling time series acquisitions.
+* EXAMPLE_commonPlugins.cmd has changed to load an NDPluginTimeSeries plugin and database for each NDPluginStats plugin,
+  so the local commonPlugins.cmd file must be updated.
+### ADApp/Db/
+* Added default ADDR=0 and TIMEOUT=1 to many template files.  This means these values do not need to be specified
+  when loading these databases if these defaults are acceptable, which is often the case.
+### ADApp/op/adl
+* Fixes to a number of .adl files to set text widget size and alignment, etc. to improve conversion to .opi and .ui files.
+### ADApp/op/edl/autoconvert
+* Major improvement in quality of edm screens (colors, fonts, etc.) thanks to Bruce Hill.
+### ADApp/pluginTests
+* Added a new unit test, test_NDArrayPool to test NDArrayPool::alloc().
+* All unit tests were changed to create an asynNDArrayDriver and use the NDArrayPool from that, rather than directly
+  creating an NDArrayPool.
+
+R3-2 (January 28, 2018)
+======================
+### NDPluginStats
+* Previously the X axis for the histogram plot was just the histogram bin number.
+  Added code to compute an array of intensity values and a new HistHistogramX_RBV waveform record which
+  contains the intensity values for the X axis of the histogram plot.
+  This uses a new NDPlotXY.adl medm screen which accepts both X and Y waveform records to plot.
+### NDPluginFile
+* Changed the way that capture mode is implemented.
+  Previously it created NumCapture NDArrays using the "new" operator.
+  As NDArrays arrived it copied the data and attributes into these arrays.
+  This had several problems:
+  - The NDArrays were not allocated from the NDArrayPool, so memory limits were not enforced.
+  - Because they were not allocated from the NDArrayPool if they were passed to other functions
+    or plugins there would be problems with attempts to call NDArray::reserve() or release().
+  - The copy operation is inefficient and not a good idea.
+
+  The change was to simply allocate an array of NumCapture pointers.  As NDArrays arrive
+  their reference count is incremented with reserve() and the pointer is copied to the array.
+  After the files are written the cleanup routine now simply decrements the reference counter
+  with release(), rather than having to delete the NDArray.
+  The new scheme is much cleaner.  It will require setting the memory and array limits
+  for the NDArrayPool to be large enough to buffer NumCapture frames, whereas previously
+  this would not have been required.  It may thus require some changes to startup scripts.
+### NDFileHDF5
+* Added support for blosc compression library.  The compressors include blosclz, lz4, lz4hc, snappy, zlib, and zstd.
+  There is also support for ByteSuffle and BitShuffle.
+  ADSupport now contains the blosc library, so it is available for most architectures.  
+  The build flags WITH_BLOSC, BLOSC_EXTERNAL, and BLOSC_LIB have been added, similar to other optional libraries.
+  Thanks to Xiaoqiang Wang for this addition.
+* Changed all output records in NDFileHDF.template to have PINI=YES.  This is how other plugins all work.
+### NDPluginOverlay
+* Improved the behavior when changing the size of an overlay. Previously the Position was always preserved when 
+  the Size was changed. This was not the desired behavior when the user had set the Center rather than Position.
+  Now the code remembers whether Position or Center was last set, and preserves the appropriate value when 
+  the Size is changed.
+* Overlays were previously constrained to fit inside the image on X=0 and Y=0 edges.  However, the user may want part of 
+  the overlay to be outside the image area. The location of the overlay can now be set anywhere, including negative positions.
+  Each pixel in the overlay is now only added if it is within the image area.
+* Fixed problems with incorrect drawing and crashing if part of an overlay was outside the image area.
+* Removed rounding when setting the center from the position or the position from the center.
+  This was causing the location to change when setting the same center or position.
+* Changed the cross overlay so that it is drawn symmetrically with the same number of pixels on each side of the center.
+  This means the actual size is 2*Size/2 + 1, which will be Size+1 if Size is even.
+### asynNDArrayDriver
+* Added a second checkPath() method which takes an std::string argument for the path to check.
+  It adds the  appropriate terminator if not present, but does not set the NDFilePath parameter.
+  This new method is now used by the existing checkPath() method, but can also be used by other code.
+### Operator displays (medm, edm, caQtDM, CSS-BOY)
+* Fixed medm files in several ways:
+  - Text graphics widget sizes are set to the actual size of the text.  medm will display text outside the widget if it
+    is not large enough, but other display managers will not.
+  - Text update widgets were set to the correct datatype.  medm will display an enum widget as a string even if
+    the datatype is set to "decimal" rather than "string", but other display managers will not.
+  - Text widgets in titles that use macros (e.g. $(P)$(R)) were set to be as large as possible so they can display
+    long PV names with display managers that won't display text outside of the widget.
+* Added ADApp/op/Makefile.  This Makefile runs the conversion tools to convert the medm adl files to edl for edm,
+  ui for caQtDM, and opi for CSS-BOY.  A RULES_OPI file was added to synApps/support/configure to support this.
+  If that RULES_OPI file is not found the Makefile does nothing. If the RULES_OPI file is found then a CONFIG_SITE
+  file in synApps/configure or in EPICS base must define these symbols:
+  - ADL2EDL is the path to adl2edl for edm
+  - ADL2UI is the path to adl2ui for caQtDM
+  - CSS is the path to css.  It must be a recent version that supports the command 
+```
+   css -nosplash -application org.csstudio.opibuilder.adl2boy.application
+```
+* The edl/autoconvert, ui/autoconvert, and opi/autoconvert directories contain new conversions of all of the medm files.
+* The edl, ui, and opi directories are intended to contain manually tweaked versions of the files.  Many of the
+  files in these directories have been removed, either because they were actually old autoconverted files, or because
+  they are obsolete and the new autoconverted files are better.
+### commonDriverMakefile
+* The variable PROD_NAME has been replaced with DBD_NAME.  This makes it clear that this variable is used to
+  specify the name of the application DBD file.  It allows different architectures to use different DBD file 
+  names.  For backwards compatibility if PROD_NAME is specified and DBD_NAME is not then DBD_NAME will be
+  set to PROD_NAME.
+### NDFileTIFF
+* Improved asynTrace debugging.
+### NDPluginAttrPlot
+* Bug fix, start the plugin in the constructor.
+### NDPluginROIStat
+* Fixed array delete at end of processCallbacks().
+### ntndArrayConvert.cpp
+* Minor fix to work with EPICS 7.
+### NDPluginDriver
+* Force queueSize to be >=1 when creating queues in createCallbackThreads.  Was crashing when autosave value was 0.
+### NDScatter.template
+* Removed SCAN=I/O Intr for an output record which was a mistake and could cause crashes.
+### pluginTests/Makefile
+* Fixed errors with extra parentheses that were preventing include USR_INCLUDES directories from being added.
+### XML_schema/NDAttributes.xsd
+* Removed the "when" attribute, this is not supported in NDAttributes XML files, only in NDFileHDF5 layout XML files.
+### EPICS V4 (pvAccess)
+* Changed the Makefile variable from WITH_EPICS_V4 to WITH_PVA.  This is more consistent with the EPICS 7
+  release, where the V4 name is no longer used.
+
+R3-1 (July 3, 2017)
+======================
+### GraphicsMagick
+* Changes to commonDriverMakefile and commonLibraryMakefile so they work GraphicsMagick both from
+  its recent addition to ADSupport R1-3 (GRAPHICSMAGICK_EXTERNAL=NO) and as a
+  system library (GRAPHICSMAGIC_EXTERNAL=YES).
+* Added support for 32-bit images in NDFileMagick.
+* Improved the documentation for NDFileMagick.
+### pluginSrc/Makefile, pluginTests/Makefile
+* Fixed some problems with XXX_INCLUDE definitions (XXX=HDF5, XML2, SZIP, GRAPHICSMAGICK, BOOST).
+### NDPluginDriver
+* Fixed limitation where the ArrayPort string was limited to 20 characters.  There is now no limit.
+* Fixed problem with the value of the QueueFree record at startup and when the queue size was changed.
+  The queue size logic was OK but the displayed value of QueueFree was wrong.
+### ADTop.adl
+* Add PhotonII detector.
+### NDPluginAttrPlot
+* Added documentation.
+### NDPluginPva
+* Added performance measurements to documentation.
+### 
+### asynNDArrayDriver.h
+* Include ADCoreVersion.h from this file so drivers don't need to explicitly include it.
+
+
+R3-0 (May 5, 2017)
+======================
+### Requirements
+* This release requires EPICS base 3.14.12.4 or higher because it uses the CFG rules which were fixed
+  in that release.
+### Incompatible changes
+* This release is R3-0 rather than R2-7 because a few changes break backwards compatibility.
+  * The constructors for asynNDArray driver and NDPluginDriver no longer take a numParams argument.
+    This takes advantage of the fact that asynPortDriver no longer requires parameter counting as of R4-31.
+    The constructor for ADDriver has not been similarly changed because this would require changing all drivers,
+    and it was decided to wait until future changes require changing drivers before doing this.
+  * The constructor for NDPluginDriver now takes an additional maxThreads argument.
+  * NDPluginDriver::processCallbacks() has been renamed to NDPluginDriver::beginProcessCallbacks().
+  * These changes will require minor modifications to any user-written plugins and any drivers that are derived directly
+    from asynNDArrayDriver.  
+  * All of the plugins in ADCore, and other plugins in the areaDetector project
+    (ADPluginEdge, ffmpegServer, FastCCP, ADPCO, ADnED) have had these changes made.
+  * The constructors and iocsh configuration commands for NDPluginStdArrays and NDPluginPva have been changed 
+    to add the standard maxBuffers argument.  EXAMPLE_commonPlugins.cmd has had these changes made.
+    Local startup scripts may need modifications.
+### Multiple threads in single plugins (NDPluginDriver, NDPluginBase.template, NDPluginBase.adl, many plugins)
+* Added support for multiple threads running the processCallbacks() function in a single plugin.  This can improve
+  the performance of the plugin by a large factor.  Linear scaling with up to 5 threads (the largest
+  value tested) was observed for most of the plugins that now support multiple threads.
+  The maximum number of threads that can be used for the plugin is set in the constructor and thus in the 
+  IOC startup script.  The actual number of threads to use can be controlled via an EPICS PV at run time, 
+  up to the maximum value passed to the constructor.
+  Note that plugins need to be modified to be thread-safe for multiple threads running in a single plugin object.
+  The following table describes the support for multiple threads in current plugins.
+  
+| Plugin               | Supports multiple threads | Comments                                                      |
+| ------               | ------------------------- | --------                                                      |
+| NDPluginFile         | No                        | File plugins are nearly always limited by the file I/O, not CPU |
+| NDPluginAttribute    | No                        | Plugin does not do any computation, no gain from multiple threads |
+| NDPluginCircularBuff | No                        | Plugin does not do any computation, no gain from multiple threads |
+| NDPluginColorConvert | Yes                       | Multiple threads supported and tested |
+| NDPluginFFT          | Yes                       | Multiple threads supported and tested |
+| NDPluginGather       | No                        | Plugin does not do any computation, no gain from multiple threads |
+| NDPluginOverlay      | Yes                       | Multiple threads supported and tested |
+| NDPluginProcess      | No                        | The recursive filter stores results in the object itself, hard to make thread safe |
+| NDPluginPva          | No                        | Plugin is very fast, probably not much gain from multiple threads |
+| NDPluginROI          | Yes                       | Multiple threads supported and tested |
+| NDPluginROIStat      | Yes                       | Multiple threads supported and tested. Note: the time series arrays may be out of order if using multiple threads |
+| NDPluginScatter      | No                        | Plugin does not do any computation, no gain from multiple threads |
+| NDPluginStats        | Yes                       | Multiple threads supported and tested. Note: the time series arrays may be out of order if using multiple threads |
+| NDPluginStdArrays    | Yes                       | Multiple threads supported and tested. Note: the callbacks to the waveform records may be out of order if using multiple threads|
+| NDPluginTimeSeries   | No                        | Plugin does not do much computation, no gain from multiple threads |
+| NDPluginTransform    | Yes                       | Multiple threads supported and tested. |
+| NDPosPlugin          | No                        | Plugin does not do any computation, no gain from multiple threads |
+
+* Added a new endProcessCallbacks method so derived classes do not need to each implement the logic to call 
+  downstream plugins.  This method supports optionally sorting the output callbacks by the NDArray::UniqueId
+  value.  This is very useful when running multiple threads in the plugin, because these are likely to do
+  their output callbacks in the wrong order.  The base class will sort the output NDArrays to be in the correct
+  order when possible.  The sorting capability is also useful for the new NDPluginGather plugin, even though
+  it only uses a single thread.
+* Renamed NDPluginDriver::processCallbacks() to NDPluginDriver::beginProcessCallbacks(). This makes it clearer
+  that this method is intended to be called at the beginning of processCallbacks() in the derived class.
+  NDPluginDriver::processCallbacks() is now a pure virtual function, so it must be implemented in the derived
+  class.
+* Added new parameter NDPluginProcessPlugin and new bo record ProcessPlugin.  NDPluginDriver now stores
+  the last NDArray it receives.  If the ProcessPlugin record is processed then the plugin will execute
+  again with this last NDArray.  This allows modifying plugin behaviour and observing the results
+  without requiring the underlying detector to collect another NDArray.  If the plugin is disabled then
+  the NDArray is released and returned to the pool.
+* Moved many of the less commonly used PVs from NDPluginBase.adl to new file NDPluginBaseFull.adl.  This reduces the screen
+  size for most plugin screens, and hides the more obscure PVs from the casual user.  The More related display widget in
+  NDPluginBase.adl can now load both the asynRecord.adl and the NDPluginBaseFull.adl screens.
+* iocBoot/EXAMPLE_commonPlugins.cmd now accepts an optional MAX_THREADS environment variable.  This defines
+  the maximum number of threads to use for plugins that can run in multiple threads.  The default is 5.
+
+### NDPluginScatter
+* New plugin NDPluginScatter is used to distribute (scatter) the processing of NDArrays to multiple downstream plugins.
+  It allows multiple intances of a plugin to process NDArrays in parallel, utilizing multiple cores 
+  to increase throughput. It is commonly used together with NDPluginGather, which gathers the outputs from 
+  multiple plugins back into a single stream. 
+  This plugin works differently from other plugins that do callbacks to downstream plugins.
+  Other plugins pass each NDArray that they generate of all downstream plugins that have registered for callbacks.
+  NDPluginScatter does not do this, rather it passes each NDArray to only one downstream plugin.
+  The algorithm for chosing which plugin to pass the next NDArray to can be described as a modified round-robin.
+  The first NDArray is passed to the first registered callback client, the second NDArray to the second client, etc. 
+  After the last client the next NDArray goes to the first client, and so on. The modification to strict round-robin 
+  is that if client N input queue is full then an attempt is made to send the NDArray to client N+1,
+  and if this would fail to client N+2, etc. If no clients are able to accept the NDArray because their queues are 
+  full then the last client that is tried (N-1) will drop the NDArray. Because the "last client" rotates according 
+  to the round-robin schedule the load of dropped arrays will be uniform if all clients are executing at the same
+  speed and if their queues are the same size.
+
+### NDPluginGather
+* New plugin NDPluginGather is used to gather NDArrays from multiple upstream plugins and merge them into a single stream. 
+  When used together with NDPluginScatter it allows multiple intances of a plugin to process NDArrays
+  in parallel, utilizing multiple cores to increase throughput.
+  This plugin works differently from other plugins that receive callbacks from upstream plugins.
+  Other plugins subscribe to NDArray callbacks from a single upstream plugin or driver. 
+  NDPluginGather allows subscribing to callbacks from any number of upstream plugins. 
+  It combines the NDArrays it receives into a single stream which it passes to all downstream plugins. 
+  The EXAMPLE_commonPlugins.cmd and medm files in ADCore allow up to 8 upstream plugins, but this number can 
+  easily be changed by editing the startup script and operator display file.
+
+### NDPluginAttrPlot
+ * New plugin that caches NDAttribute values for an acquisition and exposes values of the selected ones to the EPICS 
+   layer periodically.  Written by Blaz Kranjc from Cosylab.  No documentation yet, but it should be coming soon.
+
+### asynNDArrayDriver, NDFileNexus
+* Changed XML file parsing from using TinyXml to using libxml2.  TinyXml was originally used because libxml2 was not
+  available for vxWorks and Windows.  libxml2 was already used for NDFileHDF5 and NDPosPlugin, originally using pre-built
+  libraries for Windows in ADBinaries.  ADSupport now provides libxml2, so it is available for all platforms, and
+  there is no need to continue building and using TinyXml.  This change means that libxml2 is now required, and so
+  the build option WITH_XML2 is no longer used.  XML2_EXTERNAL is still used, depending on whether the version
+  in ADSupport or an external version of the library should be used.  The TinyXml source code has been removed from
+  ADCore.
+* Added support for macro substitution in the XML files used to define NDAttributes.  There is a new NDAttributesMacros
+  waveform record that contains the macro substitution strings, for example "CAMERA=13SIM1:cam1:,ID=ID34:".
+* Added a new NDAttributesStatus mbbi record that contains the status of reading the attributes XML file.
+  It is used to indicate whether the file cannot be found, if there is an XML syntax error, or if there is a
+  macro substitutions error.
+
+### PVAttribute
+* Fixed a race condition that could result in PVAttributes not being connected to the channel.  This was most likely
+  to occur for local PVs in the areaDetector IOC where the connection callback would happen immediately, before the
+  code had been initialized to handle the callback. The race condition was introduced in R2-6.
+  
+### NDFileHDF5
+* Fixed a problem with PVAttributes that were not connected to a PV.  Previously this generated errors from the HDF5
+  library because an invalid datatype of -1 was used.  Now the data type for such disconnected attributes is set to
+  H5T_NATIVE_FLOAT and the fill value is set to NAN.  No data is written from such attributes to the file, so the
+  fill value is used.
+
+### Plugin internals
+* All plugins were modified to no longer count the number of parameters that they define, taking advantage of
+  this feature that was added to asynPortDriver in asyn R4-31.
+* All plugins were modified to call NDPluginDriver::beginProcessCallbacks() rather than 
+  NDPluginDriver::processCalbacks() at the beginning of processCallbacks() as described above.
+* Most plugins were modified to call NDPluginDriver::endProcessCallbacks() near the end of processCallbacks().
+  This takes care of doing the NDArray callbacks to downstream plugins, and sorting the output NDArrays if required.
+  It also handles the logic of caching the last NDArray in this->pArrays[0].  This significantly simplifies the code
+  in the derived plugin classes.
+* Previously all plugins were releasing the asynPortDriver lock when calling doCallbacksGenericPointer().
+  This was based on a very old observation of a deadlock problem if the the lock was not released.  Releasing
+  the lock causes serious problems with plugins running multiple threads, and probably was never needed.  Most
+  plugins no longer call doCallbacksGenericPointer() directly because it is now done in NDPluginDriver::endProcessCallbacks().
+  The lock is no longer released when calling doCallbacksGenericPointer().  The simDetector driver has also been modified
+  to no longer release the lock when calling plugins with doCallbacksGenericPointer(), and all other drivers should be
+  modified as well.  It is not really a problem with drivers however, since the code doing those callbacks is normally
+  only running in a single thread.
+
+### commonLibraryMakefile, commonDriverMakefile
+* These files are now installed in the top-level $(ADCORE)/cfg directory.  External software that uses these files
+  (e.g. plugins and drivers not in ADCore) should be changed to use this location rather than $(ADCORE)/ADApp/ since
+  the location of the files in the source tree could change in the future.
+
+### NDOverlayN.template
+* Removed PINI=YES from CenterX and CenterY records.  Only PositionX/Y should have PINI=YES, otherwise
+  the behavior depends on the order of execution with SizeX/Y.
+
+### Viewers
+* The ADCore/Viewers directory containing the ImageJ and IDL viewers has been moved to its own 
+[ADViewers repository](https://github.com/areaDetector/ADViewers).
+* It now contains a new ImageJ EPICS_NTNDA_Viewer plugin written by Tim Madden and Marty Kraimer.  
+  It is essentially identical to EPICS_AD_Viewer.java except that it displays NTNDArrays from the NDPluginPva plugin, 
+  i.e. using pvAccess to transport the images rather than NDPluginStdArrays which uses Channel Access.
+* EPICS_AD_Viewer.java has been changed to work with the new ProcessPlugin feature in NDPluginDriver by monitoring
+  ArrayCounter rather than UniqueId.
+  
+
+
 R2-6 (February 19, 2017)
 ========================
 
@@ -712,7 +1145,7 @@ epicsTimeStamp epicsTS;  /**< The epicsTimeStamp; this is set with
 ### NDPluginROI. 
 * Make 3-D [X, Y, 1] arrays be converted to 2-D even if they are not RGB3. 
 
-###NDPluginStats. 
+### NDPluginStats. 
 * Fixed bug if a dimension was 1; this bug was introduced when changing dimensions to size_t. 
 
 ### NDFileNetCDF. 

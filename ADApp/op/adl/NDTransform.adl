@@ -1,14 +1,14 @@
 
 file {
 	name="/home/epics/devel/areaDetector/ADCore/ADApp/op/adl/NDTransform.adl"
-	version=030107
+	version=030109
 }
 display {
 	object {
-		x=598
-		y=73
+		x=469
+		y=30
 		width=390
-		height=815
+		height=765
 	}
 	clr=14
 	bclr=4
@@ -100,9 +100,9 @@ rectangle {
 }
 text {
 	object {
-		x=10
+		x=0
 		y=6
-		width=370
+		width=390
 		height=25
 	}
 	"basic attribute" {
@@ -116,7 +116,7 @@ composite {
 		x=5
 		y=40
 		width=380
-		height=605
+		height=555
 	}
 	"composite name"=""
 	"composite file"="NDPluginBase.adl"
@@ -124,7 +124,7 @@ composite {
 rectangle {
 	object {
 		x=5
-		y=650
+		y=600
 		width=380
 		height=160
 	}
@@ -136,7 +136,7 @@ rectangle {
 text {
 	object {
 		x=15
-		y=657
+		y=607
 		width=140
 		height=20
 	}
@@ -148,7 +148,7 @@ text {
 menu {
 	object {
 		x=160
-		y=657
+		y=607
 		width=120
 		height=20
 	}
@@ -161,7 +161,7 @@ menu {
 composite {
 	object {
 		x=282
-		y=686
+		y=636
 		width=13
 		height=19
 	}
@@ -170,7 +170,7 @@ composite {
 		polyline {
 			object {
 				x=293
-				y=686
+				y=636
 				width=2
 				height=19
 			}
@@ -180,14 +180,14 @@ composite {
 				width=2
 			}
 			points {
-				(294,687)
-				(294,704)
+				(294,637)
+				(294,654)
 			}
 		}
 		polyline {
 			object {
 				x=282
-				y=686
+				y=636
 				width=13
 				height=2
 			}
@@ -197,14 +197,14 @@ composite {
 				width=2
 			}
 			points {
-				(294,687)
-				(283,687)
+				(294,637)
+				(283,637)
 			}
 		}
 		polyline {
 			object {
 				x=283
-				y=693
+				y=643
 				width=12
 				height=2
 			}
@@ -214,8 +214,8 @@ composite {
 				width=2
 			}
 			points {
-				(294,694)
-				(284,694)
+				(294,644)
+				(284,644)
 			}
 		}
 	}
@@ -223,7 +223,7 @@ composite {
 composite {
 	object {
 		x=282
-		y=713
+		y=663
 		width=19
 		height=13
 	}
@@ -232,7 +232,7 @@ composite {
 		polyline {
 			object {
 				x=282
-				y=713
+				y=663
 				width=19
 				height=2
 			}
@@ -242,14 +242,14 @@ composite {
 				width=2
 			}
 			points {
-				(283,714)
-				(300,714)
+				(283,664)
+				(300,664)
 			}
 		}
 		polyline {
 			object {
 				x=282
-				y=713
+				y=663
 				width=2
 				height=13
 			}
@@ -259,14 +259,14 @@ composite {
 				width=2
 			}
 			points {
-				(283,714)
-				(283,725)
+				(283,664)
+				(283,675)
 			}
 		}
 		polyline {
 			object {
 				x=289
-				y=713
+				y=663
 				width=2
 				height=12
 			}
@@ -276,8 +276,8 @@ composite {
 				width=2
 			}
 			points {
-				(290,714)
-				(290,724)
+				(290,664)
+				(290,674)
 			}
 		}
 	}
@@ -285,7 +285,7 @@ composite {
 composite {
 	object {
 		x=282
-		y=734
+		y=684
 		width=13
 		height=19
 	}
@@ -294,7 +294,7 @@ composite {
 		polyline {
 			object {
 				x=282
-				y=734
+				y=684
 				width=2
 				height=19
 			}
@@ -304,14 +304,14 @@ composite {
 				width=2
 			}
 			points {
-				(283,752)
-				(283,735)
+				(283,702)
+				(283,685)
 			}
 		}
 		polyline {
 			object {
 				x=282
-				y=751
+				y=701
 				width=13
 				height=2
 			}
@@ -321,14 +321,14 @@ composite {
 				width=2
 			}
 			points {
-				(283,752)
-				(294,752)
+				(283,702)
+				(294,702)
 			}
 		}
 		polyline {
 			object {
 				x=282
-				y=744
+				y=694
 				width=12
 				height=2
 			}
@@ -338,8 +338,8 @@ composite {
 				width=2
 			}
 			points {
-				(283,745)
-				(293,745)
+				(283,695)
+				(293,695)
 			}
 		}
 	}
@@ -347,7 +347,7 @@ composite {
 composite {
 	object {
 		x=282
-		y=762
+		y=712
 		width=19
 		height=13
 	}
@@ -356,7 +356,7 @@ composite {
 		polyline {
 			object {
 				x=282
-				y=773
+				y=723
 				width=19
 				height=2
 			}
@@ -366,14 +366,14 @@ composite {
 				width=2
 			}
 			points {
-				(300,774)
-				(283,774)
+				(300,724)
+				(283,724)
 			}
 		}
 		polyline {
 			object {
 				x=299
-				y=762
+				y=712
 				width=2
 				height=13
 			}
@@ -383,14 +383,14 @@ composite {
 				width=2
 			}
 			points {
-				(300,774)
-				(300,763)
+				(300,724)
+				(300,713)
 			}
 		}
 		polyline {
 			object {
 				x=292
-				y=763
+				y=713
 				width=2
 				height=12
 			}
@@ -400,17 +400,17 @@ composite {
 				width=2
 			}
 			points {
-				(293,774)
-				(293,764)
+				(293,724)
+				(293,714)
 			}
 		}
 	}
 }
 text {
 	object {
-		x=200
-		y=685
-		width=77
+		x=217
+		y=635
+		width=60
 		height=20
 	}
 	"basic attribute" {
@@ -421,9 +421,9 @@ text {
 }
 text {
 	object {
-		x=200
-		y=710
-		width=77
+		x=167
+		y=660
+		width=110
 		height=20
 	}
 	"basic attribute" {
@@ -434,9 +434,9 @@ text {
 }
 text {
 	object {
-		x=200
-		y=735
-		width=77
+		x=157
+		y=685
+		width=120
 		height=20
 	}
 	"basic attribute" {
@@ -447,9 +447,9 @@ text {
 }
 text {
 	object {
-		x=200
-		y=760
-		width=77
+		x=157
+		y=710
+		width=120
 		height=20
 	}
 	"basic attribute" {
@@ -460,9 +460,9 @@ text {
 }
 text {
 	object {
-		x=20
-		y=685
-		width=77
+		x=57
+		y=635
+		width=40
 		height=20
 	}
 	"basic attribute" {
@@ -473,9 +473,9 @@ text {
 }
 text {
 	object {
-		x=20
-		y=710
-		width=77
+		x=47
+		y=660
+		width=50
 		height=20
 	}
 	"basic attribute" {
@@ -486,9 +486,9 @@ text {
 }
 text {
 	object {
-		x=20
-		y=735
-		width=77
+		x=37
+		y=685
+		width=60
 		height=20
 	}
 	"basic attribute" {
@@ -499,9 +499,9 @@ text {
 }
 text {
 	object {
-		x=20
-		y=760
-		width=77
+		x=37
+		y=710
+		width=60
 		height=20
 	}
 	"basic attribute" {
@@ -513,7 +513,7 @@ text {
 composite {
 	object {
 		x=102
-		y=686
+		y=636
 		width=13
 		height=19
 	}
@@ -522,7 +522,7 @@ composite {
 		polyline {
 			object {
 				x=102
-				y=686
+				y=636
 				width=2
 				height=19
 			}
@@ -532,14 +532,14 @@ composite {
 				width=2
 			}
 			points {
-				(103,687)
-				(103,704)
+				(103,637)
+				(103,654)
 			}
 		}
 		polyline {
 			object {
 				x=102
-				y=686
+				y=636
 				width=13
 				height=2
 			}
@@ -549,14 +549,14 @@ composite {
 				width=2
 			}
 			points {
-				(103,687)
-				(114,687)
+				(103,637)
+				(114,637)
 			}
 		}
 		polyline {
 			object {
 				x=102
-				y=693
+				y=643
 				width=12
 				height=2
 			}
@@ -566,8 +566,8 @@ composite {
 				width=2
 			}
 			points {
-				(103,694)
-				(113,694)
+				(103,644)
+				(113,644)
 			}
 		}
 	}
@@ -575,7 +575,7 @@ composite {
 composite {
 	object {
 		x=102
-		y=713
+		y=663
 		width=19
 		height=13
 	}
@@ -584,7 +584,7 @@ composite {
 		polyline {
 			object {
 				x=102
-				y=713
+				y=663
 				width=19
 				height=2
 			}
@@ -594,14 +594,14 @@ composite {
 				width=2
 			}
 			points {
-				(120,714)
-				(103,714)
+				(120,664)
+				(103,664)
 			}
 		}
 		polyline {
 			object {
 				x=119
-				y=713
+				y=663
 				width=2
 				height=13
 			}
@@ -611,14 +611,14 @@ composite {
 				width=2
 			}
 			points {
-				(120,714)
-				(120,725)
+				(120,664)
+				(120,675)
 			}
 		}
 		polyline {
 			object {
 				x=112
-				y=713
+				y=663
 				width=2
 				height=12
 			}
@@ -628,8 +628,8 @@ composite {
 				width=2
 			}
 			points {
-				(113,714)
-				(113,724)
+				(113,664)
+				(113,674)
 			}
 		}
 	}
@@ -637,7 +637,7 @@ composite {
 composite {
 	object {
 		x=102
-		y=734
+		y=684
 		width=13
 		height=19
 	}
@@ -646,7 +646,7 @@ composite {
 		polyline {
 			object {
 				x=113
-				y=734
+				y=684
 				width=2
 				height=19
 			}
@@ -656,14 +656,14 @@ composite {
 				width=2
 			}
 			points {
-				(114,752)
-				(114,735)
+				(114,702)
+				(114,685)
 			}
 		}
 		polyline {
 			object {
 				x=102
-				y=751
+				y=701
 				width=13
 				height=2
 			}
@@ -673,14 +673,14 @@ composite {
 				width=2
 			}
 			points {
-				(114,752)
-				(103,752)
+				(114,702)
+				(103,702)
 			}
 		}
 		polyline {
 			object {
 				x=103
-				y=744
+				y=694
 				width=12
 				height=2
 			}
@@ -690,8 +690,8 @@ composite {
 				width=2
 			}
 			points {
-				(114,745)
-				(104,745)
+				(114,695)
+				(104,695)
 			}
 		}
 	}
@@ -699,7 +699,7 @@ composite {
 composite {
 	object {
 		x=102
-		y=762
+		y=712
 		width=19
 		height=13
 	}
@@ -708,7 +708,7 @@ composite {
 		polyline {
 			object {
 				x=102
-				y=773
+				y=723
 				width=19
 				height=2
 			}
@@ -718,14 +718,14 @@ composite {
 				width=2
 			}
 			points {
-				(103,774)
-				(120,774)
+				(103,724)
+				(120,724)
 			}
 		}
 		polyline {
 			object {
 				x=102
-				y=762
+				y=712
 				width=2
 				height=13
 			}
@@ -735,14 +735,14 @@ composite {
 				width=2
 			}
 			points {
-				(103,774)
-				(103,763)
+				(103,724)
+				(103,713)
 			}
 		}
 		polyline {
 			object {
 				x=109
-				y=763
+				y=713
 				width=2
 				height=12
 			}
@@ -752,80 +752,69 @@ composite {
 				width=2
 			}
 			points {
-				(110,774)
-				(110,764)
+				(110,724)
+				(110,714)
 			}
 		}
 	}
 }
-composite {
+text {
 	object {
 		x=10
-		y=785
-		width=368
+		y=735
+		width=170
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=10
-				y=785
-				width=170
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Output array size"
-		}
-		"text update" {
-			object {
-				x=251
-				y=786
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)ArraySizeY_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=317
-				y=786
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)ArraySizeZ_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=185
-				y=786
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)ArraySizeX_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Output array size"
+}
+"text update" {
+	object {
+		x=251
+		y=736
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)ArraySizeY_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=317
+		y=736
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)ArraySizeZ_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=185
+		y=736
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)ArraySizeX_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
 	}
 }

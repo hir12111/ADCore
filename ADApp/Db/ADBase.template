@@ -21,7 +21,7 @@ include "NDArrayBase.template"
 record(stringin, "$(P)$(R)Manufacturer_RBV")
 {
    field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MANUFACTURER")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MANUFACTURER")
    field(VAL,  "Unknown")
    field(SCAN, "I/O Intr")
 }
@@ -29,7 +29,7 @@ record(stringin, "$(P)$(R)Manufacturer_RBV")
 record(stringin, "$(P)$(R)Model_RBV")
 {
    field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MODEL")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MODEL")
    field(VAL,  "Unknown")
    field(SCAN, "I/O Intr")
 }
@@ -37,7 +37,7 @@ record(stringin, "$(P)$(R)Model_RBV")
 record(stringin, "$(P)$(R)SerialNumber_RBV")
 {
    field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SERIAL_NUMBER")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SERIAL_NUMBER")
    field(VAL,  "Unknown")
    field(SCAN, "I/O Intr")
 }
@@ -45,7 +45,7 @@ record(stringin, "$(P)$(R)SerialNumber_RBV")
 record(stringin, "$(P)$(R)SDKVersion_RBV")
 {
    field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SDK_VERSION")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SDK_VERSION")
    field(VAL,  "Unknown")
    field(SCAN, "I/O Intr")
 }
@@ -53,7 +53,7 @@ record(stringin, "$(P)$(R)SDKVersion_RBV")
 record(stringin, "$(P)$(R)FirmwareVersion_RBV")
 {
    field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FIRMWARE_VERSION")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))FIRMWARE_VERSION")
    field(VAL,  "Unknown")
    field(SCAN, "I/O Intr")
 }
@@ -61,14 +61,14 @@ record(stringin, "$(P)$(R)FirmwareVersion_RBV")
 record(longin, "$(P)$(R)MaxSizeX_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MAX_SIZE_X")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MAX_SIZE_X")
    field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)$(R)MaxSizeY_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MAX_SIZE_Y")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MAX_SIZE_Y")
    field(SCAN, "I/O Intr")
 }
 
@@ -81,7 +81,7 @@ record(longout, "$(P)$(R)BinX")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))BIN_X")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))BIN_X")
    field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
@@ -89,7 +89,7 @@ record(longout, "$(P)$(R)BinX")
 record(longin, "$(P)$(R)BinX_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))BIN_X")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))BIN_X")
    field(SCAN, "I/O Intr")
 }
 
@@ -97,7 +97,7 @@ record(longout, "$(P)$(R)BinY")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))BIN_Y")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))BIN_Y")
    field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
@@ -105,7 +105,7 @@ record(longout, "$(P)$(R)BinY")
 record(longin, "$(P)$(R)BinY_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))BIN_Y")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))BIN_Y")
    field(SCAN, "I/O Intr")
 }
 
@@ -113,7 +113,7 @@ record(longout, "$(P)$(R)MinX")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MIN_X")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MIN_X")
    field(VAL,  "0")
    info(autosaveFields, "VAL")
 }
@@ -121,7 +121,7 @@ record(longout, "$(P)$(R)MinX")
 record(longin, "$(P)$(R)MinX_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MIN_X")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MIN_X")
    field(SCAN, "I/O Intr")
 }
 
@@ -129,7 +129,7 @@ record(longout, "$(P)$(R)MinY")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MIN_Y")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MIN_Y")
    field(VAL,  "0")
    info(autosaveFields, "VAL")
 }
@@ -137,7 +137,7 @@ record(longout, "$(P)$(R)MinY")
 record(longin, "$(P)$(R)MinY_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))MIN_Y")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))MIN_Y")
    field(SCAN, "I/O Intr")
 }
 
@@ -145,7 +145,7 @@ record(longout, "$(P)$(R)SizeX")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIZE_X")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SIZE_X")
    field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
@@ -153,7 +153,7 @@ record(longout, "$(P)$(R)SizeX")
 record(longin, "$(P)$(R)SizeX_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIZE_X")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SIZE_X")
    field(SCAN, "I/O Intr")
 }
 
@@ -161,7 +161,7 @@ record(longout, "$(P)$(R)SizeY")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIZE_Y")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SIZE_Y")
    field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
@@ -169,7 +169,7 @@ record(longout, "$(P)$(R)SizeY")
 record(longin, "$(P)$(R)SizeY_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIZE_Y")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SIZE_Y")
    field(SCAN, "I/O Intr")
 }
 
@@ -177,7 +177,7 @@ record(bo, "$(P)$(R)ReverseX")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))REVERSE_X")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))REVERSE_X")
    field(ZNAM, "No")
    field(ONAM, "Yes")
    field(VAL,  "0")
@@ -187,7 +187,7 @@ record(bo, "$(P)$(R)ReverseX")
 record(bi, "$(P)$(R)ReverseX_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))REVERSE_X")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))REVERSE_X")
    field(ZNAM, "No")
    field(ONAM, "Yes")
    field(SCAN, "I/O Intr")
@@ -197,7 +197,7 @@ record(bo, "$(P)$(R)ReverseY")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))REVERSE_Y")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))REVERSE_Y")
    field(ZNAM, "No")
    field(ONAM, "Yes")
    field(VAL,  "0")
@@ -207,7 +207,7 @@ record(bo, "$(P)$(R)ReverseY")
 record(bi, "$(P)$(R)ReverseY_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))REVERSE_Y")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))REVERSE_Y")
    field(ZNAM, "No")
    field(ONAM, "Yes")
    field(SCAN, "I/O Intr")
@@ -222,7 +222,7 @@ record(ao, "$(P)$(R)AcquireTime")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ACQ_TIME")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ACQ_TIME")
    field(PREC, "3")
    field(VAL,  "1.0")
    info(autosaveFields, "VAL")
@@ -231,7 +231,7 @@ record(ao, "$(P)$(R)AcquireTime")
 record(ai, "$(P)$(R)AcquireTime_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ACQ_TIME")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ACQ_TIME")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
@@ -240,7 +240,7 @@ record(ao, "$(P)$(R)AcquirePeriod")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ACQ_PERIOD")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ACQ_PERIOD")
    field(PREC, "3")
    field(VAL,  "0")
    info(autosaveFields, "VAL")
@@ -249,7 +249,7 @@ record(ao, "$(P)$(R)AcquirePeriod")
 record(ai, "$(P)$(R)AcquirePeriod_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ACQ_PERIOD")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ACQ_PERIOD")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
@@ -257,7 +257,7 @@ record(ai, "$(P)$(R)AcquirePeriod_RBV")
 record(ai, "$(P)$(R)TimeRemaining_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TIME_REMAINING")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))TIME_REMAINING")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
@@ -269,7 +269,7 @@ record(ao, "$(P)$(R)Gain")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))GAIN")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))GAIN")
    field(VAL,  "1.0")
    field(PREC, "3")
    info(autosaveFields, "VAL")
@@ -278,7 +278,7 @@ record(ao, "$(P)$(R)Gain")
 record(ai, "$(P)$(R)Gain_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))GAIN")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))GAIN")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
@@ -290,7 +290,7 @@ record(mbbo, "$(P)$(R)FrameType")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FRAME_TYPE")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))FRAME_TYPE")
    field(ZRST, "Normal")
    field(ZRVL, "0")
    field(ONST, "Background")
@@ -306,7 +306,7 @@ record(mbbo, "$(P)$(R)FrameType")
 record(mbbi, "$(P)$(R)FrameType_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FRAME_TYPE")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))FRAME_TYPE")
    field(ZRST, "Normal")
    field(ZRVL, "0")
    field(ONST, "Background")
@@ -325,7 +325,7 @@ record(mbbo, "$(P)$(R)ImageMode")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))IMAGE_MODE")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))IMAGE_MODE")
    field(ZRST, "Single")
    field(ZRVL, "0")
    field(ONST, "Multiple")
@@ -339,7 +339,7 @@ record(mbbo, "$(P)$(R)ImageMode")
 record(mbbi, "$(P)$(R)ImageMode_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))IMAGE_MODE")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))IMAGE_MODE")
    field(ZRST, "Single")
    field(ZRVL, "0")
    field(ONST, "Multiple")
@@ -356,7 +356,7 @@ record(mbbo, "$(P)$(R)TriggerMode")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TRIGGER_MODE")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))TRIGGER_MODE")
    field(ZRST, "Internal")
    field(ZRVL, "0")
    field(ONST, "External")
@@ -368,7 +368,7 @@ record(mbbo, "$(P)$(R)TriggerMode")
 record(mbbi, "$(P)$(R)TriggerMode_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TRIGGER_MODE")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))TRIGGER_MODE")
    field(ZRST, "Internal")
    field(ZRVL, "0")
    field(ONST, "External")
@@ -384,7 +384,7 @@ record(longout, "$(P)$(R)NumExposures")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NEXPOSURES")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))NEXPOSURES")
    field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
@@ -392,21 +392,21 @@ record(longout, "$(P)$(R)NumExposures")
 record(longin, "$(P)$(R)NumExposures_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NEXPOSURES")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))NEXPOSURES")
    field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)$(R)NumExposuresCounter_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NEXPOSURES_COUNTER")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))NEXPOSURES_COUNTER")
    field(SCAN, "I/O Intr")
 }
 record(longout, "$(P)$(R)NumImages")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NIMAGES")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))NIMAGES")
    field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
@@ -414,14 +414,14 @@ record(longout, "$(P)$(R)NumImages")
 record(longin, "$(P)$(R)NumImages_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NIMAGES")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))NIMAGES")
    field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)$(R)NumImagesCounter_RBV")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NIMAGES_COUNTER")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))NIMAGES_COUNTER")
    field(SCAN, "I/O Intr")
 }
 
@@ -430,22 +430,56 @@ record(longin, "$(P)$(R)NumImagesCounter_RBV")
 #  and stop                                                       #
 ###################################################################
 
-record(busy, "$(P)$(R)Acquire") {
+record(bo, "$(P)$(R)Acquire") {
    field(DTYP, "asynInt32")
-   field(OUT, "@asyn($(PORT),$(ADDR),$(TIMEOUT))ACQUIRE")
+   field(OUT, "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ACQUIRE")
    field(ZNAM, "Done")
    field(ONAM, "Acquire")
    field(VAL,  "0")
+   field(FLNK, "$(P)$(R)SetAcquireBusy")
+   info(asyn:READBACK, "1")
 }
 
 record(bi, "$(P)$(R)Acquire_RBV") {
    field(DTYP, "asynInt32")
-   field(INP, "@asyn($(PORT),$(ADDR),$(TIMEOUT))ACQUIRE")
+   field(INP, "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ACQUIRE")
    field(ZNAM, "Done")
    field(ZSV,  "NO_ALARM")
    field(ONAM, "Acquiring")
    field(OSV,  "MINOR")
    field(SCAN, "I/O Intr")
+}
+
+record(calcout, "$(P)$(R)SetAcquireBusy")
+{
+    field(INPA, "$(P)$(R)Acquire NPP")
+    field(CALC, "A")
+    field(OOPT, "Transition To Non-zero")
+    field(OUT,  "$(P)$(R)AcquireBusy PP")
+}
+
+record(busy, "$(P)$(R)AcquireBusy") {
+   field(ZNAM, "Done")
+   field(ZSV,  "NO_ALARM")
+   field(ONAM, "Acquiring")
+   field(OSV,  "MINOR")
+   field(VAL,  "0")
+}
+
+record(calcout, "$(P)$(R)ClearAcquireBusy")
+{
+    field(INPA, "$(P)$(R)WaitForPlugins CP")
+    field(INPB, "$(P)$(R)Acquire_RBV CP")
+    field(INPC, "$(P)$(R)NumQueuedArrays CP")
+    field(CALC, "A ? B || (C > 0) : B")
+    field(OOPT, "Transition To Zero")
+    field(OUT,  "$(P)$(R)AcquireBusy PP")
+}
+
+record(bo, "$(P)$(R)WaitForPlugins") {
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   field(VAL,  "0")
 }
 
 ###################################################################
@@ -455,7 +489,7 @@ record(bi, "$(P)$(R)Acquire_RBV") {
 record(mbbi, "$(P)$(R)DetectorState_RBV")
 {
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))STATUS")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))STATUS")
     field(ZRST, "Idle")
     field(ZRVL, "0")
     field(ZRSV, "NO_ALARM")
@@ -500,7 +534,7 @@ record(mbbi, "$(P)$(R)DetectorState_RBV")
 record(waveform, "$(P)$(R)StatusMessage_RBV")
 {
     field(DTYP, "asynOctetRead")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))STATUS_MESSAGE")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))STATUS_MESSAGE")
     field(FTVL, "CHAR")
     field(NELM, "256")
     field(SCAN, "I/O Intr")
@@ -509,7 +543,7 @@ record(waveform, "$(P)$(R)StatusMessage_RBV")
 record(waveform, "$(P)$(R)StringToServer_RBV")
 {
     field(DTYP, "asynOctetRead")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))STRING_TO_SERVER")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))STRING_TO_SERVER")
     field(FTVL, "CHAR")
     field(NELM, "256")
     field(SCAN, "I/O Intr")
@@ -518,7 +552,7 @@ record(waveform, "$(P)$(R)StringToServer_RBV")
 record(waveform, "$(P)$(R)StringFromServer_RBV")
 {
     field(DTYP, "asynOctetRead")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))STRING_FROM_SERVER")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))STRING_FROM_SERVER")
     field(FTVL, "CHAR")
     field(NELM, "256")
     field(SCAN, "I/O Intr")
@@ -529,7 +563,7 @@ record(waveform, "$(P)$(R)StringFromServer_RBV")
 ####################################################################
 record(bo,"$(P)$(R)ReadStatus") {
     field(DTYP,"asynInt32")
-    field(OUT, "@asyn($(PORT),$(ADDR),$(TIMEOUT))READ_STATUS")
+    field(OUT, "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))READ_STATUS")
     field(VAL, "1")
     field(SCAN,"Passive")
     info(autosaveFields, "SCAN")
@@ -543,7 +577,7 @@ record(mbbo, "$(P)$(R)ShutterMode")
 {
     field(PINI, "YES")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_MODE")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_MODE")
     field(ZRST, "None")
     field(ZRVL, "0")
     field(ONST, "EPICS PV")
@@ -557,7 +591,7 @@ record(mbbo, "$(P)$(R)ShutterMode")
 record(mbbi, "$(P)$(R)ShutterMode_RBV")
 {
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_MODE")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_MODE")
     field(ZRST, "None")
     field(ZRVL, "0")
     field(ONST, "EPICS PV")
@@ -571,7 +605,7 @@ record(bo, "$(P)$(R)ShutterControl")
 {
     field(PINI, "YES")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_CONTROL")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_CONTROL")
     field(ZNAM, "Close")
     field(ONAM, "Open")
     field(VAL,  "0")
@@ -580,7 +614,7 @@ record(bo, "$(P)$(R)ShutterControl")
 record(bi, "$(P)$(R)ShutterControl_RBV")
 {
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_CONTROL")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_CONTROL")
     field(ZNAM, "Close")
     field(ONAM, "Open")
     field(SCAN, "I/O Intr")
@@ -589,7 +623,7 @@ record(bi, "$(P)$(R)ShutterControl_RBV")
 record(bi, "$(P)$(R)ShutterStatus_RBV")
 {
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_STATUS")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_STATUS")
     field(ZNAM, "Closed")
     field(ZSV,  "NO_ALARM")
     field(ONAM, "Open")
@@ -601,7 +635,7 @@ record(ao, "$(P)$(R)ShutterOpenDelay")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_OPEN_DELAY")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_OPEN_DELAY")
    field(PREC, "3")
    field(VAL,  "0.0")
    info(autosaveFields, "VAL")
@@ -610,7 +644,7 @@ record(ao, "$(P)$(R)ShutterOpenDelay")
 record(ai, "$(P)$(R)ShutterOpenDelay_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_OPEN_DELAY")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_OPEN_DELAY")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
@@ -619,7 +653,7 @@ record(ao, "$(P)$(R)ShutterCloseDelay")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_CLOSE_DELAY")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_CLOSE_DELAY")
    field(PREC, "3")
    field(VAL,  "0.0")
    info(autosaveFields, "VAL")
@@ -628,7 +662,7 @@ record(ao, "$(P)$(R)ShutterCloseDelay")
 record(ai, "$(P)$(R)ShutterCloseDelay_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_CLOSE_DELAY")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_CLOSE_DELAY")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
@@ -637,7 +671,7 @@ record(ai, "$(P)$(R)ShutterCloseDelay_RBV")
 record(bi, "$(P)$(R)ShutterControlEPICS")
 {
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SHUTTER_CONTROL_EPICS")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SHUTTER_CONTROL_EPICS")
     field(ZNAM, "Closed")
     field(ZSV,  "NO_ALARM")
     field(ONAM, "Open")
@@ -695,7 +729,7 @@ record(ao, "$(P)$(R)Temperature")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TEMPERATURE")
+   field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))TEMPERATURE")
    field(PREC, "1")
    field(EGU,  "C")
    field(VAL,  "25.0")
@@ -705,7 +739,7 @@ record(ao, "$(P)$(R)Temperature")
 record(ai, "$(P)$(R)Temperature_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TEMPERATURE")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))TEMPERATURE")
    field(PREC, "1")
    field(EGU,  "C")
    field(SCAN, "I/O Intr")
@@ -714,7 +748,7 @@ record(ai, "$(P)$(R)Temperature_RBV")
 record(ai, "$(P)$(R)TemperatureActual")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TEMPERATURE_ACTUAL")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))TEMPERATURE_ACTUAL")
    field(PREC, "1")
    field(EGU,  "C")
    field(SCAN, "I/O Intr")

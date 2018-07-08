@@ -32,6 +32,10 @@ INC      += NDPluginFFT.h
 LIB_SRCS += NDPluginFFT.cpp
 LIB_SRCS += fft.c
 
+NDPluginSupport_DBD += NDPluginGather.dbd
+INC      += NDPluginGather.h
+LIB_SRCS += NDPluginGather.cpp
+
 NDPluginSupport_DBD += NDPluginOverlay.dbd
 INC      += NDPluginOverlay.h
 INC      += NDPluginOverlayTextFont.h
@@ -49,6 +53,10 @@ LIB_SRCS += NDPluginROI.cpp
 NDPluginSupport_DBD += NDPluginROIStat.dbd
 INC      += NDPluginROIStat.h
 LIB_SRCS += NDPluginROIStat.cpp
+
+NDPluginSupport_DBD += NDPluginScatter.dbd
+INC      += NDPluginScatter.h
+LIB_SRCS += NDPluginScatter.cpp
 
 NDPluginSupport_DBD += NDPluginStats.dbd
 INC      += NDPluginStats.h
@@ -70,13 +78,11 @@ NDPluginSupport_DBD += NDPluginAttrPlot.dbd
 INC      += NDPluginAttrPlot.h CircularBuffer.h
 LIB_SRCS += NDPluginAttrPlot.cpp
 
-ifeq ($(WITH_XML2),YES)
-  DBD      += NDPosPlugin.dbd
-  INC      += NDPosPlugin.h
-  INC      += NDPosPluginFileReader.h
-  LIB_SRCS += NDPosPlugin.cpp 
-  LIB_SRCS += NDPosPluginFileReader.cpp
-endif
+DBD      += NDPosPlugin.dbd
+INC      += NDPosPlugin.h
+INC      += NDPosPluginFileReader.h
+LIB_SRCS += NDPosPlugin.cpp 
+LIB_SRCS += NDPosPluginFileReader.cpp
 
 INC      += NDPluginFile.h
 LIB_SRCS += NDPluginFile.cpp
@@ -86,11 +92,14 @@ INC      += NDFileNull.h
 LIB_SRCS += NDFileNull.cpp
 
 ifeq ($(WITH_GRAPHICSMAGICK),YES)
+  ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
+    USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
+  endif
   DBD      += NDFileMagick.dbd
   INC      += NDFileMagick.h
   LIB_SRCS += NDFileMagick.cpp
-  ifdef GRAPHICS_MAGICK_INCLUDE
-    USR_INCLUDES += $(GRAPHICS_MAGICK_INCLUDE)
+  ifdef GRAPHICSMAGICK_INCLUDE
+    USR_INCLUDES += $(addprefix -I, $(GRAPHICSMAGICK_INCLUDE))
   endif
 endif
 
@@ -107,24 +116,39 @@ ifeq ($(WITH_HDF5),YES)
   LIB_SRCS += NDFileHDF5AttributeDataset.cpp 
   LIB_SRCS += NDFileHDF5LayoutXML.cpp 
   LIB_SRCS += NDFileHDF5Layout.cpp 
+  ifdef HDF5_INCLUDE
+    USR_INCLUDES += $(addprefix -I, $(HDF5_INCLUDE))
+  endif
+  ifdef SZIP_INCLUDE
+    USR_INCLUDES += $(addprefix -I, $(SZIP_INCLUDE))
+  endif
 endif
 
 ifeq ($(WITH_JPEG),YES)
   DBD      += NDFileJPEG.dbd
   INC      += NDFileJPEG.h
   LIB_SRCS += NDFileJPEG.cpp 
+  ifdef JPEG_INCLUDE
+    USR_INCLUDES += $(addprefix -I, $(JPEG_INCLUDE))
+  endif
 endif
 
 ifeq ($(WITH_NETCDF),YES)
   DBD      += NDFileNetCDF.dbd
   INC      += NDFileNetCDF.h
   LIB_SRCS += NDFileNetCDF.cpp
+  ifdef NETCDF_INCLUDE
+    USR_INCLUDES += $(addprefix -I, $(NETCDF_INCLUDE))
+  endif
 endif
 
 ifeq ($(WITH_NEXUS),YES)
   DBD      += NDFileNexus.dbd
   INC      += NDFileNexus.h
   LIB_SRCS += NDFileNexus.cpp 
+  ifdef NEXUS_INCLUDE
+    USR_INCLUDES += $(addprefix -I, $(NEXUS_INCLUDE))
+  endif
 endif
 
 ifeq ($(WITH_TIFF),YES)
@@ -135,26 +159,28 @@ ifeq ($(WITH_TIFF),YES)
     # This flag is used to indicate that the TIFF library was built statically
     USR_CXXFLAGS_WIN32 += -DLIBTIFF_STATIC
   endif
+  ifdef TIFF_INCLUDE
+    USR_INCLUDES += $(addprefix -I, $(TIFF_INCLUDE))
+  endif
 endif
 
-ifeq ($(WITH_EPICS_V4), YES)
+ifeq ($(WITH_PVA), YES)
   DBD += NDPluginPva.dbd
   INC += NDPluginPva.h
   LIB_SRCS += NDPluginPva.cpp
 endif
 
-ifdef HDF5_INCLUDE
-  USR_INCLUDES += $(HDF5_INCLUDE)
-endif
-ifdef SZIP_INCLUDE
-  USR_INCLUDES += $(SZIP_INCLUDE)
-endif
 ifdef XML2_INCLUDE
-  USR_INCLUDES += $(XML2_INCLUDE)
+  USR_INCLUDES += $(addprefix -I, $(XML2_INCLUDE))
 endif
 
 NDPlugin_SYS_LIBS_WIN32 += ws2_32
 NDPlugin_SYS_LIBS_WIN32 += user32
+
+# This tests the problem with forward referencing class sortedListElement if it is
+# forwarded referenced in NDPluginDriver.h and defined in NDPluginDriver.cpp
+#LIB_SRCS += test_forward_reference.cpp
+
 
 # The following gets rid of the -fno-implicit-templates flag on vxWorks, 
 # so we get automatic template instantiation.

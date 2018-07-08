@@ -9,7 +9,15 @@
 #define DRV_NDFileJPEG_H
 
 #include "NDPluginFile.h"
+
+#ifdef __cplusplus
+// Force C interface for jpeg functions
+extern "C" {
+#endif
 #include "jpeglib.h"
+#ifdef __cplusplus
+}
+#endif
 
 #define JPEG_BUF_SIZE 4096 /* choose an efficiently fwrite'able size */
 
@@ -43,7 +51,6 @@ public:
 protected:
     int NDFileJPEGQuality;
     #define FIRST_NDFILE_JPEG_PARAM NDFileJPEGQuality
-    #define LAST_NDFILE_JPEG_PARAM NDFileJPEGQuality
 
 private:
     struct jpeg_compress_struct jpegInfo;
@@ -53,6 +60,5 @@ private:
     JOCTET jpegBuffer[JPEG_BUF_SIZE];
     jpegDestMgr destMgr;
 };
-#define NUM_NDFILE_JPEG_PARAMS ((int)(&LAST_NDFILE_JPEG_PARAM - &FIRST_NDFILE_JPEG_PARAM + 1))
 
 #endif
