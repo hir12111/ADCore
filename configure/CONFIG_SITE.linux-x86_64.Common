@@ -30,4 +30,5 @@ WITH_BOOST    = YES
 BOOST         = /usr
 
 # Enable PVA plugin
-WITH_PVA = NO
+WITH_PVA      = YES
+WITH_QSRV     = NO
