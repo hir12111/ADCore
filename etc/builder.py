@@ -92,7 +92,8 @@ class ADCore(Device):
     else:
 #        LibFileList = ['GraphicsMagick', 'GraphicsMagickWand', 'GraphicsMagick++', 'PvAPI', 'sz', 'hdf5', 'NeXus', 'cbfad']
         LibFileList = []
-        SysLibFileList = ['freetype', 'Xext', 'bz2', 'png12', 'xml2', 'X11', 'gomp', 'z', 'jpeg', 'tiff']
+#        SysLibFileList = ['freetype', 'Xext', 'bz2', 'png12', 'xml2', 'X11', 'gomp', 'z', 'jpeg', 'tiff']
+        SysLibFileList = []
     LibFileList += ['ADBase', 'NDPlugin']
     DbdFileList = ['ADSupport', 'NDPluginSupport', 'NDFileHDF5', 'NDFileJPEG', 'NDFileTIFF', 'NDFileNull',
                    'NDPosPlugin']
@@ -784,6 +785,39 @@ class NDPvaPlugin(AsynPort):
         print '# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxMemory, priority, stackSize)' % self.__dict__
         print 'NDPvaConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(PVNAME)s, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
         print 'startPVAServer'
+
+#############################
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDTimeSeriesTemplate(AutoSubstitution):
+    """Template containing the records for an NDTimeSeries"""
+    TemplateFile = 'NDTimeSeries.template'
+
+class NDTimeSeries(AsynPort):
+    """This plugin captures time series data from other asyn ports"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDTimeSeriesTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MAX_SIGNALS = 1, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDTimeSeries plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        MAX_SIGNALS = Simple('Max number of signals to capture', int))
+
+    def Initialise(self):
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__
+        print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(MAX_SIGNALS)s)' % self.__dict__
 
 ##############################
 
