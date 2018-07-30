@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 771
-y 124
+x 958
+y 193
 w 390
 h 820
 font "arial-bold-r-12.0"
@@ -147,7 +147,7 @@ font "arial-bold-r-12.0"
 buttonLabel "HTML Documentation"
 numCmds 1
 command {
-  0 "firefox \"file://$(which ADBase.edl | sed \"s|data/ADBase.edl|documentation/NDPluginStdArrays.html|\")\" &"
+  0 "firefox \"file://$(which ADBase.edl | sed \"s|data/ADBase.edl|documentation/NDPluginTimeSeries.html|\")\" &"
 }
 endObjectProperties
 
@@ -376,14 +376,14 @@ minor 1
 release 1
 x 10
 y 620
-w 70
+w 80
 h 20
 font "arial-bold-r-12.0"
 fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Time link"
+  "Time CP link"
 }
 endObjectProperties
 
@@ -563,9 +563,9 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 220
+x 225
 y 485
-w 50
+w 100
 h 20
 fgColor index 25
 onColor index 4
@@ -574,8 +574,8 @@ topShadowColor index 1
 botShadowColor index 11
 controlPv "$(P)$(R)TSRead.PROC"
 pressValue "1"
-onLabel "Read"
-offLabel "Read"
+onLabel "Manual read"
+offLabel "Manual read"
 3d
 useEnumNumeric
 font "arial-bold-r-12.0"
@@ -784,5 +784,43 @@ fgAlarm
 bgColor index 3
 fill
 font "arial-bold-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 300
+y 460
+w 80
+h 20
+controlPv "$(P)$(R)TSTimeAxis.NELM"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 225
+y 460
+w 45
+h 20
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Max "
+}
 endObjectProperties
 

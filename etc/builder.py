@@ -962,7 +962,7 @@ class NDTimeSeries(AsynPort):
     def __init__(self, PORT, NDARRAY_PORT, NSIGNALS = 1, QUEUE = 2, BUFFERS = 50, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
-        # Update the attributes of self from the commandline args
+        # Update the attributes of self from the command line args
         self.__dict__.update(locals())
         # Make an instance of our template
         makeTemplateInstance(self._SpecificTemplate, locals(), args)

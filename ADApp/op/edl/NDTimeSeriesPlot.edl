@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 910
-y 655
+x 914
+y 679
 w 610
 h 380
 font "arial-bold-r-12.0"
@@ -91,7 +91,6 @@ w 600
 h 300
 # Appearance
 border
-graphTitle "$(P)$(R)$(TS):Name"
 xLabel "Time (s)"
 yLabel "Amplitude"
 fgColor index 14
