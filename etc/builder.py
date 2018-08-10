@@ -941,4 +941,98 @@ class NDAttrPlot(AsynPort):
         print ('NDAttrPlotConfig("%(PORT)s", %(N_ATTRS)d, %(N_CACHE)d, '
                '%(N_BLOCKS)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)d, '
                '%(QUEUE)d, %(BLOCK)d)' % self.__dict__ )
-              
+
+#############################
+
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDTimeSeriesTemplate(AutoSubstitution):
+    """Template containing the records for a NDTimeSeries"""
+    TemplateFile = 'NDTimeSeries.template'
+
+class NDTimeSeriesNTemplate(AutoSubstitution):
+    """Template containing records for individual signals in NDTimeSeries"""
+    TemplateFile = 'NDTimeSeriesN.template'
+
+class NDTimeSeries(AsynPort):
+    """This plugin creates time series arrays from callback data"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDTimeSeriesTemplate
+    def __init__(self, PORT, NDARRAY_PORT, NSIGNALS = 1, QUEUE = 2, BUFFERS = 50, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the command line args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+        # Create each time series signal
+        self.createNSignalsTimeSeriesNTemplates(P = args["P"], R = args["R"], 
+            PORT = PORT, NSIGNALS = NSIGNALS, TIMEOUT = args["TIMEOUT"], 
+            NCHANS = args["NCHANS"])
+
+    def createNSignalsTimeSeriesNTemplates(self, P, R, PORT, NSIGNALS, 
+            TIMEOUT, NCHANS):
+        # Instantiate a template for each signal
+        for i in range(NSIGNALS):
+            # Append signal number to R suffix
+            RSignal = R + str(i) + ":"
+            TSName = "TS" + str(i)
+            NDTimeSeriesNTemplate(P = P, R = RSignal, PORT = PORT, ADDR = i, 
+                TIMEOUT = TIMEOUT, NCHANS = NCHANS, NAME = TSName)
+
+    # __init__ arguments
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDTimeSeries plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        NSIGNALS = Simple('Maximum number of time series signals', int),
+        BUFFERS = Simple('Max number of NDArray buffers to allocate, -1 for unlimited', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer or -1 for unlimited', int),
+        PRIORITY = Simple('Thread priority if ASYN_CANBLOCK is set ', int),
+        STACKSIZE = Simple('Stack size if ASYN_CANBLOCK is set', int))
+
+    def Initialise(self):
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)'
+        print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NSIGNALS)d, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+
+#############################
+
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDFFTTemplate(AutoSubstitution):
+    """Template containing the records for the NDFFT plugin"""
+    TemplateFile = 'NDFFT.template'
+
+class NDFFT(AsynPort):
+    """This plugin is used to calculate the FFT of a time series"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDFFTTemplate
+    def __init__(self, PORT, NDARRAY_PORT, NAME = "", QUEUE = 2, BUFFERS = 50, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    # __init__ arguments
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDTimeSeries plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        NAME = Simple('Label for signal', int),
+        BUFFERS = Simple('Max number of NDArray buffers to allocate, -1 for unlimited', int),
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer or -1 for unlimited', int),
+        PRIORITY = Simple('Thread priority if ASYN_CANBLOCK is set ', int),
+        STACKSIZE = Simple('Stack size if ASYN_CANBLOCK is set', int))
+
+    def Initialise(self):
+        print '# NDFFTConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)'
+        print 'NDFFTConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+

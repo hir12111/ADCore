@@ -6,15 +6,17 @@
 # specific records. Multiple instances of this template can be
 # loaded, each with a different ADDR (which specifies the signal).
 #
-# Macros:
-# P,R - Base PV name
-# PORT - Asyn port name
-# SIGNAL - The address to use for this signal (start at 0, up tomaxSignals-1)
-# TIMEOUT - Asyn port timeout
-#
 # Mark Rivers
 # February 26, 2016
 #
+# Macros:
+# % macro, P, Device prefix
+# % macro, R, Device suffix
+# % macro, PORT, Asyn port name
+# % macro, ADDR, Asyn port address for signal
+# % macro, TIMEOUT, Asyn port timeout
+# % macro, NCHANS, Length of time series waveform
+# % macro, NAME, Name of the signal
 ###################################################################
 
 

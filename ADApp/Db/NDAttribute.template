@@ -8,6 +8,9 @@
 # % macro, NCHANS, Number of elements in attribute waveform
 # % macro, ADDR, Asyn Port address
 # % macro, TIMEOUT, Timeout
+#
+# EDM screen:
+# % gui, $(PORT), edmtab, NDAttribute.edl, P=$(P),R=$(R)
 
 include "NDPluginBase.template"
 
