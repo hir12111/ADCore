@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 762
-y 230
+x 959
+y 203
 w 700
 h 555
 font "arial-bold-r-12.0"
@@ -1074,24 +1074,6 @@ beginObjectProperties
 major 10
 minor 0
 release 0
-x 600
-y 375
-w 65
-h 20
-controlPv "$(P)$(R)PoolMaxBuffers"
-fgColor index 16
-bgColor index 10
-fill
-font "arial-bold-r-12.0"
-fontAlign "center"
-endObjectProperties
-
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
 x 530
 y 375
 w 65
@@ -1119,7 +1101,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Buffers alloc/max:"
+  "Buffers alloc:"
 }
 endObjectProperties
 
@@ -1196,8 +1178,8 @@ indicatorColour index 16
 indicatorAlarm
 fgColour index 14
 bgColour index 3
-indicatorPv "$(P)$(R)PoolUsedBuffers"
-maxPv "$(P)$(R)PoolMaxBuffers"
+indicatorPv "$(P)$(R)PoolUsedMem"
+maxPv "$(P)$(R)PoolMaxMem"
 font "arial-medium-r-12.0"
 labelTicks 10
 majorTicks 20
@@ -1407,6 +1389,30 @@ topShadowColor index 1
 botShadowColor index 11
 controlPv "$(P)$(R)WaitForPlugins"
 indicatorPv "$(P)$(R)WaitForPlugins"
+font "arial-bold-r-12.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 600
+y 400
+w 65
+h 20
+fgColor index 19
+onColor index 4
+offColor index 3
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P)$(R)EmptyFreeList"
+pressValue "1"
+onLabel "Free Pool"
+offLabel "Free Pool"
+3d
+useEnumNumeric
 font "arial-bold-r-12.0"
 endObjectProperties
 

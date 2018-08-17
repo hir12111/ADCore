@@ -170,7 +170,7 @@ class NDFileNetCDF(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDFileNetCDFTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -183,13 +183,11 @@ class NDFileNetCDF(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDFileNetCDFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileNetCDFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDFileNetCDFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -203,7 +201,7 @@ class NDFileTIFF(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDFileTIFFTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -216,13 +214,11 @@ class NDFileTIFF(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDFileTIFFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileTIFFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDFileTIFFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -236,7 +232,7 @@ class NDFileJPEG(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDFileJPEGTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -249,13 +245,11 @@ class NDFileJPEG(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDFileJPEGConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileJPEGConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDFileJPEGConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -269,7 +263,7 @@ class NDFileNexus(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDFileNexusTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -282,13 +276,11 @@ class NDFileNexus(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDFileNexusConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileNexusConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDFileNexusConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -302,7 +294,7 @@ class NDFileHDF5(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDFileHDF5Template
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -315,13 +307,11 @@ class NDFileHDF5(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDFileHDF5Configure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileHDF5Configure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDFileHDF5Configure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -336,7 +326,7 @@ class NDFileMagick(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDFileMagickTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -349,13 +339,11 @@ class NDFileMagick(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDFileMagickConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileMagickConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDFileMagickConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0 )' % self.__dict__
 
 #############################
 
@@ -371,7 +359,7 @@ class NDROI(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDROITemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (_NDPluginBase)
         self.__super.__init__(PORT)
         # Store the args
@@ -384,13 +372,11 @@ class NDROI(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDROIConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDROIConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDROIConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -406,7 +392,7 @@ class NDProcess(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDProcessTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -419,13 +405,11 @@ class NDProcess(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDProcessConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDProcessConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDProcessConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -440,8 +424,8 @@ class NDStats(AsynPort):
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDStatsTemplate
-
-    def __init__(self, PORT, NDARRAY_PORT, ENABLED=0, NCHANS = 2048, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, TIMEOUT=1, ADDR=0, **args):
+    
+    def __init__(self, PORT, NDARRAY_PORT, ENABLED=0, NCHANS = 2048, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, TIMEOUT=1, ADDR=0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -488,8 +472,6 @@ class NDStats(AsynPort):
         ENABLED   = Simple('Plugin Enabled at startup?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
         HIST_SIZE = Simple('Maximum size of Pixel binning histogram (e.g. 256 for Int8)', int),
         ADDR = Simple('Asyn Port address', int),
         XSIZE = Simple('XSIZE, Maximum size of X histograms (e.g. 1024)', int),
@@ -506,7 +488,7 @@ class NDStats(AsynPort):
 
     def Initialise(self):
         print '# NDStatsConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDStatsConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDStatsConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
         print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__
         print 'NDTimeSeriesConfigure("%(PORT)s_TS", %(QUEUE)d, %(BLOCK)d, "%(PORT)s", 1, 23)' % self.__dict__
@@ -532,7 +514,7 @@ class NDTransform(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDTransformTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -545,13 +527,11 @@ class NDTransform(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDTransformConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDTransformConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDTransformConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -571,7 +551,7 @@ class NDOverlay(AsynPort):
     _SpecificTemplate = NDOverlayTemplate
     NOverlays = 8
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -590,13 +570,11 @@ class NDOverlay(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDOverlayConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, NOverlays, maxBuffers, maxMemory)'
-        print 'NDOverlayConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NOverlays)d, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDOverlayConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NOverlays)d, 0, 0)' % self.__dict__
 
 #############################
 
@@ -616,7 +594,7 @@ class NDROIStat(AsynPort):
     _SpecificTemplate = NDROIStatTemplate
 
     def __init__(self, PORT, NDARRAY_PORT, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
-                 MAX_ROIS=8, BUFFERS=50, MEMORY=0, NCHANS=4096, **args):
+                 MAX_ROIS=8, NCHANS=4096, **args):
         super(NDROIStat, self).__init__(PORT)
         self.__dict__.update(locals())
         self.TIMEOUT = args['TIMEOUT']
@@ -638,9 +616,6 @@ class NDROIStat(AsynPort):
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         MAX_ROIS = Simple('Maximum number of ROIs in this plugin', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer '
-                        'for driver and all attached plugins', int),
         NCHANS = Simple('Number of points in the arrays', int))
 
     def Initialise(self):
@@ -648,7 +623,7 @@ class NDROIStat(AsynPort):
               'NDArrayPort, NDArrayAddr, maxROIs, maxBuffers, maxMemory)')
         print('NDROIStatConfigure("{PORT}", {QUEUE}, {BLOCK}, '
               '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ROIS}, '
-              '{BUFFERS}, {MEMORY})'.format(**self.__dict__))
+              '0, 0)'.format(**self.__dict__))
 
 #############################
 
@@ -668,7 +643,7 @@ class NDAttribute(AsynPort):
     _SpecificTemplate = NDAttributeTemplate
 
     def __init__(self, PORT, NDARRAY_PORT, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
-                 MAX_ATTRIBUTES=8, BUFFERS=50, MEMORY=0, NCHANS=4096, **args):
+                 MAX_ATTRIBUTES=8, NCHANS=4096, **args):
         super(NDAttribute, self).__init__(PORT)
         self.__dict__.update(locals())
         self.TIMEOUT = args['TIMEOUT']
@@ -695,9 +670,6 @@ class NDAttribute(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int),
         MAX_ATTRIBUTES = Simple('Maximum number of attributes in this plugin',
                                 int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer '
-                        'for driver and all attached plugins', int),
         NCHANS = Simple('Number of points in the arrays', int))
 
     def Initialise(self):
@@ -705,7 +677,7 @@ class NDAttribute(AsynPort):
               'NDArrayPort, NDArrayAddr, maxAttributes, maxBuffers, maxMemory)')
         print('NDAttrConfigure("{PORT}", {QUEUE}, {BLOCK}, '
               '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ATTRIBUTES}, '
-              '{BUFFERS}, {MEMORY})'.format(**self.__dict__))
+              '0, 0)'.format(**self.__dict__))
 
 #############################
 
@@ -720,7 +692,7 @@ class NDColorConvert(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDColorConvertTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -733,13 +705,11 @@ class NDColorConvert(AsynPort):
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDColorConvertConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDColorConvertConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+        print 'NDColorConvertConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
 
 #############################
 
@@ -753,7 +723,7 @@ class NDPosPlugin(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDPosPluginTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -767,14 +737,12 @@ class NDPosPlugin(AsynPort):
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
         PRIORITY = Simple('Max buffers to allocate', int),
         STACKSIZE = Simple('Max buffers to allocate', int))
 
     def Initialise(self):
         print '# NDPosPluginConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)' % self.__dict__
-        print 'NDPosPluginConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+        print 'NDPosPluginConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
 
 #############################
 
@@ -789,7 +757,7 @@ class NDPvaPlugin(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDPvaTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, PVNAME, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, PVNAME, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -804,7 +772,6 @@ class NDPvaPlugin(AsynPort):
         BLOCK = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
         PRIORITY = Simple('Max buffers to allocate', int),
         STACKSIZE = Simple('Max buffers to allocate', int))
 
@@ -813,7 +780,7 @@ class NDPvaPlugin(AsynPort):
 
     def Initialise(self):
         print '# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxMemory, priority, stackSize)' % self.__dict__
-        print 'NDPvaConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(PVNAME)s, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+        print 'NDPvaConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(PVNAME)s, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
         print 'startPVAServer'
 
 #############################
@@ -917,7 +884,7 @@ class NDCircularBuff(AsynPort):
     _SpecificTemplate = _NDCircularBuff
 
     def __init__(self, PORT, NDARRAY_PORT, QUEUE = 50, BLOCK = 0, NDARRAY_ADDR = 0,
-                 BUFFERS = 1000, MEMORY = 0, ENABLED = 1, **args):
+                 ENABLED = 1, **args):
         # args["Enabled"] = Enabled
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
@@ -934,14 +901,11 @@ class NDCircularBuff(AsynPort):
         QUEUE        = Simple('Input array queue size', int),
         BLOCK        = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int),
-        BUFFERS      = Simple('Max number of buffers to allocate', int),
-        MEMORY       = Simple('Max memory to allocate, should be maxw*maxh*nbuffer '
-                              'for driver and all attached plugins', int))
+        NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
         print '# NDCircularBuffConfigure(portName, queueSize, blockingCallbacks, ' \
-              'NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)'
+              'NDArrayPort, NDArrayAddr, 0, 0)'
         print 'NDCircularBuffConfigure(' \
               '"%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", ' \
               '"%(NDARRAY_ADDR)s", %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
@@ -1023,7 +987,7 @@ class NDTimeSeries(AsynPort):
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDTimeSeriesTemplate
-    def __init__(self, PORT, NDARRAY_PORT, NSIGNALS = 1, QUEUE = 2, BUFFERS = 50, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, NSIGNALS = 1, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the command line args
@@ -1053,14 +1017,12 @@ class NDTimeSeries(AsynPort):
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         NSIGNALS = Simple('Maximum number of time series signals', int),
-        BUFFERS = Simple('Max number of NDArray buffers to allocate, -1 for unlimited', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer or -1 for unlimited', int),
         PRIORITY = Simple('Thread priority if ASYN_CANBLOCK is set ', int),
         STACKSIZE = Simple('Stack size if ASYN_CANBLOCK is set', int))
 
     def Initialise(self):
         print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)'
-        print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NSIGNALS)d, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+        print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NSIGNALS)d, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
 
 #############################
 
@@ -1075,7 +1037,7 @@ class NDFFT(AsynPort):
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDFFTTemplate
-    def __init__(self, PORT, NDARRAY_PORT, NAME = "", QUEUE = 2, BUFFERS = 50, BLOCK = 0, NDARRAY_ADDR = 0, MEMORY = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, NAME = "", QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -1091,12 +1053,10 @@ class NDFFT(AsynPort):
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         NAME = Simple('Label for signal', int),
-        BUFFERS = Simple('Max number of NDArray buffers to allocate, -1 for unlimited', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer or -1 for unlimited', int),
         PRIORITY = Simple('Thread priority if ASYN_CANBLOCK is set ', int),
         STACKSIZE = Simple('Stack size if ASYN_CANBLOCK is set', int))
 
     def Initialise(self):
         print '# NDFFTConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)'
-        print 'NDFFTConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+        print 'NDFFTConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
 
