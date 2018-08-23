@@ -5,6 +5,12 @@
 # Mark Rivers
 # February 26, 2017
 
+
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+
 ###################################################################
 #  These records control the connection of the server to          #
 #  an NDArray driver port and address                             #

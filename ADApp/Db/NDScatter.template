@@ -4,6 +4,14 @@
 # Mark Rivers
 # February 26, 2017
 
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDScatter.edl, P=$(P),R=$(R)
+
 include "NDPluginBase.template"
 
 ###################################################################

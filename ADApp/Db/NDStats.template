@@ -5,13 +5,6 @@
 # % macro, P, Device Prefix
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
-# % macro, TIMEOUT, Timeout
-# % macro, ADDR, Asyn Port address
-# % macro, XSIZE, Maximum size of X histograms (e.g. 1024)
-# % macro, YSIZE, Maximum size of Y histograms (e.g. 768)
-# % macro, HIST_SIZE, Maximum size of Pixel binning histogram (e.g. 256 for Int8)
-# % macro, NCHANS, Number of elements in the waveforms which accumulate past statistics
-# % macro, TS_PORT, Time Series ASYN Port defaults to $(PORT)_TS
 
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDStats.edl, P=$(P),R=$(R)

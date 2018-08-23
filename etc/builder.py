@@ -1067,5 +1067,104 @@ class NDFFT(AsynPort):
 
     def Initialise(self):
         print '# NDFFTConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)'
-        print 'NDFFTConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d), %(MAX_THREADS)d' % self.__dict__
+        print 'NDFFTConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d, %(MAX_THREADS)d)' % self.__dict__
 
+
+#############################
+
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDGatherTemplate(AutoSubstitution):
+    """Template containing the records for the NDGather plugin"""
+    TemplateFile = 'NDGather.template'
+
+
+class NDGatherNTemplate(AutoSubstitution):
+    """Template containing records for individual signals in NDGather"""
+    TemplateFile = 'NDGatherN.template'
+
+class NDGather(AsynPort):
+    """This plugin is used to gather NDArrays from multiple upstream plugins and merge them into a single stream"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDGatherTemplate
+    def __init__(self, PORT, QUEUE = 2, BLOCK = 0, MAX_PORTS = 5, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    # __init__ arguments
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDGather plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        MAX_PORTS = Simple('Maximum number of ports that this plugin can connect to for callbacks', int))
+
+    def Initialise(self):
+        print '# NDGatherConfigure(portName, queueSize, blockingCallbacks, maxPorts, maxBuffers, maxMemory)'
+        print 'NDGatherConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(MAX_PORTS)d", 0, 0)' % self.__dict__
+
+class NDGather8(Device):
+    """This plugin is used to gather NDArrays from multiple upstream plugins and merge them into a single stream"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    def __init__(self, PORT, QUEUE = 2, BLOCK = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__()
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        numPorts = 8
+        self.ndGather = NDGather(PORT, QUEUE, BLOCK, numPorts, **args)
+        self.ndNGathers = []
+        for n in range(numPorts + 1):
+            templateargs = dict(
+                P=args["P"],
+                R=args["R"],
+                N=n+1,
+                NDARRAY_PORT=args["NDARRAY_PORT"],
+                PORT=PORT,
+                ADDR=n)
+            self.ndNGathers.append(NDGatherNTemplate(**templateargs))
+
+    # __init__ arguments
+    ArgInfo = NDGather.ArgInfo.filtered(without = ['MAX_PORTS'])
+
+#############################
+
+
+@includesTemplates(NDPluginBaseTemplate)
+class NDScatterTemplate(AutoSubstitution):
+    """Template containing the records for the NDScatter plugin"""
+    TemplateFile = 'NDScatter.template'
+
+class NDScatter(AsynPort):
+    """This plugin is used to distribute processing of NDArrays to multiple downstream plugins"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDScatterTemplate
+    def __init__(self, PORT, NDARRAY_PORT, NAME = "", QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    # __init__ arguments
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDTimeSeries plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        NAME = Simple('Label for signal', int))
+
+    def Initialise(self):
+        print '# NDScatterConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxMemory)'
+        print 'NDScatterConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0)' % self.__dict__
+
+
+#############################
