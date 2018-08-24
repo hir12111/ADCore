@@ -1119,7 +1119,7 @@ class NDGather8(Device):
         numPorts = 8
         self.ndGather = NDGather(PORT, QUEUE, BLOCK, numPorts, **args)
         self.ndNGathers = []
-        for n in range(numPorts + 1):
+        for n in range(numPorts):
             templateargs = dict(
                 P=args["P"],
                 R=args["R"],
