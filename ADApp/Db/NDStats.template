@@ -5,6 +5,13 @@
 # % macro, P, Device Prefix
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
+# % macro, NCHANS, Number of channels
+# % macro, XSIZE, x size
+# % macro, YSIZE, y size
+# % macro, HIST_SIZE, hist size
+# % macro, ADDR, Asyn Port address
+# % macro, TIMEOUT, Timeout
+# % macro, TS_PORT, TS port
 
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDStats.edl, P=$(P),R=$(R)

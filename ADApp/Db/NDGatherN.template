@@ -10,6 +10,11 @@
 # % macro, P, Device Prefix
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
+# % macro, N, Port number (1 - maxPorts)
+# % macro, NDARRAY_PORT, Input Array Port
+# % macro, ADDR, Asyn port address
+# % macro, TIMEOUT, Timeout
+# % macro, NDARRAY_ADDR, Input Array Address
 
 ###################################################################
 #  These records control the connection of the server to          #
