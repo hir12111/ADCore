@@ -441,13 +441,17 @@ class NDStats(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDStatsTemplate
     
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, TS_PORT, NCHANS=50, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
         self.__dict__.update(locals())
         # Make an instance of our template
         makeTemplateInstance(self._SpecificTemplate, locals(), args)
+        print(args)
+        print(self.__dict__)
+        #makeTemplateInstance(NDTimeSeriesTemplate, P = args['P'])
+        NDTimeSeriesTemplate(P = args['P'],NDARRAY_PORT=PORT, NCHANS=NCHANS, R=args['R'] + 'TS:', PORT=TS_PORT)
         # Table of statistics parameters, tuple of:
         # (database name, attribute name, datatype, description)
         statsparams = [("COMPUTE_STATISTICS", "StatsComputeStats", "INT",    "Statistics: enable statistics computation"),
@@ -483,11 +487,18 @@ class NDStats(AsynPort):
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         BUFFERS = Simple('Max buffers to allocate', int),
-        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int))
+        MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
+        TS_PORT = Simple('Time series port for Stats plugin time series', str),
+        NCHANS = Simple('Number of time series points', int))
 
     def Initialise(self):
         print '# NDStatsConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
         print 'NDStatsConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__
+        print 'NDTimeSeriesConfigure("%(PORT)s_TS", %(QUEUE)d, %(BLOCK)d, "%(PORT)s", 1, 23)' % self.__dict__
+
+
 
 #############################
 
