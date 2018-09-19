@@ -441,13 +441,14 @@ class NDStats(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDStatsTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, TS_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, TIMEOUT=1, ADDR=0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, ENABLED=0, NCHANS = 2048, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, BUFFERS = 50, MEMORY = 0, TIMEOUT=1, ADDR=0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
         self.__dict__.update(locals())
-        # Assign args
-        self.args['NCHANS'] = 2048
+        # Copy args as object attribute
+        self.args['NCHANS'] = NCHANS
+        self.args['TS_PORT'] = PORT + "_TS"
         self.args = args
         # Make an instance of our template
         makeTemplateInstance(self._SpecificTemplate, locals(), args)
@@ -484,18 +485,24 @@ class NDStats(AsynPort):
         PORT = Simple('Port name for the NDStats plugin', str),
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
+        ENABLED   = Simple('Plugin Enabled at startup?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         BUFFERS = Simple('Max buffers to allocate', int),
         MEMORY = Simple('Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins', int),
-        TS_PORT = Simple('Time series port for Stats plugin time series', str),
         HIST_SIZE = Simple('Maximum size of Pixel binning histogram (e.g. 256 for Int8)', int),
         ADDR = Simple('Asyn Port address', int),
         XSIZE = Simple('XSIZE, Maximum size of X histograms (e.g. 1024)', int),
         YSIZE = Simple('Maximum size of Y histograms (e.g. 768)', int),
         P = Simple('Device Prefix', str),
         R = Simple('Device Suffix', str),
-        TIMEOUT = Simple('Timeout', int))
+        TIMEOUT = Simple('Timeout', int),
+        NCHANS = Simple('Maximum length of time series (initialises waveform NELM, fixed on IOC boot)', int))
+
+    def InitialiseOnce(self):
+        # Set ADCore path so NDTimeSeries.template can find base plugin template
+        print('# ADCore path for manual NDTimeSeries.template to find base plugin template')
+        print('epicsEnvSet "EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db"\n')
 
     def Initialise(self):
         print '# NDStatsConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
@@ -504,9 +511,10 @@ class NDStats(AsynPort):
         print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__
         print 'NDTimeSeriesConfigure("%(PORT)s_TS", %(QUEUE)d, %(BLOCK)d, "%(PORT)s", 1, 23)' % self.__dict__
 
+        # Manually load the time series template so we do not end up with the embedded EDM tab
         print '# Load time series records'
         print('dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P={P},R={R}, PORT={PORT} ,ADDR={ADDR},TIMEOUT={TIMEOUT},NDARRAY_PORT={NDARRAY_PORT},NDARRAY_ADDR={NDARRAY_ADDR},NCHANS={NCHANS},ENABLED={ENABLED}")'.format(
-            P=self.args['P'], R=self.args['R'] + 'TS:', PORT=self.TS_PORT, ADDR=0, TIMEOUT=1, NDARRAY_PORT=self.PORT, NDARRAY_ADDR=1, NCHANS=self.args['NCHANS'], ENABLED=1)
+            P=self.args['P'], R=self.args['R'] + 'TS:', PORT=self.args['TS_PORT'], ADDR=0, TIMEOUT=1, NDARRAY_PORT=self.PORT, NDARRAY_ADDR=1, NCHANS=self.args['NCHANS'], ENABLED=1)
         )
 
 
