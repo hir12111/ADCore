@@ -474,7 +474,6 @@ class NDStats(AsynPort):
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         MAX_THREADS = Simple('Maximum number threads', int),
-        NDARRAY_ADDR = Simple('Input array port address', int),
         HIST_SIZE = Simple('Maximum size of Pixel binning histogram (e.g. 256 for Int8)', int),
         ADDR = Simple('Asyn Port address', int),
         XSIZE = Simple('XSIZE, Maximum size of X histograms (e.g. 1024)', int),
@@ -916,7 +915,7 @@ class NDCircularBuff(AsynPort):
               'NDArrayPort, NDArrayAddr, 0, 0)'
         print 'NDCircularBuffConfigure(' \
               '"%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", ' \
-              '"%(NDARRAY_ADDR)s", %(BUFFERS)d, %(MEMORY)d)' % self.__dict__
+              '"%(NDARRAY_ADDR)s", 0, %(MEMORY)d)' % self.__dict__
               
 ##############################
 
