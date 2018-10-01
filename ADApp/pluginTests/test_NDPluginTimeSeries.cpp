@@ -42,7 +42,7 @@ void TS_callback(void *userPvt, asynUser *pasynUser, void *pointer)
 struct TimeSeriesPluginTestFixture
 {
   NDArrayPool *arrayPool;
-  boost::shared_ptr<asynPortDriver> driver;
+  boost::shared_ptr<asynNDArrayDriver> driver;
   boost::shared_ptr<TimeSeriesPluginWrapper> ts;
   boost::shared_ptr<asynGenericPointerClient> client;
   TestingPlugin* downstream_plugin; // TODO: we don't put this in a shared_ptr and purposefully leak memory because asyn ports cannot be deleted
@@ -57,7 +57,6 @@ struct TimeSeriesPluginTestFixture
 
   TimeSeriesPluginTestFixture()
   {
-    arrayPool = new NDArrayPool(100, 0);
 
     // Asyn manager doesn't like it if we try to reuse the same port name for multiple drivers
     // (even if only one is ever instantiated at once), so we change it slightly for each test case.
@@ -67,11 +66,12 @@ struct TimeSeriesPluginTestFixture
 
     // We need some upstream driver for our test plugin so that calls to connectArrayPort
     // don't fail, but we can then ignore it and send arrays by calling processCallbacks directly.
-    driver = boost::shared_ptr<asynPortDriver>(new asynPortDriver(simport.c_str(),
-                                                                     1, 1,
+    driver = boost::shared_ptr<asynNDArrayDriver>(new asynNDArrayDriver(simport.c_str(),
+                                                                     1, 0, 0,
                                                                      asynGenericPointerMask,
                                                                      asynGenericPointerMask,
-                                                                     0, 0, 0, 2000000));
+                                                                     0, 0, 0, 0));
+    arrayPool = driver->pNDArrayPool;
 
     // This is the plugin under test
     ts = boost::shared_ptr<TimeSeriesPluginWrapper>(new TimeSeriesPluginWrapper(testport.c_str(),
@@ -98,20 +98,20 @@ struct TimeSeriesPluginTestFixture
     size_t tmpdims_1d[] = {8};
     dims_1d.assign(tmpdims_1d, tmpdims_1d + sizeof(tmpdims_1d)/sizeof(tmpdims_1d[0]));
     arrays_1d.resize(200); // We create 200 samples
-    fillNDArrays(dims_1d, NDFloat32, arrays_1d); // Fill some NDArrays with unimportant data
+    fillNDArraysFromPool(dims_1d, NDFloat32, arrays_1d, arrayPool); // Fill some NDArrays with unimportant data
 
     // 2D: three time series channels, each with 20 elements
     size_t tmpdims_2d[] = {3,20};
     dims_2d.assign(tmpdims_2d, tmpdims_2d + sizeof(tmpdims_2d)/sizeof(tmpdims_2d[0]));
     arrays_2d.resize(24);
-    fillNDArrays(dims_2d, NDFloat32, arrays_2d);
+    fillNDArraysFromPool(dims_2d, NDFloat32, arrays_2d, arrayPool);
 
     // 3D: four channels with 2D images of 5x6 pixel (like an RGB image)
     // Not valid input for the Time Series plugin
     size_t tmpdims_3d[] = {4,5,6};
     dims_3d.assign(tmpdims_3d, tmpdims_3d + sizeof(tmpdims_3d)/sizeof(tmpdims_3d[0]));
     arrays_3d.resize(24);
-    fillNDArrays(dims_3d, NDFloat32, arrays_3d);
+    fillNDArraysFromPool(dims_3d, NDFloat32, arrays_3d, arrayPool);
 
     // Plugin setup: TimePerPoint=0.001 and AveragingTime=0.01 thus NumAverage=10
     BOOST_REQUIRE_NO_THROW(ts->write(TSTimePerPointString, 0.001));
@@ -126,7 +126,6 @@ struct TimeSeriesPluginTestFixture
 
   ~TimeSeriesPluginTestFixture()
   {
-    delete arrayPool;
     client.reset();
     ts.reset();
     driver.reset();

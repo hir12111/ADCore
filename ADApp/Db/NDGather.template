@@ -1,0 +1,16 @@
+#=================================================================#
+# Template file: NDGather.template
+# Database for NDPluginGather plugin
+# Mark Rivers
+# February 26, 2017
+
+include "NDPluginBase.template"
+
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, MAX_PORTS, Maximum number ports
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDGather$(MAX_PORTS).edl, P=$(P),R=$(R)

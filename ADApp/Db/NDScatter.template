@@ -1,0 +1,38 @@
+#=================================================================#
+# Template file: NDScatter.template
+# Database for NDPluginScatter plugin
+# Mark Rivers
+# February 26, 2017
+
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, ADDR, Asyn Port address
+# % macro, TIMEOUT, Timeout
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDScatter.edl, P=$(P),R=$(R)
+
+include "NDPluginBase.template"
+
+###################################################################
+#  This record is for the scatter method                          #
+###################################################################
+record(mbbo, "$(P)$(R)ScatterMethod")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SCATTER_METHOD")
+    field(ZRST, "Round robin")
+    field(ZRVL, "0")
+}
+
+record(mbbi, "$(P)$(R)ScatterMethod_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))SCATTER_METHOD")
+    field(ZRST, "Round robin")
+    field(ZRVL, "0")
+    field(SCAN, "I/O Intr")
+}

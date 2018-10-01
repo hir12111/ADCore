@@ -3,7 +3,6 @@ include $(TOP)/configure/CONFIG
 
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *db*))
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *Db*))
-DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard op*))
 
 DIRS += ADSrc
 
@@ -13,11 +12,13 @@ pluginSrc_DEPEND_DIRS += ADSrc
 DIRS += pluginTests
 pluginTests_DEPEND_DIRS += pluginSrc
 
-ifeq ($(WITH_EPICS_V4), YES)
+ifeq ($(WITH_PVA), YES)
   DIRS += ntndArrayConverterSrc
   ntndArrayConverterSrc_DEPEND_DIRS += ADSrc
   pluginSrc_DEPEND_DIRS += ntndArrayConverterSrc
 endif
+
+DIRS += op
 
 include $(TOP)/configure/RULES_DIRS
 

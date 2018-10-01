@@ -298,13 +298,13 @@ void NDPluginOverlay::processCallbacks(NDArray *pArray)
 {
   /* This function draws overlays
    * It is called with the mutex already locked.  It unlocks it during long calculations when private
-   * structures don't need to be protected.ks
+   * structures don't need to be protected.
    */
 
   int overlay;
   int itemp;
   NDArray *pOutput;
-  NDArrayInfo_t arrayInfo;
+  NDArrayInfo arrayInfo;
   std::vector<NDOverlay_t>pOverlays;
   NDOverlay_t *pOverlay;
   bool arrayInfoChanged;
@@ -312,16 +312,10 @@ void NDPluginOverlay::processCallbacks(NDArray *pArray)
   static const char* functionName = "processCallbacks";
 
   /* Call the base class method */
-  NDPluginDriver::processCallbacks(pArray);
+  NDPluginDriver::beginProcessCallbacks(pArray);
 
-  /* We always keep the last array so read() can use it.
-   * Release previous one. */
-  if (this->pArrays[0]) {
-    this->pArrays[0]->release();
-  }
   /* Copy the input array so we can modify it. */
   pOutput = this->pNDArrayPool->copy(pArray, NULL, 1);
-  this->pArrays[0] = pOutput;
   
   /* Get information about the array needed later */
   pOutput->getInfo(&arrayInfo);
@@ -376,12 +370,9 @@ void NDPluginOverlay::processCallbacks(NDArray *pArray)
       "%s::%s overlay %d, changed=%d, points=%d\n", 
       driverName, functionName, overlay, pOverlay->pvt.changed, (int)pOverlay->pvt.addressOffset.size());
   }
-  /* Get the attributes for this driver */
-  this->getAttributes(pOutput->pAttributeList);
-  /* Call any clients who have registered for NDArray callbacks */
-  doCallbacksGenericPointer(pOutput, NDArrayData, 0);
   this->lock();
   this->prevOverlays_ = pOverlays;
+  NDPluginDriver::endProcessCallbacks(pOutput, false, true);
   callParamCallbacks();
 }
 
@@ -406,17 +397,18 @@ void NDPluginOverlay::processCallbacks(NDArray *pArray)
   *      allowed to allocate. Set this to -1 to allow an unlimited amount of memory.
   * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   * \param[in] stackSize The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
+  * \param[in] maxThreads The maximum number of threads this driver is allowed to use. If 0 then 1 will be used.
   */
 NDPluginOverlay::NDPluginOverlay(const char *portName, int queueSize, int blockingCallbacks,
              const char *NDArrayPort, int NDArrayAddr, int maxOverlays,
              int maxBuffers, size_t maxMemory,
-             int priority, int stackSize)
+             int priority, int stackSize, int maxThreads)
   /* Invoke the base class constructor */
   : NDPluginDriver(portName, queueSize, blockingCallbacks,
-           NDArrayPort, NDArrayAddr, maxOverlays, NUM_NDPLUGIN_OVERLAY_PARAMS, maxBuffers, maxMemory,
+           NDArrayPort, NDArrayAddr, maxOverlays, maxBuffers, maxMemory,
            asynGenericPointerMask,
            asynGenericPointerMask,
-           ASYN_MULTIDEVICE, 1, priority, stackSize)
+           ASYN_MULTIDEVICE, 1, priority, stackSize, maxThreads)
 {
   //static const char *functionName = "NDPluginOverlay";
 
@@ -472,7 +464,7 @@ asynStatus NDPluginOverlay::writeInt32(asynUser *pasynUser, epicsInt32 value)
   int positionX, positionY, sizeX, sizeY, centerX, centerY;
   static const char* functionName = "writeInt32";
 
-  getAddress(pasynUser, &addr);
+  getAddress(pasynUser, &addr); 
   pOverlay = &prevOverlays_[addr];
 
   /* Set parameter and readback in parameter library */
@@ -536,10 +528,10 @@ asynStatus NDPluginOverlay::writeInt32(asynUser *pasynUser, epicsInt32 value)
 extern "C" int NDOverlayConfigure(const char *portName, int queueSize, int blockingCallbacks,
                  const char *NDArrayPort, int NDArrayAddr, int maxOverlays,
                  int maxBuffers, size_t maxMemory,
-                 int priority, int stackSize)
+                 int priority, int stackSize, int maxThreads)
 {
   NDPluginOverlay *pPlugin = new NDPluginOverlay(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, 
-                                                 maxOverlays, maxBuffers, maxMemory, priority, stackSize);
+                                                 maxOverlays, maxBuffers, maxMemory, priority, stackSize, maxThreads);
   return pPlugin->start();
 }
 
@@ -554,6 +546,7 @@ static const iocshArg initArg6 = { "maxBuffers",iocshArgInt};
 static const iocshArg initArg7 = { "maxMemory",iocshArgInt};
 static const iocshArg initArg8 = { "priority",iocshArgInt};
 static const iocshArg initArg9 = { "stackSize",iocshArgInt};
+static const iocshArg initArg10 = { "maxThreads",iocshArgInt};
 static const iocshArg * const initArgs[] = {&initArg0,
                                             &initArg1,
                                             &initArg2,
@@ -563,14 +556,15 @@ static const iocshArg * const initArgs[] = {&initArg0,
                                             &initArg6,
                                             &initArg7,
                                             &initArg8,
-                                            &initArg9};
-static const iocshFuncDef initFuncDef = {"NDOverlayConfigure",10,initArgs};
+                                            &initArg9,
+                                            &initArg10};
+static const iocshFuncDef initFuncDef = {"NDOverlayConfigure",11,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
   NDOverlayConfigure(args[0].sval, args[1].ival, args[2].ival,
                      args[3].sval, args[4].ival, args[5].ival,
                      args[6].ival, args[7].ival, args[8].ival,
-                     args[9].ival);
+                     args[9].ival, args[10].ival);
 }
 
 extern "C" void NDOverlayRegister(void)

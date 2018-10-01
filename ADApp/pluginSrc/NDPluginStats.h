@@ -5,27 +5,13 @@
 
 #include "NDPluginDriver.h"
 
-typedef struct NDStats {
-    size_t  nElements;
-    double  total;
-    double  net;
-    double  mean;
-    double  sigma;
-    double  min;
-    size_t  minX;
-    size_t  minY;    
-    double  max;
-    size_t  maxX;
-    size_t  maxY;
-} NDStats_t;
-
 typedef enum {
     profAverage,
     profThreshold,
     profCentroid,
-    profCursor
+    profCursor,
+    MAX_PROFILE_TYPES
 } NDStatProfileType;
-#define MAX_PROFILE_TYPES profCursor+1
 
 typedef enum {
     TSMinValue,
@@ -50,9 +36,9 @@ typedef enum {
     TSKurtosisY,
     TSEccentricity,
     TSOrientation,
-    TSTimestamp
+    TSTimestamp,
+    MAX_TIME_SERIES_TYPES
 } NDStatTSType;
-#define MAX_TIME_SERIES_TYPES TSTimestamp+1
 
 typedef enum {
     TSEraseStart,
@@ -60,6 +46,48 @@ typedef enum {
     TSStop,
     TSRead
 } NDStatsTSControl_t;
+
+typedef struct NDStats {
+    size_t  nElements;
+    double  total;
+    double  net;
+    double  mean;
+    double  sigma;
+    double  min;
+    size_t  minX;
+    size_t  minY;    
+    double  max;
+    size_t  maxX;
+    size_t  maxY;
+    double  centroidThreshold;
+    double  centroidTotal;
+    double  centroidX;
+    double  centroidY;
+    double  sigmaX;
+    double  sigmaY;
+    double  sigmaXY;
+    double  skewX;
+    double  skewY;
+    double  kurtosisX;
+    double  kurtosisY;
+    double  eccentricity;
+    double  orientation;
+    double  *profileX[MAX_PROFILE_TYPES];
+    double  *profileY[MAX_PROFILE_TYPES];
+    size_t profileSizeX;
+    size_t profileSizeY;
+    size_t cursorX;
+    size_t cursorY;
+    epicsInt32 *totalArray;
+    epicsInt32 *netArray;
+    int histSize;
+    double *histogram;
+    double histMin;
+    double histMax;
+    epicsInt32 histBelow;
+    epicsInt32 histAbove;
+    double histEntropy;
+} NDStats_t;
 
 /* Statistics */
 #define NDPluginStatsComputeStatisticsString  "COMPUTE_STATISTICS"  /* (asynInt32,        r/w) Compute statistics? */
@@ -91,36 +119,6 @@ typedef enum {
 #define NDPluginStatsEccentricityString       "ECCENTRICITY_VALUE"  /* (asynFloat64,      r/o) Eccentricity */
 #define NDPluginStatsOrientationString        "ORIENTATION_VALUE"   /* (asynFloat64,      r/o) Orientation */
     
-/* Time series of basic statistics and centroid statistics */
-#define NDPluginStatsTSControlString          "TS_CONTROL"          /* (asynInt32,        r/w) Erase/start, stop, start */
-#define NDPluginStatsTSNumPointsString        "TS_NUM_POINTS"       /* (asynInt32,        r/w) Number of time series points to use */
-#define NDPluginStatsTSCurrentPointString     "TS_CURRENT_POINT"    /* (asynInt32,        r/o) Current point in time series */
-#define NDPluginStatsTSAcquiringString        "TS_ACQUIRING"        /* (asynInt32,        r/o) Acquiring time series */
-#define NDPluginStatsTSMinValueString         "TS_MIN_VALUE"        /* (asynFloat64Array, r/o) Series of minimum counts */
-#define NDPluginStatsTSMinXString             "TS_MIN_X"            /* (asynFloat64Array, r/o) Series of X position of minimum counts */
-#define NDPluginStatsTSMinYString             "TS_MIN_Y"            /* (asynFloat64Array, r/o) Series of Y position of minimum counts */
-#define NDPluginStatsTSMaxValueString         "TS_MAX_VALUE"        /* (asynFloat64Array, r/o) Series of maximum counts */
-#define NDPluginStatsTSMaxXString             "TS_MAX_X"            /* (asynFloat64Array, r/o) Series of X position of maximum counts */
-#define NDPluginStatsTSMaxYString             "TS_MAX_Y"            /* (asynFloat64Array, r/o) Series of Y position of maximum counts */
-#define NDPluginStatsTSMeanValueString        "TS_MEAN_VALUE"       /* (asynFloat64Array, r/o) Series of mean counts */
-#define NDPluginStatsTSSigmaValueString       "TS_SIGMA_VALUE"      /* (asynFloat64Array, r/o) Series of sigma */
-#define NDPluginStatsTSTotalString            "TS_TOTAL"            /* (asynFloat64Array, r/o) Series of total */
-#define NDPluginStatsTSNetString              "TS_NET"              /* (asynFloat64Array, r/o) Series of net */
-#define NDPluginStatsTSSeriesMaxString        "TS_MAX_SUM"          /* (asynFloat64Array, r/o) Series of max elements sum */
-#define NDPluginStatsTSCentroidTotalString    "TS_CENTROIDTOTAL_VALUE"  /* (asynFloat64Array, r/o) Series of Total mass */
-#define NDPluginStatsTSCentroidXString        "TS_CENTROIDX_VALUE"  /* (asynFloat64Array, r/o) Series of X centroid */
-#define NDPluginStatsTSCentroidYString        "TS_CENTROIDY_VALUE"  /* (asynFloat64Array, r/o) Series of Y centroid */
-#define NDPluginStatsTSSigmaXString           "TS_SIGMAX_VALUE"     /* (asynFloat64Array, r/o) Series of sigma X */
-#define NDPluginStatsTSSigmaYString           "TS_SIGMAY_VALUE"     /* (asynFloat64Array, r/o) Series of sigma Y */
-#define NDPluginStatsTSSigmaXYString          "TS_SIGMAXY_VALUE"    /* (asynFloat64Array, r/o) Series of sigma XY */
-#define NDPluginStatsTSSkewXString            "TS_SKEWX_VALUE"      /* (asynFloat64Array, r/o) Series of skew X */
-#define NDPluginStatsTSSkewYString            "TS_SKEWY_VALUE"      /* (asynFloat64Array, r/o) Series of skew Y */
-#define NDPluginStatsTSKurtosisXString        "TS_KURTOSISX_VALUE"  /* (asynFloat64Array, r/o) Series of kurtosis X */
-#define NDPluginStatsTSKurtosisYString        "TS_KURTOSISY_VALUE"  /* (asynFloat64Array, r/o) Series of kurtosis Y */
-#define NDPluginStatsTSEccentricityString     "TS_ECCENTRICITY_VALUE"/* (asynFloat64Array, r/o) Series of eccentricity */
-#define NDPluginStatsTSOrientationString      "TS_ORIENTATION_VALUE"     /* (asynFloat64Array, r/o) Series of orientation */
-#define NDPluginStatsTSTimestampString        "TS_TIMESTAMP_VALUE"  /* (asynFloat64Array, r/o) Series of timestamps */
-
 /* Profiles*/   
 #define NDPluginStatsComputeProfilesString    "COMPUTE_PROFILES"    /* (asynInt32,        r/w) Compute profiles? */
 #define NDPluginStatsProfileSizeXString       "PROFILE_SIZE_X"      /* (asynInt32,        r/o) X profile size */
@@ -145,6 +143,7 @@ typedef enum {
 #define NDPluginStatsHistAboveString          "HIST_ABOVE"          /* (asynInt32,        r/o) Number of pixels above maximum */
 #define NDPluginStatsHistEntropyString        "HIST_ENTROPY"        /* (asynFloat64,      r/o) Image entropy calculcated from histogram */
 #define NDPluginStatsHistArrayString          "HIST_ARRAY"          /* (asynFloat64Array, r/o) Histogram array */
+#define NDPluginStatsHistXArrayString         "HIST_X_ARRAY"        /* (asynFloat64Array, r/o) Histogram X axis array */
 
 
 /* Arrays of total and net counts for MCA or waveform record */   
@@ -160,7 +159,7 @@ public:
     NDPluginStats(const char *portName, int queueSize, int blockingCallbacks, 
                  const char *NDArrayPort, int NDArrayAddr,
                  int maxBuffers, size_t maxMemory,
-                 int priority, int stackSize);
+                 int priority, int stackSize, int maxThreads=1);
     /* These methods override the virtual methods in the base class */
     void processCallbacks(NDArray *pArray);
     asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -168,12 +167,12 @@ public:
     
     template <typename epicsType> void doComputeStatisticsT(NDArray *pArray, NDStats_t *pStats);
     int doComputeStatistics(NDArray *pArray, NDStats_t *pStats);
-    template <typename epicsType> asynStatus doComputeCentroidT(NDArray *pArray);
-    asynStatus doComputeCentroid(NDArray *pArray);
-    template <typename epicsType> asynStatus doComputeProfilesT(NDArray *pArray);
-    asynStatus doComputeProfiles(NDArray *pArray);
-    template <typename epicsType> asynStatus doComputeHistogramT(NDArray *pArray);
-    asynStatus doComputeHistogram(NDArray *pArray);
+    template <typename epicsType> asynStatus doComputeCentroidT(NDArray *pArray, NDStats_t *pStats);
+    asynStatus doComputeCentroid(NDArray *pArray, NDStats_t *pStats);
+    template <typename epicsType> asynStatus doComputeProfilesT(NDArray *pArray, NDStats_t *pStats);
+    asynStatus doComputeProfiles(NDArray *pArray, NDStats_t *pStats);
+    template <typename epicsType> asynStatus doComputeHistogramT(NDArray *pArray, NDStats_t *pStats);
+    asynStatus doComputeHistogram(NDArray *pArray, NDStats_t *pStats);
    
 protected:
     int NDPluginStatsComputeStatistics;
@@ -206,35 +205,6 @@ protected:
     int NDPluginStatsKurtosisY;
     int NDPluginStatsEccentricity;
     int NDPluginStatsOrientation;
-
-    /* Time Series */
-    int NDPluginStatsTSControl;
-    int NDPluginStatsTSNumPoints;
-    int NDPluginStatsTSCurrentPoint;
-    int NDPluginStatsTSAcquiring;
-    int NDPluginStatsTSMinValue;
-    int NDPluginStatsTSMinX;
-    int NDPluginStatsTSMinY;                
-    int NDPluginStatsTSMaxValue;
-    int NDPluginStatsTSMaxX;
-    int NDPluginStatsTSMaxY;            
-    int NDPluginStatsTSMeanValue;
-    int NDPluginStatsTSSigmaValue;
-    int NDPluginStatsTSTotal;
-    int NDPluginStatsTSNet;
-    int NDPluginStatsTSCentroidTotal;
-    int NDPluginStatsTSCentroidX;
-    int NDPluginStatsTSCentroidY;
-    int NDPluginStatsTSSigmaX;
-    int NDPluginStatsTSSigmaY;
-    int NDPluginStatsTSSigmaXY;
-    int NDPluginStatsTSSkewX;
-    int NDPluginStatsTSSkewY;
-    int NDPluginStatsTSKurtosisX;
-    int NDPluginStatsTSKurtosisY;
-    int NDPluginStatsTSEccentricity;
-    int NDPluginStatsTSOrientation;
-    int NDPluginStatsTSTimestamp;
     
     /* Profiles */
     int NDPluginStatsComputeProfiles;
@@ -260,42 +230,10 @@ protected:
     int NDPluginStatsHistAbove;
     int NDPluginStatsHistEntropy;
     int NDPluginStatsHistArray;
+    int NDPluginStatsHistXArray;
 
-    #define LAST_NDPLUGIN_STATS_PARAM NDPluginStatsHistArray
-                                
 private:
-    double  centroidThreshold;
-    double  centroidTotal;
-    double  centroidX;
-    double  centroidY;
-    double  sigmaX;
-    double  sigmaY;
-    double  sigmaXY;
-    double  skewX;
-    double  skewY;
-    double  kurtosisX;
-    double  kurtosisY;
-    double  eccentricity;
-    double  orientation;
-    double  *profileX[MAX_PROFILE_TYPES];
-    double  *profileY[MAX_PROFILE_TYPES];
-    double  *timeSeries[MAX_TIME_SERIES_TYPES];
-    size_t profileSizeX;
-    size_t profileSizeY;
-    size_t cursorX;
-    size_t cursorY;
-    epicsInt32 *totalArray;
-    epicsInt32 *netArray;
-    size_t histogramSize;
-    size_t histSizeNew;
-    double *histogram;
-    double histMin;
-    double histMax;
-    epicsInt32 histBelow;
-    epicsInt32 histAbove;
-    double histEntropy;
-    void doTimeSeriesCallbacks();
+    asynStatus computeHistX();
 };
-#define NUM_NDPLUGIN_STATS_PARAMS ((int)(&LAST_NDPLUGIN_STATS_PARAM - &FIRST_NDPLUGIN_STATS_PARAM + 1))
-    
+
 #endif
