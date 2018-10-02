@@ -27,6 +27,7 @@ WITH_ZLIB     = YES
 ZLIB_EXTERNAL = YES
 
 WITH_BOOST    = YES
+BOOST_EXTERNAL = YES
 BOOST_INCLUDE         = /usr/include
 BOOST_LIB	      = /usr/lib64
 
