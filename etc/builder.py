@@ -554,7 +554,7 @@ class NDOverlay(AsynPort):
     _SpecificTemplate = NDOverlayTemplate
     NOverlays = 8
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MAX_THREADS = 1, **args):
+    def __init__(self, PORT, NDARRAY_PORT, TIMEOUT=1, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MAX_THREADS = 1, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -566,12 +566,13 @@ class NDOverlay(AsynPort):
         for i in range(self.NOverlays):
             NDOverlayNTemplate(P = args["P"], O = args["R"], R = "%s%d:" % (args["R"], i + 1),
                 NAME = "Overlay %d" % (i + 1), SHAPE = 1, XPOS = "", YPOS = "", XSIZE = "",
-                YSIZE = "", XWIDTH = "", YWIDTH = "", PORT = PORT, ADDR = i, TIMEOUT = args["TIMEOUT"])
+                YSIZE = "", XWIDTH = "", YWIDTH = "", PORT = PORT, ADDR = i, TIMEOUT = self.TIMEOUT)
 
     ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
         PORT = Simple('Port name for the NDOverlay plugin', str),
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
+        TIMEOUT = Simple('Timeout', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         MAX_THREADS = Simple('Maximum number threads', int))
@@ -597,11 +598,10 @@ class NDROIStat(AsynPort):
     UniqueName = 'PORT'
     _SpecificTemplate = NDROIStatTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
+    def __init__(self, PORT, NDARRAY_PORT, TIMEOUT=1, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
                  MAX_ROIS=8, NCHANS=4096, MAX_THREADS=1, **args):
         super(NDROIStat, self).__init__(PORT)
         self.__dict__.update(locals())
-        self.TIMEOUT = args['TIMEOUT']
         makeTemplateInstance(self._SpecificTemplate, locals(), args)
         self._create_roi_stat_n_templates()
 
@@ -617,6 +617,7 @@ class NDROIStat(AsynPort):
         PORT = Simple('Port name for the NDPluginROIStat plugin', str),
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
+        TIMEOUT = Simple('Timeout', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         MAX_ROIS = Simple('Maximum number of ROIs in this plugin', int),
@@ -994,7 +995,7 @@ class NDTimeSeries(AsynPort):
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDTimeSeriesTemplate
-    def __init__(self, PORT, NDARRAY_PORT, NSIGNALS = 1, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, **args):
+    def __init__(self, PORT, NDARRAY_PORT, TIMEOUT=1, NSIGNALS = 1, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the command line args
@@ -1003,7 +1004,7 @@ class NDTimeSeries(AsynPort):
         makeTemplateInstance(self._SpecificTemplate, locals(), args)
         # Create each time series signal
         self.createNSignalsTimeSeriesNTemplates(P = args["P"], R = args["R"], 
-            PORT = PORT, NSIGNALS = NSIGNALS, TIMEOUT = args["TIMEOUT"], 
+            PORT = PORT, NSIGNALS = NSIGNALS, TIMEOUT = TIMEOUT, 
             NCHANS = args["NCHANS"])
 
     def createNSignalsTimeSeriesNTemplates(self, P, R, PORT, NSIGNALS, 
@@ -1021,6 +1022,7 @@ class NDTimeSeries(AsynPort):
         PORT = Simple('Port name for the NDTimeSeries plugin', str),
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
+        TIMEOUT = Simple('Timeout', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         NSIGNALS = Simple('Maximum number of time series signals', int),
