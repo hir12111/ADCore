@@ -431,10 +431,10 @@ class NDStats(AsynPort):
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
         self.__dict__.update(locals())
-        # Copy args as object attribute
+        # Set args for use in Initialise()
+        self.args = args
         self.args['NCHANS'] = NCHANS
         self.args['TS_PORT'] = PORT + "_TS"
-        self.args = args
         # Make an instance of our template
         makeTemplateInstance(self._SpecificTemplate, locals(), args)
 
@@ -468,6 +468,8 @@ class NDStats(AsynPort):
 
     ArgInfo = makeArgInfo(__init__,
         PORT = Simple('Port name for the NDStats plugin', str),
+        P = Simple('Device Prefix', str),
+        R = Simple('Device Suffix', str),
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
         ENABLED   = Simple('Plugin Enabled at startup?', int),
@@ -478,8 +480,6 @@ class NDStats(AsynPort):
         ADDR = Simple('Asyn Port address', int),
         XSIZE = Simple('XSIZE, Maximum size of X histograms (e.g. 1024)', int),
         YSIZE = Simple('Maximum size of Y histograms (e.g. 768)', int),
-        P = Simple('Device Prefix', str),
-        R = Simple('Device Suffix', str),
         TIMEOUT = Simple('Timeout', int),
         NCHANS = Simple('Maximum length of time series (initialises waveform NELM, fixed on IOC boot)', int))
 
@@ -648,11 +648,10 @@ class NDAttribute(AsynPort):
     UniqueName = 'PORT'
     _SpecificTemplate = NDAttributeTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
+    def __init__(self, PORT, NDARRAY_PORT, TIMEOUT=1, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0,
                  MAX_ATTRIBUTES=8, NCHANS=4096, **args):
         super(NDAttribute, self).__init__(PORT)
         self.__dict__.update(locals())
-        self.TIMEOUT = args['TIMEOUT']
         makeTemplateInstance(self._SpecificTemplate, locals(), args)
         self._create_attribute_n_templates()
 
@@ -672,6 +671,7 @@ class NDAttribute(AsynPort):
         PORT = Simple('Port name for the NDAttribute plugin', str),
         QUEUE = Simple('Input array queue size', int),
         BLOCK = Simple('Blocking callbacks?', int),
+        TIMEOUT = Simple('Timeout', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         MAX_ATTRIBUTES = Simple('Maximum number of attributes in this plugin',
@@ -912,10 +912,10 @@ class NDCircularBuff(AsynPort):
 
     def Initialise(self):
         print '# NDCircularBuffConfigure(portName, queueSize, blockingCallbacks, ' \
-              'NDArrayPort, NDArrayAddr, 0, 0)'
+              'NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)'
         print 'NDCircularBuffConfigure(' \
               '"%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", ' \
-              '"%(NDARRAY_ADDR)s", 0, %(MEMORY)d)' % self.__dict__
+              '"%(NDARRAY_ADDR)s", 0, 0)' % self.__dict__
               
 ##############################
 
@@ -1028,7 +1028,7 @@ class NDTimeSeries(AsynPort):
         STACKSIZE = Simple('Stack size if ASYN_CANBLOCK is set', int))
 
     def Initialise(self):
-        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)'
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, max, priority, stackSize)'
         print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NSIGNALS)d, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
 
 #############################
