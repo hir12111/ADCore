@@ -1030,7 +1030,7 @@ class NDTimeSeries(AsynPort):
         STACKSIZE = Simple('Stack size if ASYN_CANBLOCK is set', int))
 
     def Initialise(self):
-        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, max, priority, stackSize)'
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)'
         print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NSIGNALS)d, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
 
 #############################
