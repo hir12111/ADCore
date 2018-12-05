@@ -1,0 +1,3 @@
+gitolite ssh://dascgitolite@dasc-git.diamond.ac.uk/controls/support/ADCore
+dls-controls git@github.com:dls-controls/ADCore.git
+upstream git@github.com:areaDetector/ADCore.git
