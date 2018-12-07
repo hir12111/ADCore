@@ -19,50 +19,60 @@
 # % gui, $(PORT), boyembed, ADApp_opi/dls/roi_embed_box.opi, P=$(P), R=$(R), DESC=Region of Interest
 # % gui, $(PORT), boyembed, ADApp_opi/dls/roi_embed.opi, P=$(P), R=$(R), DESC=Region of Interest
 
-# Info
+# % gui, $(PORT), groupHeading, Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
 # % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
 # Input
-# % gui, $(PORT), demand, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), demandString, Input,   $(P)$(R)NDArrayPort
 # % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+
+# % gui, $(PORT), groupHeading, Callback
 # % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
-# % gui, $(PORT), readback, Callbacks,   $(P)$(R)EnableCallbacks_RBV
-# % gui, $(PORT), demand, Min Time,   $(P)$(R)MinCallbackTime
-# % gui, $(PORT), readback, Min Time,   $(P)$(R)MinCallbackTime_RBV
-# % gui, $(PORT), enum, Blocking,   $(P)$(R)BlockingCallbacks
-# % gui, $(PORT), readback, Blocking,   $(P)$(R)BlockingCallbacks_RBV
-# % gui, $(PORT), demand, Array counter,   $(P)$(R)ArrayCounter
-# % gui, $(PORT), readback, Array counter,   $(P)$(R)ArrayCounter_RBV
-# % gui, $(PORT), readback, Array rate,   $(P)$(R)ArrayRate_RBV
-# % gui, $(PORT), readback, Queue use,   $(P)$(R)QueueUse
-# % gui, $(PORT), readback, Queue size,   $(P)$(R)QueueSize
-# % gui, $(PORT), demand, Dropped,   $(P)$(R)DroppedArrays
-# % gui, $(PORT), readback, Dropped,   $(P)$(R)DroppedArrays_RBV
+# % gui, $(PORT), statusbits, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Callback Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Callback Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Block Callbacks,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), statusbits, Block Callbacks,   $(P)$(R)BlockingCallbacks_RBV
+
+# % gui, $(PORT), groupHeading, Counters
+# % gui, $(PORT), demand, Array Counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array Counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array Rate (fps),   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue Use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue Size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped Arrays,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped Arrays,   $(P)$(R)DroppedArrays_RBV
+
+# % gui, $(PORT), groupHeading, Array Settings
 # % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
-# % gui, $(PORT), readback, Dim 0 size,   $(P)$(R)ArraySize0_RBV
-# % gui, $(PORT), readback, Dim 1 size,   $(P)$(R)ArraySize1_RBV
-# % gui, $(PORT), readback, Dim 2 size,   $(P)$(R)ArraySize2_RBV
-# % gui, $(PORT), readback, In data type,   $(P)$(R)DataType_RBV
-# % gui, $(PORT), readback, Colour mode,   $(P)$(R)ColorMode_RBV
-# % gui, $(PORT), readback, Bayer pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Dim 0 Size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 Size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 Size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, Input Data Type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour Mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer Pattern,   $(P)$(R)BayerPattern_RBV
 # % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
 # % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+
 # Output
+# % gui, $(PORT), groupHeading, Output
 # % gui, $(PORT), demand, Name,   $(P)$(R)Name
 # % gui, $(PORT), enum, Out data type,   $(P)$(R)DataTypeOut
 # % gui, $(PORT), readback, Out data type,   $(P)$(R)DataTypeOut_RBV
 # % gui, $(PORT), demand, Attributes file,   $(P)$(R)NDAttributesFile
 # Scaling
-# % gui, $(PORT), enum, Scaling,   $(P)$(R)EnableScale
-# % gui, $(PORT), readback, Scaling,   $(P)$(R)EnableScale_RBV
-# % gui, $(PORT), demand, Scale divisor,   $(P)$(R)Scale
-# % gui, $(PORT), readback, Scale divisor,   $(P)$(R)Scale_RBV
+# % gui, $(PORT), groupHeading, Scaling
+# % gui, $(PORT), enum, Enable Scaling,   $(P)$(R)EnableScale
+# % gui, $(PORT), readback, Enable Scaling,   $(P)$(R)EnableScale_RBV
+# % gui, $(PORT), demand, Scale Divisor,   $(P)$(R)Scale
+# % gui, $(PORT), readback, Scale Divisor,   $(P)$(R)Scale_RBV
 # X region
+# % gui, $(PORT), groupHeading, X Region
 # % gui, $(PORT), enum, X,   $(P)$(R)EnableX
 # % gui, $(PORT), readback, X,   $(P)$(R)EnableX_RBV
 # % gui, $(PORT), enum, Autosize X,   $(P)$(R)AutoSizeX
 # % gui, $(PORT), readback, Autosize X,   $(P)$(R)AutoSizeX_RBV
-# % gui, $(PORT), readback, Input size X,   $(P)$(R)MaxSizeX_RBV
+# % gui, $(PORT), readback, Input Size X,   $(P)$(R)MaxSizeX_RBV
 # % gui, $(PORT), demand, Binning X,   $(P)$(R)BinX
 # % gui, $(PORT), readback, Binning X,   $(P)$(R)BinX_RBV
 # % gui, $(PORT), demand, Start X,   $(P)$(R)MinX
@@ -73,6 +83,7 @@
 # % gui, $(PORT), readback, Reverse X,   $(P)$(R)ReverseX_RBV
 # % gui, $(PORT), readback, Bytes X,   $(P)$(R)ArraySizeX_RBV
 # Y region
+# % gui, $(PORT), groupHeading, Y Region
 # % gui, $(PORT), enum, Y,   $(P)$(R)EnableY
 # % gui, $(PORT), readback, Y,   $(P)$(R)EnableY_RBV
 # % gui, $(PORT), enum, Autosize Y,   $(P)$(R)AutoSizeY
@@ -88,6 +99,7 @@
 # % gui, $(PORT), readback, Reverse Y,   $(P)$(R)ReverseY_RBV
 # % gui, $(PORT), readback, Bytes Y,   $(P)$(R)ArraySizeY_RBV
 # Z region
+# % gui, $(PORT), groupHeading, Z Region
 # % gui, $(PORT), enum, Z,   $(P)$(R)EnableZ
 # % gui, $(PORT), readback, Z,   $(P)$(R)EnableZ_RBV
 # % gui, $(PORT), enum, Autosize Z,   $(P)$(R)AutoSizeZ
@@ -103,6 +115,7 @@
 # % gui, $(PORT), readback, Reverse Z,   $(P)$(R)ReverseZ_RBV
 # % gui, $(PORT), readback, Bytes Z,   $(P)$(R)ArraySizeZ_RBV
 # Memory
+# % gui, $(PORT), groupHeading, Memory
 # % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
 # % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
 # % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem

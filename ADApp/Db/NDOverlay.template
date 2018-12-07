@@ -19,37 +19,51 @@
 # % gui, $(PORT), boyembed, ADApp_opi/dls/over_embed_box.opi, P=$(P), R=$(R), DESC=Overlay
 # % gui, $(PORT), boyembed, ADApp_opi/dls/over_embed.opi, P=$(P), R=$(R), DESC=Overlay
 
-# Info
+
+# % gui, $(PORT), groupHeading, Info
 # % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
 # % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
 # Input
-# % gui, $(PORT), demand, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), demandString, Input,   $(P)$(R)NDArrayPort
 # % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+
+# % gui, $(PORT), groupHeading, Callback
 # % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
-# % gui, $(PORT), readback, Callbacks,   $(P)$(R)EnableCallbacks_RBV
-# % gui, $(PORT), demand, Min Time,   $(P)$(R)MinCallbackTime
-# % gui, $(PORT), readback, Min Time,   $(P)$(R)MinCallbackTime_RBV
-# % gui, $(PORT), enum, Blocking,   $(P)$(R)BlockingCallbacks
-# % gui, $(PORT), readback, Blocking,   $(P)$(R)BlockingCallbacks_RBV
-# % gui, $(PORT), demand, Array counter,   $(P)$(R)ArrayCounter
-# % gui, $(PORT), readback, Array counter,   $(P)$(R)ArrayCounter_RBV
-# % gui, $(PORT), readback, Array rate,   $(P)$(R)ArrayRate_RBV
-# % gui, $(PORT), readback, Queue use,   $(P)$(R)QueueUse
-# % gui, $(PORT), readback, Queue size,   $(P)$(R)QueueSize
-# % gui, $(PORT), demand, Dropped,   $(P)$(R)DroppedArrays
-# % gui, $(PORT), readback, Dropped,   $(P)$(R)DroppedArrays_RBV
+# % gui, $(PORT), statusbits, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Callback Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Callback Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Block Callbacks,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), statusbits, Block Callbacks,   $(P)$(R)BlockingCallbacks_RBV
+
+# % gui, $(PORT), groupHeading, Counters
+# % gui, $(PORT), demand, Array Counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array Counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array Rate (fps),   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue Use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue Size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped Arrays,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped Arrays,   $(P)$(R)DroppedArrays_RBV
+
+# % gui, $(PORT), groupHeading, Array Settings
 # % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
-# % gui, $(PORT), readback, Dim 0 size,   $(P)$(R)ArraySize0_RBV
-# % gui, $(PORT), readback, Dim 1 size,   $(P)$(R)ArraySize1_RBV
-# % gui, $(PORT), readback, Dim 2 size,   $(P)$(R)ArraySize2_RBV
-# % gui, $(PORT), readback, In data type,   $(P)$(R)DataType_RBV
-# % gui, $(PORT), readback, Colour mode,   $(P)$(R)ColorMode_RBV
-# % gui, $(PORT), readback, Bayer pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Dim 0 Size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 Size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 Size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, Input Data Type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour Mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer Pattern,   $(P)$(R)BayerPattern_RBV
 # % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
 # % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+
 # Output
+# % gui, $(PORT), groupHeading, Output
+# % gui, $(PORT), demand, Name,   $(P)$(R)Name
+# % gui, $(PORT), enum, Out data type,   $(P)$(R)DataTypeOut
+# % gui, $(PORT), readback, Out data type,   $(P)$(R)DataTypeOut_RBV
 # % gui, $(PORT), demand, Attributes file,   $(P)$(R)NDAttributesFile
+
 # Overlay 1
+# % gui, $(PORT), groupHeading, Overlay 1 Settings
 # % gui, $(PORT), demand, Overlay 1,   $(P)$(R)1:Name
 # % gui, $(PORT), enum, Use 1,   $(P)$(R)1:Use
 # % gui, $(PORT), readback, Use 1,   $(P)$(R)1:Use_RBV
@@ -82,6 +96,7 @@
 # % gui, $(PORT), readback, Y Size 1,   $(P)$(R)1:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 1,   $(P)$(R)1:SizeYLink.DOL
 # Overlay 2
+# % gui, $(PORT), groupHeading, Overlay 2 Settings
 # % gui, $(PORT), demand, Overlay 2,   $(P)$(R)2:Name
 # % gui, $(PORT), enum, Use 2,   $(P)$(R)2:Use
 # % gui, $(PORT), readback, Use 2,   $(P)$(R)2:Use_RBV
@@ -114,6 +129,7 @@
 # % gui, $(PORT), readback, Y Size 2,   $(P)$(R)2:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 2,   $(P)$(R)2:SizeYLink.DOL
 # Overlay 3
+# % gui, $(PORT), groupHeading, Overlay 3 Settings
 # % gui, $(PORT), demand, Overlay 3,   $(P)$(R)3:Name
 # % gui, $(PORT), enum, Use 3,   $(P)$(R)3:Use
 # % gui, $(PORT), readback, Use 3,   $(P)$(R)3:Use_RBV
@@ -146,6 +162,7 @@
 # % gui, $(PORT), readback, Y Size 3,   $(P)$(R)3:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 3,   $(P)$(R)3:SizeYLink.DOL
 # Overlay 4
+# % gui, $(PORT), groupHeading, Overlay 4 Settings
 # % gui, $(PORT), demand, Overlay 4,   $(P)$(R)4:Name
 # % gui, $(PORT), enum, Use 4,   $(P)$(R)4:Use
 # % gui, $(PORT), readback, Use 4,   $(P)$(R)4:Use_RBV
@@ -178,6 +195,7 @@
 # % gui, $(PORT), readback, Y Size 4,   $(P)$(R)4:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 4,   $(P)$(R)4:SizeYLink.DOL
 # Overlay 5
+# % gui, $(PORT), groupHeading, Overlay 5 Settings
 # % gui, $(PORT), demand, Overlay 5,   $(P)$(R)5:Name
 # % gui, $(PORT), enum, Use 5,   $(P)$(R)5:Use
 # % gui, $(PORT), readback, Use 5,   $(P)$(R)5:Use_RBV
@@ -210,6 +228,7 @@
 # % gui, $(PORT), readback, Y Size 5,   $(P)$(R)5:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 5,   $(P)$(R)5:SizeYLink.DOL
 # Overlay 6
+# % gui, $(PORT), groupHeading, Overlay 6 Settings
 # % gui, $(PORT), demand, Overlay 6,   $(P)$(R)6:Name
 # % gui, $(PORT), enum, Use 6,   $(P)$(R)6:Use
 # % gui, $(PORT), readback, Use 6,   $(P)$(R)6:Use_RBV
@@ -242,6 +261,7 @@
 # % gui, $(PORT), readback, Y Size 6,   $(P)$(R)6:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 6,   $(P)$(R)6:SizeYLink.DOL
 # Overlay 7
+# % gui, $(PORT), groupHeading, Overlay 7 Settings
 # % gui, $(PORT), demand, Overlay 7,   $(P)$(R)7:Name
 # % gui, $(PORT), enum, Use 7,   $(P)$(R)7:Use
 # % gui, $(PORT), readback, Use 7,   $(P)$(R)7:Use_RBV
@@ -274,6 +294,7 @@
 # % gui, $(PORT), readback, Y Size 7,   $(P)$(R)7:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 7,   $(P)$(R)7:SizeYLink.DOL
 # Overlay 8
+# % gui, $(PORT), groupHeading, Overlay 8 Settings
 # % gui, $(PORT), demand, Overlay 8,   $(P)$(R)8:Name
 # % gui, $(PORT), enum, Use 8,   $(P)$(R)8:Use
 # % gui, $(PORT), readback, Use 8,   $(P)$(R)8:Use_RBV
