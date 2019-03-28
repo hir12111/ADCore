@@ -133,6 +133,15 @@ const char *NDFileHDF5::str_NDFileHDF5_posIndex[MAXEXTRADIMS] = {
     "HDF5_posIndexDim9"
 };
 
+/** The task to run the thread for flush commands
+ * \param[in] drvPvt Pointer to the NDFileHDF5 object
+ */
+static void flushTaskC(void *drvPvt)
+{
+    NDFileHDF5 *pPlugin = (NDFileHDF5 *)drvPvt;
+    pPlugin->flushTask();
+}
+
 /** Opens a HDF5 file.  
  * In write mode if NDFileModeMultiple is set then the first dataspace dimension is set to H5S_UNLIMITED to allow 
  * multiple arrays to be written to the same file.
@@ -307,6 +316,70 @@ asynStatus NDFileHDF5::openFile(const char *fileName, NDFileOpenMode_t openMode,
   return asynSuccess;
 }
 
+/** Thread function for flush now command
+ * Waits for flush events, and upon receiving one, flushes all datasets and attributes, ensuring
+ * that the unique ID attribute is the last attribute flushed
+ */
+void NDFileHDF5::flushTask()
+{
+    const char* functionName = "flushTask";
+    NDAttribute *ndAttr = NULL;
+    NDFileHDF5AttributeDataset *uniqueIDNode = NULL;
+    asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Started flushTask thread\n", driverName, functionName);
+    while (1){
+        // Wait for a flush event
+        epicsEventWait(this->flushEventId);
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Received flush event\n", driverName, functionName);
+        // Now lock the flushLock
+        flushLock.lock();
+        // Perform the flush
+        if (checkForSWMRMode()){
+            // We are in SWMR mode so flush all datasets
+            std::map<std::string, NDFileHDF5Dataset *>::iterator iter;
+            for (iter = this->detDataMap.begin(); iter != this->detDataMap.end(); ++iter){
+                iter->second->flushDataset();
+            }
+            // Now flush all attribute datasets
+            for (std::list<NDFileHDF5AttributeDataset*>::iterator it_node = attrList.begin(); it_node != attrList.end(); ++it_node){
+                NDFileHDF5AttributeDataset *hdfAttrNode = *it_node;
+                // find the named attribute in the NDAttributeList
+                // We do not want to flush the unique ID attribute at this stage
+                if (strcmp(uniqueIDName, hdfAttrNode->getName().c_str())){
+                    ndAttr = this->pFileAttributes->find(hdfAttrNode->getName().c_str());
+                    if (ndAttr == NULL){
+                        asynPrint(this->pasynUserSelf, ASYN_TRACE_WARNING,
+                                "%s::%s WARNING: NDAttribute named \'%s\' not found\n",
+                                driverName, functionName, hdfAttrNode->getName().c_str());
+                        continue;
+                    }
+                    hdfAttrNode->flushDataset();
+                } else {
+                    // Keep the unique ID node ready to flush it as the last attribute
+                    uniqueIDNode = *it_node;
+                }
+            }
+            // Now locate and flush the unique ID attribute ensuring it is the last attribute flushed
+            ndAttr = this->pFileAttributes->find(uniqueIDName);
+            if (ndAttr == NULL || uniqueIDNode == NULL){
+                asynPrint(this->pasynUserSelf, ASYN_TRACE_WARNING,
+                  "%s::%s WARNING: NDAttribute named \'NDArrayUniqueId\' not found\n",
+                  driverName, functionName);
+            } else {
+                uniqueIDNode->flushDataset();
+            }
+        }
+
+        // Unlock the flushLock
+        flushLock.unlock();
+        // Now take the standard lock
+        this->lock();
+        // Update the flush parameter
+        setIntegerParam(NDFileHDF5_SWMRFlushNow, 0);
+        callParamCallbacks();
+        // Unlock the standard lock
+        this->unlock();
+    }
+}
 
 asynStatus NDFileHDF5::startSWMR()
 {
@@ -1249,10 +1322,15 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
   hsize_t offsets[MAXEXTRADIMS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   static const char *functionName = "writeFile";
 
+  // Take the flushing lock here, we do not let a manual flush occur
+  // from a different thread during execution of this method.
+  flushLock.lock();
+
   if (this->file == 0) {
     asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, 
               "%s::%s file is not open!\n", 
               driverName, functionName);
+    flushLock.unlock();          
     return asynError;
   }
 
@@ -1290,6 +1368,7 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
       asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
                 "%s::%s ERROR: could not update the attribute list\n",
                 driverName, functionName);
+      flushLock.unlock();
       return asynError;
     }
 
@@ -1306,6 +1385,7 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
       asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
                 "%s::%s ERROR: could not append attributes to NDArray from driver\n",
                 driverName, functionName);
+      flushLock.unlock();
       return asynError;
     }
   }
@@ -1333,6 +1413,7 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
         asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
                   "%s::%s ERROR: could not retrieve destination from specified attribute\n",
                   driverName, functionName);
+        flushLock.unlock();
         return asynError;
       }
     }
@@ -1417,6 +1498,7 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
     setIntegerParam(NDFileCapture, 0);
     setIntegerParam(NDWriteFile, 0);
     this->unlock();
+    flushLock.unlock();
     return asynError;
   }
 
@@ -1440,6 +1522,7 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
       status = this->writeAttributeDataset(hdf5::OnFrame, 0, offsets);
     }
     if (status != asynSuccess){
+      flushLock.unlock();
       return status;
     }
   }
@@ -1480,6 +1563,10 @@ asynStatus NDFileHDF5::writeFile(NDArray *pArray)
 
     this->nextRecord++;
   }
+
+  // Release the flushing lock here to allow a manual flush
+  flushLock.unlock();
+
   return status;
 }
 
@@ -1853,6 +1940,18 @@ asynStatus NDFileHDF5::writeInt32(asynUser *pasynUser, epicsInt32 value)
       setIntegerParam(NDFileHDF5_SWMRSupported, 0);
     }
     status = asynError;
+  } else if (function == NDFileHDF5_SWMRFlushNow){
+	  if (this->file != 0 && value > 0){
+		  // Set the parameter
+		  setIntegerParam(NDFileHDF5_SWMRFlushNow, 1);
+		  callParamCallbacks();
+		  // Now send the event to the flush task
+		  epicsEventSignal(this->flushEventId);
+	  } else {
+		  // We cannot flush if we are not saving to file
+	      status = asynError;
+	      setIntegerParam(function, oldvalue);
+	  }
   } else
   {
     if (function < FIRST_NDFILE_HDF5_PARAM)
@@ -2001,7 +2100,8 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
                  0, 0, asynGenericPointerMask, asynGenericPointerMask, 
                  ASYN_CANBLOCK, 1, priority, stackSize, 1)
 {
-  //static const char *functionName = "NDFileHDF5";
+  static const char *functionName = "NDFileHDF5";
+  int status = asynSuccess;
 
   this->createParam(str_NDFileHDF5_nRowChunks,      asynParamInt32,   &NDFileHDF5_nRowChunks);
   this->createParam(str_NDFileHDF5_nColChunks,      asynParamInt32,   &NDFileHDF5_nColChunks);
@@ -2040,6 +2140,7 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
     this->createParam(str_NDFileHDF5_posIndex[extraDimIndex],   asynParamOctet,   &NDFileHDF5_posIndex[extraDimIndex]);
   }
   this->createParam(str_NDFileHDF5_fillValue,       asynParamFloat64, &NDFileHDF5_fillValue);
+  this->createParam(str_NDFileHDF5_SWMRFlushNow,    asynParamInt32,   &NDFileHDF5_SWMRFlushNow);
   this->createParam(str_NDFileHDF5_SWMRCbCounter,   asynParamInt32,   &NDFileHDF5_SWMRCbCounter);
   this->createParam(str_NDFileHDF5_SWMRSupported,   asynParamInt32,   &NDFileHDF5_SWMRSupported);
   this->createParam(str_NDFileHDF5_SWMRMode,        asynParamInt32,   &NDFileHDF5_SWMRMode);
@@ -2081,6 +2182,7 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
     setStringParam(NDFileHDF5_posIndex[extraDimIndex],   "");
   }
   setDoubleParam (NDFileHDF5_fillValue,       0.0);
+  setIntegerParam(NDFileHDF5_SWMRFlushNow,    0);
   setIntegerParam(NDFileHDF5_SWMRCbCounter,   0);
   setIntegerParam(NDFileHDF5_SWMRMode,        0);
   setIntegerParam(NDFileHDF5_SWMRRunning,     0);
@@ -2135,6 +2237,23 @@ NDFileHDF5::NDFileHDF5(const char *portName, int queueSize, int blockingCallback
 
   this->hostname = (char*)calloc(MAXHOSTNAMELEN, sizeof(char));
   gethostname(this->hostname, MAXHOSTNAMELEN);
+
+  this->flushEventId = epicsEventCreate(epicsEventEmpty);
+  if (!this->flushEventId){
+      printf("%s:%s epicsEventCreate failure for flush event\n", driverName, functionName);
+      return;
+  }
+
+  // Create the thread that manages flush commands
+  status = (epicsThreadCreate("HDF5FlushTask",
+                              epicsThreadPriorityMedium,
+                              epicsThreadGetStackSize(epicsThreadStackMedium),
+                              (EPICSTHREADFUNC)flushTaskC,
+                              this) == NULL);
+  if (status){
+      printf("%s:%s epicsThreadCreate failure for flushing task\n", driverName, functionName);
+      return;
+  }
 }
 
 /** Calculate the total number of frames that the current configured dimensions can contain.
