@@ -32,10 +32,10 @@ SSCAN = $(SUPPORT)/sscan/2-11
 CALC = $(SUPPORT)/calc/3-7
 
 # PVA Sources
-PVACCESSCPP       = $(SUPPORT)/pvAccessCPP/6-0-0
-PVDATABASECPP     = $(SUPPORT)/pvDatabaseCPP/4-3-0
-PVDATACPP         = $(SUPPORT)/pvDataCPP/7-0-0
-NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-2-0
+PVACCESSCPP       = $(SUPPORT)/pvAccessCPP/6-1-1dls1
+PVDATABASECPP     = $(SUPPORT)/pvDatabaseCPP/4-4-1dls1
+PVDATACPP         = $(SUPPORT)/pvDataCPP/7-1-2dls1
+NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-2-2dls1
 
 # ADSupport is needed for Windows (contains HDF5 and other external libs)
-ADSUPPORT = $(SUPPORT)/ADSupport/1-4
+ADSUPPORT = $(SUPPORT)/ADSupport/1-7dls1
