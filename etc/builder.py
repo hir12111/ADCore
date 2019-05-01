@@ -154,8 +154,8 @@ class NDStdArrays(AsynPort):
     ArgInfo.descriptions["FTVL"] = records.waveform.FieldInfo()["FTVL"]
 
     def Initialise(self):
-        print '# NDStdArraysConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxMemory, priority, stackSize, maxThreads)'
-        print 'NDStdArraysConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print '# NDStdArraysConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)'
+        print 'NDStdArraysConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
 
 
 #############################
@@ -186,8 +186,8 @@ class NDFileNetCDF(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileNetCDFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileNetCDFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
+        print '# NDFileNetCDFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
+        print 'NDFileNetCDFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 #############################
 
@@ -217,8 +217,8 @@ class NDFileTIFF(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileTIFFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileTIFFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
+        print '# NDFileTIFFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
+        print 'NDFileTIFFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 #############################
 
@@ -248,8 +248,8 @@ class NDFileJPEG(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileJPEGConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileJPEGConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
+        print '# NDFileJPEGConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
+        print 'NDFileJPEGConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 #############################
 
@@ -279,8 +279,8 @@ class NDFileNexus(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileNexusConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileNexusConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
+        print '# NDFileNexusConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
+        print 'NDFileNexusConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 #############################
 
@@ -310,8 +310,8 @@ class NDFileHDF5(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileHDF5Configure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileHDF5Configure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
+        print '# NDFileHDF5Configure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
+        print 'NDFileHDF5Configure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 #############################
 
@@ -342,8 +342,8 @@ class NDFileMagick(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileMagickConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDFileMagickConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0 )' % self.__dict__
+        print '# NDFileMagickConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
+        print 'NDFileMagickConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 #############################
 
@@ -409,8 +409,8 @@ class NDProcess(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDProcessConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)' % self.__dict__
-        print 'NDProcessConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0)' % self.__dict__
+        print '# NDProcessConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
+        print 'NDProcessConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 #############################
 
@@ -681,10 +681,9 @@ class NDAttribute(AsynPort):
 
     def Initialise(self):
         print('# NDAttrConfigure(portName, queueSize, blockingCallbacks, '
-              'NDArrayPort, NDArrayAddr, maxAttributes, maxBuffers, maxMemory)')
+              'NDArrayPort, NDArrayAddr, maxAttributes)')
         print('NDAttrConfigure("{PORT}", {QUEUE}, {BLOCK}, '
-              '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ATTRIBUTES}, '
-              '0, 0)'.format(**self.__dict__))
+              '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ATTRIBUTES})'.format(**self.__dict__))
 
 #############################
 
@@ -913,10 +912,10 @@ class NDCircularBuff(AsynPort):
 
     def Initialise(self):
         print '# NDCircularBuffConfigure(portName, queueSize, blockingCallbacks, ' \
-              'NDArrayPort, NDArrayAddr, maxBuffers, maxMemory)'
+              'NDArrayPort, NDArrayAddr)'
         print 'NDCircularBuffConfigure(' \
               '"%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", ' \
-              '"%(NDARRAY_ADDR)s", 0, 0)' % self.__dict__
+              '"%(NDARRAY_ADDR)s")' % self.__dict__
               
 ##############################
 
@@ -1105,8 +1104,8 @@ class NDGather(AsynPort):
         MAX_PORTS = Simple('Maximum number of ports that this plugin can connect to for callbacks', int))
 
     def Initialise(self):
-        print '# NDGatherConfigure(portName, queueSize, blockingCallbacks, maxPorts, maxBuffers, maxMemory)'
-        print 'NDGatherConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(MAX_PORTS)d", 0, 0)' % self.__dict__
+        print '# NDGatherConfigure(portName, queueSize, blockingCallbacks, maxPorts)'
+        print 'NDGatherConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(MAX_PORTS)d")' % self.__dict__
 
 class NDGather8(Device):
     """This plugin is used to gather NDArrays from multiple upstream plugins and merge them into a single stream"""
@@ -1164,8 +1163,8 @@ class NDScatter(AsynPort):
         NAME = Simple('Label for signal', int))
 
     def Initialise(self):
-        print '# NDScatterConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxMemory)'
-        print 'NDScatterConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0)' % self.__dict__
+        print '# NDScatterConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)'
+        print 'NDScatterConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
 
 
 #############################
