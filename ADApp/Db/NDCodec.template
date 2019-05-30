@@ -3,6 +3,14 @@
 # Database for the NDCodec plugin
 # Bruno Martins
 # June 18, 2018
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+#% macro, ADDR, Asyn Port address
+#% macro, TIMEOUT, Asyn timeout
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDCodecPlugin.edl, P=$(P),R=$(R)
 
 include "NDPluginBase.template"
 
