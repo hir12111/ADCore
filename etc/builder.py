@@ -315,6 +315,38 @@ class NDFileHDF5(AsynPort):
 
 #############################
 
+@includesTemplates(NDPluginBaseTemplate)
+class NDCodecTemplate(AutoSubstitution):
+    TemplateFile = 'NDCodec.template'
+
+class NDCodec(AsynPort):
+    """This plugin can compress or decompress NDArrays"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = NDCodecTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MAX_THREADS = 1, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    ArgInfo = _SpecificTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDCodec plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        MAX_THREADS = Simple('Maximum number threads', int))
+
+    def Initialise(self):
+        print '# NDCodecConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__
+        print 'NDCodecConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+
+#############################
+
 @includesTemplates(NDPluginBaseTemplate, NDFileTemplate)
 class NDFileMagickTemplate(AutoSubstitution):
     TemplateFile = 'NDFileMagick.template'
