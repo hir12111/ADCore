@@ -25,6 +25,8 @@ WITH_ZLIB=YES
 ZLIB_EXTERNAL=NO
 WITH_BLOSC=YES
 BLOSC_EXTERNAL=NO
+WITH_BITSHUFFLE=YES
+BITSHUFFLE_EXTERNAL=NO
 
 mkdir external
 
@@ -85,6 +87,7 @@ sudo apt-get update -qq
 # The following are only installed if WITH_XXX=YES and XXX_EXTERNAL=YES
 if [[ $WITH_BOOST == "YES" && $BOOST_EXTERNAL == "YES" ]]; then
   sudo apt-get install libboost-test-dev
+  sudo apt-get install libboost-system-dev
 fi
 
 if [[ $WITH_HDF5 == "YES" && $HDF5_EXTERNAL == "YES" ]]; then
@@ -99,6 +102,7 @@ if [[ $XML2_EXTERNAL == "YES" ]]; then
   sudo apt-get install libxml2-dev
 fi
 
+sudo apt-get install valgrind
 # TO DO: Install ZLIB, SZIP, JPEG, NEXUS, NETCDF if we want to use package versions
 
 # Installing latest version of code coverage tool lcov (because the ubuntu package is very old)

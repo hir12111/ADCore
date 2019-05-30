@@ -708,7 +708,6 @@ static void updateQueuedArrayCountC(void *drvPvt)
 
 void asynNDArrayDriver::updateQueuedArrayCount()
 {
-    int arrayCount;
     while (queuedArrayUpdateRun_) {
         epicsEventWait(queuedArrayEvent_);
         // Exit early
@@ -716,14 +715,19 @@ void asynNDArrayDriver::updateQueuedArrayCount()
             break;
 
         lock();
-        queuedArrayCountMutex_->lock();
-        arrayCount = queuedArrayCount_;
-        queuedArrayCountMutex_->unlock();
-        setIntegerParam(NDNumQueuedArrays, arrayCount);
+        setIntegerParam(NDNumQueuedArrays, getQueuedArrayCount());
         callParamCallbacks();
         unlock();
     }
     epicsEventSignal(queuedArrayUpdateDone_);
+}
+
+int asynNDArrayDriver::getQueuedArrayCount()
+{
+    queuedArrayCountMutex_->lock();
+    int count = queuedArrayCount_;
+    queuedArrayCountMutex_->unlock();
+    return count;
 }
 
 asynStatus asynNDArrayDriver::incrementQueuedArrayCount() 
@@ -751,7 +755,7 @@ asynStatus asynNDArrayDriver::decrementQueuedArrayCount()
     return asynSuccess;
 }
 
-
+
 /** This is the constructor for the asynNDArrayDriver class.
   * portName, maxAddr, interfaceMask, interruptMask, asynFlags, autoConnect, priority and stackSize
   * are simply passed to asynPortDriver::asynPortDriver. 
@@ -817,6 +821,8 @@ asynNDArrayDriver::asynNDArrayDriver(const char *portName, int maxAddr, int maxB
     createParam(NDEpicsTSSecString,           asynParamInt32,           &NDEpicsTSSec);
     createParam(NDEpicsTSNsecString,          asynParamInt32,           &NDEpicsTSNsec);
     createParam(NDBayerPatternString,         asynParamInt32,           &NDBayerPattern);
+    createParam(NDCodecString,                asynParamOctet,           &NDCodec);
+    createParam(NDCompressedSizeString,       asynParamInt32,           &NDCompressedSize);
     createParam(NDArrayCounterString,         asynParamInt32,           &NDArrayCounter);
     createParam(NDFilePathString,             asynParamOctet,           &NDFilePath);
     createParam(NDFilePathExistsString,       asynParamInt32,           &NDFilePathExists);
