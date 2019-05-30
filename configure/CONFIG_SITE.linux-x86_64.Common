@@ -28,8 +28,6 @@ ZLIB_EXTERNAL = YES
 
 WITH_BOOST    = YES
 BOOST_EXTERNAL = YES
-BOOST_INCLUDE         = /usr/include
-BOOST_LIB	      = /usr/lib64
 
 # Enable PVA plugin
 WITH_PVA      = YES
