@@ -707,15 +707,28 @@ class NDAttribute(AsynPort):
         TIMEOUT = Simple('Timeout', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
-        MAX_ATTRIBUTES = Simple('Maximum number of attributes in this plugin',
-                                int),
+        MAX_ATTRIBUTES = Simple('Maximum number of attributes in this plugin', int),
         NCHANS = Simple('Number of points in the arrays', int))
+
+    def InitialiseOnce(self):
+        # Set ADCore path so NDTimeSeries.template can find base plugin template
+        print('# ADCore path for manual NDTimeSeries.template to find base plugin template')
+        print('epicsEnvSet "EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db"\n')
 
     def Initialise(self):
         print('# NDAttrConfigure(portName, queueSize, blockingCallbacks, '
               'NDArrayPort, NDArrayAddr, maxAttributes)')
         print('NDAttrConfigure("{PORT}", {QUEUE}, {BLOCK}, '
               '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ATTRIBUTES})'.format(**self.__dict__))
+
+        # Load timeseries (built-in TS removed in 3.5)
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)'
+        print 'NDTimeSeriesConfigure("{PORT:s}_TS", {QUEUE:d}, {BLOCK:d}, "{PORT:s}", 1, {MAX_ATTRIBUTES:d})'.format(**self.__dict__)
+
+        # Manually load the time series template so we do not end up with the embedded EDM tab
+        print '# Load time series records'
+        print('dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template","P={P},R={R_TS},PORT={PORT}_TS,ADDR=0,TIMEOUT={TIMEOUT},NDARRAY_PORT={PORT},NDARRAY_ADDR=1,NCHANS={MAX_ATTRIBUTES},ENABLED=1")')\
+            .format(R_TS=self.args['R']+'TS:', P=self.args['P'], **self.__dict__)
 
 #############################
 
