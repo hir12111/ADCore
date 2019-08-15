@@ -5,7 +5,6 @@
 # % macro, PORT, Asyn Port name
 # The asyn port name should match what you have
 # written in your startup script
-# % macro, NCHANS, Number of elements in attribute waveform
 # % macro, ADDR, Asyn Port address
 # % macro, TIMEOUT, Timeout
 #
