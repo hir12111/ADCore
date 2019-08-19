@@ -33,6 +33,26 @@ from iocbuilder.modules import normativeTypesCPP
 normativeTypesCPP.LoadDefinitions(defaults)
 from iocbuilder.modules.normativeTypesCPP import normativeTypesCPP
 
+from dls_dependency_tree import dependency_tree
+
+MODULE_TREE = None
+
+
+def find_dependency(module, dependency):
+    global MODULE_TREE
+    if MODULE_TREE is None:
+        MODULE_TREE = dependency_tree()
+        MODULE_TREE.process_module(module)
+
+    for macro, path in MODULE_TREE.macros.items():
+        if macro == dependency:
+            return path
+
+    raise ValueError("Could not find {} in {}".format(dependency, module))
+
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+HDF5_FILTERS_ROOT = find_dependency(ROOT, "HDF5_FILTERS")
 
 #############################
 #    ADCore base classes    #
@@ -324,6 +344,9 @@ class NDCodec(AsynPort):
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDCodecTemplate
+    EnvironmentVariables = [
+        ("HDF5_PLUGIN_PATH", os.path.join(HDF5_FILTERS_ROOT, "prefix/hdf5_1.10/h5plugin"))
+    ]
 
     def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MAX_THREADS = 1, **args):
         # Init the superclass (AsynPort)
