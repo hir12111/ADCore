@@ -38,4 +38,4 @@ PVDATACPP         = $(SUPPORT)/pvDataCPP/7-1-2dls1
 NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-2-2dls1
 
 # ADSupport is needed for Windows (contains HDF5 and other external libs)
-ADSUPPORT = $(SUPPORT)/ADSupport/1-7dls1
+ADSUPPORT = $(SUPPORT)/ADSupport/1-9dls1
