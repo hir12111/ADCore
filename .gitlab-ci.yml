@@ -1,0 +1,14 @@
+rhel7_job:
+  tags:
+  - rhel7
+  before_script:
+  - cp configure/RELEASE.local configure/RELEASE.local.vcs
+  - git cat-file -p HEAD:configure/RELEASE.local > configure/RELEASE.local.vcs
+  - rm configure/RELEASE.local
+  - sed -e 's,^ *EPICS_BASE *=.*$,EPICS_BASE='$EPICS_BASE',' -e 's,^ *SUPPORT *=.*$,SUPPORT=/dls_sw/prod/'$(echo $_epics | cut -d_ -f1)'/support,' -e 's,^ *WORK *=.*$,#WORK=commented out to prevent prod modules depending on work modules,' configure/RELEASE.local.vcs > configure/RELEASE.local
+  - echo "EPICS_BASE=${EPICS_BASE}" >> configure/RELEASE.${EPICS_HOST_ARCH}
+  - echo "SUPPORT=/dls_sw/prod/$(echo $_epics | cut -d_ -f1)/support" >> configure/RELEASE.${EPICS_HOST_ARCH}
+  - cat configure/RELEASE.${EPICS_HOST_ARCH}
+  - cp configure/RELEASE.${EPICS_HOST_ARCH} configure/RELEASE.${EPICS_HOST_ARCH}.Common
+  script:
+  - make
