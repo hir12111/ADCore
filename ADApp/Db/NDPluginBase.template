@@ -13,6 +13,7 @@
 # % macro, NDARRAY_PORT, Input Array Port
 # % macro, NDARRAY_ADDR, Input Array Address
 # % macro, ENABLED, Plugin Enabled at startup?
+# % macro, SCANRATE, Chosen Scan Rate for cpu intensive PVs
 
 include "NDArrayBase.template"
 
@@ -268,7 +269,7 @@ record(longin, "$(P)$(R)QueueFree")
     field(LSV,  "MINOR")
     field(LOLO, "0")
     field(HYST, "1")
-    field(SCAN, "I/O Intr")
+    field(SCAN, "$(SCANRATE=I/O Intr)")
 }
 
 # Display the fill level on the plugins input queue

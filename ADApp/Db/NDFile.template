@@ -10,6 +10,7 @@
 # % macro, PORT, Asyn Port name
 # % macro, TIMEOUT, Timeout
 # % macro, ADDR, Asyn Port address
+# % macro, SCANRATE, Chosen Scan Rate for cpu intensive PVs
 
 ###################################################################
 #  These records control file I/O                                 # 
@@ -306,7 +307,7 @@ record(longin, "$(P)$(R)NumCaptured_RBV")
 {
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))NUM_CAPTURED")
-    field(SCAN, "I/O Intr")
+    field(SCAN, "$(SCANRATE=I/O Intr)")
 }
 
 # Delete driver file flag
