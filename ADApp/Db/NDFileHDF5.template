@@ -7,8 +7,8 @@
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
 # % macro, ADDR, Asyn Port address
-# % macro, TIMEOUT, Asyn timeout
-# % macro, XMLSIZE, Length of XML file name waveform
+# % macro, TIMEOUT, Asyn Port timeout
+# % macro, XMLSIZE, Number of elements of the XML layout waveform record
 
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileHDF5.edl, P=$(P),R=$(R)

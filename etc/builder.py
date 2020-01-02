@@ -104,6 +104,7 @@ def includesTemplates(*templates):
 NDDataTypes=["NDInt8", "NDUInt8", "NDInt16", "NDUInt16", "NDInt32",
                  "NDUInt32", "NDFloat32", "NDFloat64"]
 
+
 class ADCore(Device):
     """Library dependencies for ADCore"""
     Dependencies = (Asyn, Busy, ADSupport)
@@ -121,23 +122,33 @@ class ADCore(Device):
 
 #############################
 
+
+def scanRateOverride(cls):
+    cls.ArgInfo.descriptions["SCANRATE"] = Choice(
+        "Specified scan rate for cpu intensive PVs",
+        [".1 second", ".2 second", ".5 second", "1 second", "2 second",
+         "5 second", "10 second", "I/O Intr", "Event", "Passive"])
+    return cls
+
+
+@scanRateOverride
 class ADBaseTemplate(AutoSubstitution):
     """Template containing the base records of any areaDetector driver"""
     TemplateFile = 'ADBase.template'
 
 #############################
 
+@scanRateOverride
 class NDPluginBaseTemplate(AutoSubstitution):
     """Template containing the base records of any areaDetector plugin"""
     TemplateFile = 'NDPluginBase.template'
 
 #############################
 
+@scanRateOverride
 class NDFileTemplate(AutoSubstitution):
     """Template containing the records of an areaDetector file writing plugin"""
     TemplateFile = 'NDFile.template'
-
-#############################
 
 ########################
 # Areadetector plugins #
@@ -788,6 +799,7 @@ class NDColorConvert(AsynPort):
 
 #############################
 
+@scanRateOverride
 @includesTemplates(NDPluginBaseTemplate)
 class NDPosPluginTemplate(AutoSubstitution):
     TemplateFile = 'NDPosPlugin.template'
