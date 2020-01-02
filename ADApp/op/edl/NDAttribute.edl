@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1476
-y 476
+x 1482
+y 256
 w 390
 h 820
 font "arial-bold-r-12.0"
@@ -290,7 +290,7 @@ x 130
 y 735
 w 55
 h 20
-controlPv "$(P)$(R)TSNumPoints"
+controlPv "$(P)$(R)TS:TSNumPoints"
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -308,7 +308,7 @@ x 70
 y 735
 w 55
 h 20
-controlPv "$(P)$(R)TSCurrentPoint"
+controlPv "$(P)$(R)TS:TSCurrentPoint"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -342,17 +342,17 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 125
-y 710
-w 35
+x 70
+y 712
+w 55
 h 20
 fgColor index 21
 onColor index 4
 offColor index 3
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(P)$(R)TSControl"
-pressValue "2"
+controlPv "$(P)$(R)TS:TSAcquire"
+pressValue "0"
 onLabel "Stop"
 offLabel "Stop"
 3d
@@ -366,16 +366,16 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 85
-y 710
-w 35
+x 10
+y 712
+w 50
 h 20
 fgColor index 19
 onColor index 4
 offColor index 3
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(P)$(R)TSControl"
+controlPv "$(P)$(R)TS:TSAcquire"
 pressValue "1"
 onLabel "Start"
 offLabel "Start"
@@ -390,40 +390,16 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 165
-y 710
+x 145
+y 712
 w 18
 h 18
-controlPv "$(P)$(R)TSAcquiring"
+controlPv "$(P)$(R)TS:TSAcquiring"
 lineColor index 14
 onColor index 15
 offColor index 19
 lineWidth 2
 numBits 1
-endObjectProperties
-
-# (Message Button)
-object activeMessageButtonClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 710
-w 70
-h 20
-fgColor index 19
-onColor index 4
-offColor index 3
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(P)$(R)TSControl"
-pressValue "0"
-onLabel "Erase/Start"
-offLabel "Erase/Start"
-3d
-useEnumNumeric
-font "arial-bold-r-12.0"
 endObjectProperties
 
 # (Static Text)
@@ -460,7 +436,7 @@ bgColor index 3
 inconsistentColor index 0
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(P)$(R)TSRead.SCAN"
+controlPv "$(P)$(R)TS:TSRead.SCAN"
 font "arial-bold-r-12.0"
 endObjectProperties
 

@@ -33,6 +33,26 @@ from iocbuilder.modules import normativeTypesCPP
 normativeTypesCPP.LoadDefinitions(defaults)
 from iocbuilder.modules.normativeTypesCPP import normativeTypesCPP
 
+from dls_dependency_tree import dependency_tree
+
+MODULE_TREE = None
+
+
+def find_dependency(module, dependency):
+    global MODULE_TREE
+    if MODULE_TREE is None:
+        MODULE_TREE = dependency_tree()
+        MODULE_TREE.process_module(module)
+
+    for macro, path in MODULE_TREE.macros.items():
+        if macro == dependency:
+            return path
+
+    raise ValueError("Could not find {} in {}".format(dependency, module))
+
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+HDF5_FILTERS_ROOT = find_dependency(ROOT, "HDF5_FILTERS")
 
 #############################
 #    ADCore base classes    #
@@ -335,6 +355,9 @@ class NDCodec(AsynPort):
     # This tells xmlbuilder to use PORT instead of name as the row ID
     UniqueName = "PORT"
     _SpecificTemplate = NDCodecTemplate
+    EnvironmentVariables = [
+        ("HDF5_PLUGIN_PATH", os.path.join(HDF5_FILTERS_ROOT, "prefix/hdf5_1.10/h5plugin"))
+    ]
 
     def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, MAX_THREADS = 1, **args):
         # Init the superclass (AsynPort)
@@ -718,15 +741,28 @@ class NDAttribute(AsynPort):
         TIMEOUT = Simple('Timeout', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
-        MAX_ATTRIBUTES = Simple('Maximum number of attributes in this plugin',
-                                int),
+        MAX_ATTRIBUTES = Simple('Maximum number of attributes in this plugin', int),
         NCHANS = Simple('Number of points in the arrays', int))
+
+    def InitialiseOnce(self):
+        # Set ADCore path so NDTimeSeries.template can find base plugin template
+        print('# ADCore path for manual NDTimeSeries.template to find base plugin template')
+        print('epicsEnvSet "EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db"\n')
 
     def Initialise(self):
         print('# NDAttrConfigure(portName, queueSize, blockingCallbacks, '
               'NDArrayPort, NDArrayAddr, maxAttributes)')
         print('NDAttrConfigure("{PORT}", {QUEUE}, {BLOCK}, '
               '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ATTRIBUTES})'.format(**self.__dict__))
+
+        # Load timeseries (built-in TS removed in 3.5)
+        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)'
+        print 'NDTimeSeriesConfigure("{PORT:s}_TS", {QUEUE:d}, {BLOCK:d}, "{PORT:s}", 1, {MAX_ATTRIBUTES:d})'.format(**self.__dict__)
+
+        # Manually load the time series template so we do not end up with the embedded EDM tab
+        print '# Load time series records'
+        print('dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template","P={P},R={R_TS},PORT={PORT}_TS,ADDR=0,TIMEOUT={TIMEOUT},NDARRAY_PORT={PORT},NDARRAY_ADDR=1,NCHANS={MAX_ATTRIBUTES},ENABLED=1")')\
+            .format(R_TS=self.args['R']+'TS:', P=self.args['P'], **self.__dict__)
 
 #############################
 

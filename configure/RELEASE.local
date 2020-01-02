@@ -20,22 +20,25 @@ TEMPLATE_TOP = $(EPICS_BASE)/templates/makeBaseApp/top
 #AREA_DETECTOR = $(WORK)
 
 # ASYN is needed for base classes
-ASYN = $(SUPPORT)/asyn/4-34
+ASYN = $(SUPPORT)/asyn/4-37
 
 # BUSY is needed for busy record
-BUSY = $(SUPPORT)/busy/1-7dls1
+BUSY = $(SUPPORT)/busy/1-7-2dls2
 
 # SSCAN is needed for scanning threshold on Pilatus and general scanning
-SSCAN = $(SUPPORT)/sscan/2-11
+SSCAN = $(SUPPORT)/sscan/2-11-3dls1
 
 # CALC is needed for the NDStats plugin
-CALC = $(SUPPORT)/calc/3-7
+CALC = $(SUPPORT)/calc/3-7-3
 
 # PVA Sources
-PVACCESSCPP       = $(SUPPORT)/pvAccessCPP/6-1-1dls1
-PVDATABASECPP     = $(SUPPORT)/pvDatabaseCPP/4-4-1dls1
-PVDATACPP         = $(SUPPORT)/pvDataCPP/7-1-2dls1
-NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-2-2dls1
+PVACCESSCPP       = $(SUPPORT)/pvAccessCPP/7-0-0
+PVDATABASECPP     = $(SUPPORT)/pvDatabaseCPP/4-5-0dls1
+PVDATACPP         = $(SUPPORT)/pvDataCPP/8-0-0
+NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/6-0-0dls1
 
 # ADSupport is needed for Windows (contains HDF5 and other external libs)
-ADSUPPORT = $(SUPPORT)/ADSupport/1-7dls1
+ADSUPPORT = $(SUPPORT)/ADSupport/1-9dls1
+
+# HDF5 Dynamic Filters for NDCodec
+HDF5_FILTERS = /dls_sw/prod/tools/RHEL7-x86_64/hdf5filters/0-6-2

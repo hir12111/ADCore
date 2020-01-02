@@ -246,8 +246,14 @@ ifdef ADCOMPVISION
   ifdef OPENCV_LIB
     opencv_core_DIR += $(OPENCV_LIB)
     PROD_LIBS       += opencv_core opencv_imgproc opencv_highgui
+    ifeq ($(WITH_OPENCV_VIDEO), YES)
+      PROD_LIBS     += opencv_video opencv_videoio
+    endif
   else
     PROD_SYS_LIBS   += opencv_core opencv_imgproc opencv_highgui
+    ifeq ($(WITH_OPENCV_VIDEO), YES)
+      PROD_SYS_LIBS += opencv_video opencv_videoio
+    endif
   endif 
 endif
 

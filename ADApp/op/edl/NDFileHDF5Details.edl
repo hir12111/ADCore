@@ -4,9 +4,9 @@ major 4
 minor 0
 release 1
 x 566
-y 75
+y 149
 w 417
-h 951
+h 938
 font "arial-bold-r-12.0"
 ctlFont "arial-bold-r-12.0"
 btnFont "arial-bold-r-12.0"
@@ -47,7 +47,7 @@ major 4
 minor 0
 release 0
 x 5
-y 495
+y 480
 w 405
 h 40
 lineColor index 14
@@ -62,7 +62,7 @@ major 4
 minor 0
 release 0
 x 5
-y 415
+y 400
 w 405
 h 65
 lineColor index 14
@@ -77,7 +77,7 @@ major 4
 minor 0
 release 0
 x 5
-y 550
+y 535
 w 405
 h 40
 lineColor index 14
@@ -92,7 +92,7 @@ major 4
 minor 0
 release 0
 x 5
-y 330
+y 315
 w 405
 h 70
 lineColor index 14
@@ -107,7 +107,7 @@ major 4
 minor 1
 release 1
 x 5
-y 320
+y 305
 w 118
 h 13
 font "arial-medium-r-12.0"
@@ -127,7 +127,7 @@ major 4
 minor 0
 release 0
 x 205
-y 345
+y 330
 w 75
 h 20
 fgColor index 25
@@ -147,7 +147,7 @@ major 4
 minor 1
 release 1
 x 20
-y 345
+y 330
 w 165
 h 20
 font "arial-bold-r-12.0"
@@ -166,7 +166,7 @@ major 4
 minor 0
 release 0
 x 205
-y 370
+y 355
 w 75
 h 20
 fgColor index 25
@@ -186,7 +186,7 @@ major 4
 minor 1
 release 1
 x 20
-y 370
+y 355
 w 185
 h 20
 font "arial-bold-r-12.0"
@@ -206,7 +206,7 @@ minor 1
 release 1
 x 0
 y 0
-w 415
+w 420
 h 45
 font "arial-bold-r-14.0"
 fontAlign "center"
@@ -226,7 +226,7 @@ major 4
 minor 1
 release 1
 x 5
-y 540
+y 525
 w 134
 h 13
 font "arial-medium-r-12.0"
@@ -246,7 +246,7 @@ major 4
 minor 1
 release 1
 x 20
-y 560
+y 545
 w 165
 h 20
 font "arial-bold-r-12.0"
@@ -265,7 +265,7 @@ major 4
 minor 0
 release 0
 x 245
-y 560
+y 545
 w 75
 h 20
 fgColor index 25
@@ -285,7 +285,7 @@ major 10
 minor 0
 release 0
 x 325
-y 560
+y 545
 w 75
 h 20
 controlPv "$(P)$(R)Compression_RBV"
@@ -304,7 +304,7 @@ major 4
 minor 1
 release 0
 x 325
-y 920
+y 905
 w 85
 h 25
 fgColor index 46
@@ -323,7 +323,7 @@ major 4
 minor 1
 release 1
 x 5
-y 405
+y 390
 w 118
 h 13
 font "arial-medium-r-12.0"
@@ -343,7 +343,7 @@ major 10
 minor 0
 release 0
 x 205
-y 450
+y 435
 w 195
 h 20
 controlPv "$(P)$(R)IOSpeed"
@@ -362,7 +362,7 @@ major 10
 minor 0
 release 0
 x 205
-y 425
+y 410
 w 195
 h 20
 controlPv "$(P)$(R)RunTime"
@@ -381,7 +381,7 @@ major 4
 minor 1
 release 1
 x 15
-y 425
+y 410
 w 165
 h 20
 font "arial-bold-r-12.0"
@@ -400,7 +400,7 @@ major 4
 minor 1
 release 1
 x 15
-y 450
+y 435
 w 165
 h 20
 font "arial-bold-r-12.0"
@@ -419,7 +419,7 @@ major 4
 minor 0
 release 0
 x 5
-y 755
+y 740
 w 405
 h 45
 lineColor index 14
@@ -434,7 +434,7 @@ major 4
 minor 1
 release 1
 x 5
-y 745
+y 730
 w 105
 h 13
 font "arial-medium-r-12.0"
@@ -454,7 +454,7 @@ major 4
 minor 1
 release 1
 x 20
-y 770
+y 755
 w 185
 h 20
 font "arial-bold-r-12.0"
@@ -473,7 +473,7 @@ major 4
 minor 0
 release 0
 x 245
-y 770
+y 755
 w 155
 h 20
 
@@ -486,7 +486,7 @@ major 10
 minor 0
 release 0
 x 245
-y 770
+y 755
 w 75
 h 20
 controlPv "$(P)$(R)ZLevel"
@@ -504,7 +504,7 @@ major 10
 minor 0
 release 0
 x 325
-y 770
+y 755
 w 75
 h 20
 controlPv "$(P)$(R)ZLevel_RBV"
@@ -530,7 +530,7 @@ major 4
 minor 0
 release 0
 x 5
-y 695
+y 680
 w 405
 h 45
 lineColor index 14
@@ -545,7 +545,7 @@ major 4
 minor 1
 release 1
 x 5
-y 685
+y 670
 w 108
 h 13
 font "arial-medium-r-12.0"
@@ -565,7 +565,7 @@ major 4
 minor 1
 release 1
 x 20
-y 710
+y 695
 w 185
 h 20
 font "arial-bold-r-12.0"
@@ -584,7 +584,7 @@ major 4
 minor 0
 release 0
 x 245
-y 710
+y 695
 w 155
 h 20
 
@@ -597,7 +597,7 @@ major 10
 minor 0
 release 0
 x 245
-y 710
+y 695
 w 75
 h 20
 controlPv "$(P)$(R)SZipNumPixels"
@@ -615,7 +615,7 @@ major 10
 minor 0
 release 0
 x 325
-y 710
+y 695
 w 75
 h 20
 controlPv "$(P)$(R)SZipNumPixels_RBV"
@@ -641,7 +641,7 @@ major 4
 minor 0
 release 0
 x 5
-y 605
+y 590
 w 405
 h 75
 lineColor index 14
@@ -656,7 +656,7 @@ major 4
 minor 1
 release 1
 x 5
-y 595
+y 580
 w 112
 h 13
 font "arial-medium-r-12.0"
@@ -676,7 +676,7 @@ major 4
 minor 1
 release 1
 x 20
-y 625
+y 610
 w 185
 h 20
 font "arial-bold-r-12.0"
@@ -695,7 +695,7 @@ major 4
 minor 1
 release 1
 x 20
-y 650
+y 635
 w 185
 h 20
 font "arial-bold-r-12.0"
@@ -714,7 +714,7 @@ major 4
 minor 0
 release 0
 x 245
-y 625
+y 610
 w 155
 h 45
 
@@ -727,7 +727,7 @@ major 10
 minor 0
 release 0
 x 245
-y 625
+y 610
 w 75
 h 20
 controlPv "$(P)$(R)NumDataBits"
@@ -745,7 +745,7 @@ major 10
 minor 0
 release 0
 x 325
-y 625
+y 610
 w 75
 h 20
 controlPv "$(P)$(R)NumDataBits_RBV"
@@ -764,7 +764,7 @@ major 10
 minor 0
 release 0
 x 325
-y 650
+y 635
 w 75
 h 20
 controlPv "$(P)$(R)DataBitsOffset_RBV"
@@ -783,7 +783,7 @@ major 10
 minor 0
 release 0
 x 245
-y 650
+y 635
 w 75
 h 20
 controlPv "$(P)$(R)DataBitsOffset"
@@ -810,7 +810,7 @@ release 0
 x 5
 y 175
 w 405
-h 140
+h 120
 lineColor index 14
 fill
 fillColor index 3
@@ -824,53 +824,16 @@ minor 1
 release 1
 x 5
 y 165
-w 143
+w 145
 h 13
 font "arial-medium-r-12.0"
 fgColor index 14
 bgColor index 5
 value {
-  "  Chunking configuration  "
+  "  Chunking Configuration  "
 }
 autoSize
 border
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 200
-y 210
-w 100
-h 20
-controlPv "$(P)$(R)NumColChunks"
-fgColor index 25
-fgAlarm
-bgColor index 3
-fill
-font "arial-medium-r-12.0"
-endObjectProperties
-
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 300
-y 210
-w 100
-h 20
-controlPv "$(P)$(R)NumColChunks_RBV"
-fgColor index 16
-fgAlarm
-bgColor index 10
-fill
-font "arial-medium-r-12.0"
-fontAlign "center"
 endObjectProperties
 
 # (Textupdate)
@@ -910,81 +873,6 @@ fill
 font "arial-medium-r-12.0"
 endObjectProperties
 
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 300
-y 185
-w 100
-h 20
-controlPv "$(P)$(R)NumRowChunks_RBV"
-fgColor index 16
-fgAlarm
-bgColor index 10
-fill
-font "arial-medium-r-12.0"
-fontAlign "center"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 200
-y 185
-w 100
-h 20
-controlPv "$(P)$(R)NumRowChunks"
-fgColor index 25
-fgAlarm
-bgColor index 3
-fill
-font "arial-medium-r-12.0"
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 15
-y 185
-w 165
-h 20
-font "arial-bold-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Number of rows per chunk:"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 15
-y 210
-w 165
-h 20
-font "arial-bold-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "Columns per chunk:"
-}
-endObjectProperties
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1011,7 +899,7 @@ major 10
 minor 0
 release 0
 x 300
-y 260
+y 185
 w 100
 h 20
 controlPv "$(P)$(R)BoundaryAlign_RBV"
@@ -1030,7 +918,7 @@ major 10
 minor 0
 release 0
 x 200
-y 260
+y 185
 w 100
 h 20
 controlPv "$(P)$(R)BoundaryAlign"
@@ -1048,7 +936,7 @@ major 4
 minor 1
 release 1
 x 15
-y 260
+y 185
 w 175
 h 20
 font "arial-bold-r-12.0"
@@ -1056,7 +944,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Chunk boundary alignemnt:"
+  "Chunk boundary alignment:"
 }
 endObjectProperties
 
@@ -1067,7 +955,7 @@ major 10
 minor 0
 release 0
 x 325
-y 505
+y 490
 w 75
 h 20
 controlPv "$(P)$(R)LazyOpen_RBV"
@@ -1086,7 +974,7 @@ major 4
 minor 0
 release 0
 x 245
-y 505
+y 490
 w 75
 h 20
 fgColor index 25
@@ -1106,7 +994,7 @@ major 4
 minor 1
 release 1
 x 20
-y 505
+y 490
 w 220
 h 20
 font "arial-bold-r-12.0"
@@ -1125,7 +1013,7 @@ major 4
 minor 1
 release 1
 x 5
-y 485
+y 470
 w 72
 h 13
 font "arial-medium-r-12.0"
@@ -1145,7 +1033,7 @@ major 10
 minor 0
 release 0
 x 300
-y 285
+y 210
 w 100
 h 20
 controlPv "$(P)$(R)BoundaryThreshold_RBV"
@@ -1164,7 +1052,7 @@ major 10
 minor 0
 release 0
 x 200
-y 285
+y 210
 w 100
 h 20
 controlPv "$(P)$(R)BoundaryThreshold"
@@ -1182,7 +1070,7 @@ major 4
 minor 1
 release 1
 x 15
-y 285
+y 210
 w 175
 h 20
 font "arial-bold-r-12.0"
@@ -1328,7 +1216,7 @@ major 4
 minor 4
 release 0
 x 215
-y 920
+y 905
 w 100
 h 25
 fgColor index 43
@@ -1351,7 +1239,7 @@ major 4
 minor 0
 release 0
 x 5
-y 815
+y 800
 w 405
 h 40
 lineColor index 14
@@ -1366,7 +1254,7 @@ major 4
 minor 1
 release 1
 x 5
-y 805
+y 790
 w 231
 h 13
 font "arial-medium-r-12.0"
@@ -1386,7 +1274,7 @@ major 4
 minor 1
 release 1
 x 20
-y 825
+y 810
 w 200
 h 20
 font "arial-bold-r-12.0"
@@ -1405,7 +1293,7 @@ major 4
 minor 0
 release 0
 x 245
-y 825
+y 810
 w 75
 h 20
 fgColor index 25
@@ -1425,7 +1313,7 @@ major 10
 minor 0
 release 0
 x 325
-y 825
+y 810
 w 75
 h 20
 controlPv "$(P)$(R)DimAttDatasets_RBV"
@@ -1444,7 +1332,7 @@ major 4
 minor 0
 release 0
 x 5
-y 870
+y 855
 w 405
 h 45
 lineColor index 14
@@ -1459,7 +1347,7 @@ major 4
 minor 1
 release 1
 x 5
-y 860
+y 845
 w 64
 h 13
 font "arial-medium-r-12.0"
@@ -1479,7 +1367,7 @@ major 4
 minor 1
 release 1
 x 20
-y 885
+y 870
 w 185
 h 20
 font "arial-bold-r-12.0"
@@ -1498,7 +1386,7 @@ major 10
 minor 0
 release 0
 x 245
-y 885
+y 870
 w 75
 h 20
 controlPv "$(P)$(R)FillValue"
@@ -1517,7 +1405,7 @@ major 10
 minor 0
 release 0
 x 325
-y 885
+y 870
 w 75
 h 20
 controlPv "$(P)$(R)FillValue_RBV"
@@ -1528,5 +1416,28 @@ bgColor index 10
 fill
 font "arial-medium-r-12.0"
 fontAlign "center"
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 200
+y 260
+w 200
+h 25
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+buttonLabel "Frame Chunking"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "NDFileHDF5Chunking"
+}
 endObjectProperties
 
