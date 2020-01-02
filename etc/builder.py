@@ -84,8 +84,6 @@ def includesTemplates(*templates):
 NDDataTypes=["NDInt8", "NDUInt8", "NDInt16", "NDUInt16", "NDInt32",
                  "NDUInt32", "NDFloat32", "NDFloat64"]
 
-ScanTypes = [".1 second", ".2 second", ".5 second", "1 second", "2 second",
-              "5 second", "10 second", "I/O Intr", "Event", "Passive"]
 
 class ADCore(Device):
     """Library dependencies for ADCore"""
@@ -104,46 +102,33 @@ class ADCore(Device):
 
 #############################
 
+
+def scanRateOverride(cls):
+    cls.ArgInfo.descriptions["SCANRATE"] = Choice(
+        "Specified scan rate for cpu intensive PVs",
+        [".1 second", ".2 second", ".5 second", "1 second", "2 second",
+         "5 second", "10 second", "I/O Intr", "Event", "Passive"])
+    return cls
+
+
+@scanRateOverride
 class ADBaseTemplate(AutoSubstitution):
     """Template containing the base records of any areaDetector driver"""
     TemplateFile = 'ADBase.template'
-    def __init__(self, SCANRATE="I/O Intr"):
-        self.__dict__.update(locals())
-
-    # __init__ arguments
-    ArgInfo = makeArgInfo(__init__,
-        SCANRATE = Choice("Specified scan rate for cpu inetnsive PVs", ScanTypes))
 
 #############################
 
+@scanRateOverride
 class NDPluginBaseTemplate(AutoSubstitution):
     """Template containing the base records of any areaDetector plugin"""
     TemplateFile = 'NDPluginBase.template'
-    def __init__(self, NDARRAY_PORT, ADDR=0, ENABLED=0, TIMEOUT=1, SCANRATE="I/O Intr"):
-        self.__dict__.update(locals())
-
-    # __init__ arguments
-    ArgInfo = makeArgInfo(__init__,
-        ADDR = Simple('Asyn Port address', int),
-        ENABLED   = Simple('Plugin Enabled at startup?', int),
-        TIMEOUT = Simple('Timeout', int),
-        NDARRAY_PORT = Ident('Input array port', AsynPort), 
-        SCANRATE = Choice("Specified scan rate for cpu inetnsive PVs", ScanTypes))
 
 #############################
 
+@scanRateOverride
 class NDFileTemplate(AutoSubstitution):
     """Template containing the records of an areaDetector file writing plugin"""
     TemplateFile = 'NDFile.template'
-    def __init__(self, SCANRATE="I/O Intr"):
-        self.__dict__.update(locals())
-
-    # __init__ arguments
-    ArgInfo = makeArgInfo(__init__,
-        SCANRATE = Choice("Specified scan rate for cpu inetnsive PVs", ScanTypes))
-
-
-#############################
 
 ########################
 # Areadetector plugins #
@@ -778,6 +763,7 @@ class NDColorConvert(AsynPort):
 
 #############################
 
+@scanRateOverride
 @includesTemplates(NDPluginBaseTemplate)
 class NDPosPluginTemplate(AutoSubstitution):
     TemplateFile = 'NDPosPlugin.template'
@@ -788,7 +774,7 @@ class NDPosPlugin(AsynPort):
     UniqueName = "PORT"
     _SpecificTemplate = NDPosPluginTemplate
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, SCANRATE="I/O Intr", **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 2, BLOCK = 0, NDARRAY_ADDR = 0, PRIORITY = 0, STACKSIZE = 0, **args):
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
         # Update the attributes of self from the commandline args
@@ -803,8 +789,7 @@ class NDPosPlugin(AsynPort):
         NDARRAY_PORT = Ident('Input array port', AsynPort),
         NDARRAY_ADDR = Simple('Input array port address', int),
         PRIORITY = Simple('Max buffers to allocate', int),
-        STACKSIZE = Simple('Max buffers to allocate', int),
-        SCANRATE = Choice("Specified scan rate for cpu inetnsive PVs", ScanTypes))
+        STACKSIZE = Simple('Max buffers to allocate', int))
 
     def Initialise(self):
         print '# NDPosPluginConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)' % self.__dict__
@@ -998,7 +983,7 @@ class NDAttrPlot(AsynPort):
     _SpecificTemplate = _NDAttrPlotTemplate
 
     def __init__(self, PORT, NDARRAY_PORT, QUEUE = 10000, N_CACHE = 10000,
-            NDARRAY_ADDR = 0, BLOCK = 0, SCANRATE = "I/O Intr", **args):
+            NDARRAY_ADDR = 0, BLOCK = 0, **args):
         self.__super.__init__(PORT)
         self.__dict__.update(locals())
         self.__dict__["N_BLOCKS"] = 1 + 2 * self.N_Y_BLOCKS # X(1) + Y1(4) + Y2(4)
@@ -1029,8 +1014,7 @@ class NDAttrPlot(AsynPort):
             BLOCK = Simple('Blocking callbacks?', int),
             NDARRAY_PORT = Ident("Asyn port of the callback source", AsynPort),
             NDARRAY_ADDR = Simple("Asyn address of the callback source", int),
-            N_CACHE  = Simple("Number of NDArrays to store in cache", int),
-            SCANRATE = Choice("Specified scan rate for cpu inetnsive PVs", ScanTypes))
+            N_CACHE  = Simple("Number of NDArrays to store in cache", int))
 
     def Initialise(self):
         print ('NDAttrPlotConfig("%(PORT)s", %(N_ATTRS)d, %(N_CACHE)d, '
