@@ -8,6 +8,7 @@
 # % macro, NCHANS, Number of elements in attribute waveform
 # % macro, ADDR, Asyn Port address
 # % macro, TIMEOUT, Timeout
+# % macro, TS_PORT, Asyn port name for the timeseries port
 
 record(ai, "$(P)$(R)Value_RBV")
 {

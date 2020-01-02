@@ -6,6 +6,9 @@
 # % macro, P, Device Prefix
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
+# % macro, ADDR, Asyn Port address
+# % macro, TIMEOUT, Asyn Port timeout
+# % macro, XMLSIZE, Number of elements of the XML layout waveform record
 
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileHDF5.edl, P=$(P),R=$(R)
@@ -129,7 +132,7 @@ include "NDPluginBase.template"
 record(busy, "$(P)$(R)FlushNow")
 {
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HDF5_SWMRFlushNow")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))HDF5_SWMRFlushNow")
     field(ZNAM, "Done")
     field(ONAM, "Flush")
 }
