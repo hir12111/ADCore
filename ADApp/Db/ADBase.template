@@ -12,6 +12,10 @@
 # % macro, ADDR, Asyn Port address
 # % macro, SCANRATE, Chosen Scan Rate for cpu intensive PVs
 
+#  Using SCANRATE:The ImageJ EPICS_AD_Viewer plugin monitors ArrayCounter_RBV to decide
+#  when there is a new image to display. That means that it will not display faster than
+#  the SCANRATE you select.
+
 include "NDArrayBase.template"
 
 record(longin, "$(P)$(R)MaxSizeX_RBV")
@@ -661,7 +665,7 @@ record(ai, "$(P)$(R)TemperatureActual")
 # Set ASYN_TRACEIO_HEX bit by default
 record(asyn,"$(P)$(R)AsynIO")
 {
-    field(PORT, $(PORT))
+    field(PORT, "$(PORT)")
     field(TIB2,"1")
     info("ADType", "ADDriver")
 }

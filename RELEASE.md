@@ -19,6 +19,61 @@ the EXAMPLE_RELEASE_PATHS.local, EXAMPLE_RELEASE_LIBS.local, and EXAMPLE_RELEASE
 files respectively, in the configure/ directory of the appropriate release of the 
 [top-level areaDetector](https://github.com/areaDetector/areaDetector) repository.
 
+## __R3-9 (February 24, 2020)__
+
+### CCDMultiTrack
+  * New CCDMultiTrack class and database to support spectroscopy detectors 
+    that support multi-track readout (Peter Heesterman)
+
+### NDPluginStats
+  * Fixed an off-by-one bug in the histogram calculation.
+    It was incorrectly reporting the number of elements above HistMax and the mid-point element of
+    the histogram had 0 counts when it should not.
+
+### NDFileHDF5
+  * Fixed problem with XML2 library linking warnings on static Windows builds (Peter Heesterman)
+
+### NDPluginStdArrays
+  * Changes to support compressed NDArrays. This will really only work properly when the ArrayData waveform record
+    FTVL is CHAR, since compressed data is just a stream of bytes.
+
+### NDFileNetCDF
+  * Changes to handle NDArrays and NDAttributes with data types epicsInt64 and epicsUInt64.  The netCDF classic file
+    format does not handle 64-bit integer data.  The workaround is to cast the data to float64, so the netCDF library 
+    thinks it is writing float64 data, and marks the netCDF data in in the file as type `double`.
+    However the netCDF global attribute "datatype" (enum NDDataType_t) will correctly indicate the actual datatype.
+    File readers will need to cast the data to the actual datatype after reading the data with the netCDF library functions.
+  * Incremented the global attribute NDNetCDFFileVersion from 3.0 to 3.1 because the order of the NDDataType_t enums
+    changed in ADCore R3-8 to insert NDInt64 and NDUInt64 after NDUInt32.  This changed the enum values of NDFloat32
+    and NDFloat64.  File readers using the value of these enums thus need to know which version of ADCore the file
+    was written with.  This change should have been made in R3-8.
+
+### SCANRATE macro
+  * A new macro has been added to NDPosPlugin.template, NDPluginBase.template, NDFile.tamplate, NDArrayBase.template and 
+    ADBase.template. This can be used to control the SCAN value of status PVs which update on every frame such as 
+    ArrayCounter_RBV, TimeStamp_RBV, UniqueId_RBV among others. These were found to be intensive on the CPU when set to 
+    I/O Intr for a detector running at faster than 1 KHz. The performance could be improved by setting the SCAN value 
+    to update less frequently.
+  * The default value of the macro has been set to I/O Intr so that it will not affect any applications that do not 
+    require the SCAN rate throttled. 
+  * The ImageJ EPICS_AD_Viewer plugin monitors ArrayCounter_RBV to decide when there is a new image to display. That 
+    means that it will not display faster than the SCANRATE you select.
+  * By making the records periodically scanned they will be reading even when the detector is stopped, which is a bit 
+    more overhead than SCAN=I/O Intr.
+
+### docs
+  * Replaced all raw HTML tables in .rst files with Sphinx flat-tables.
+
+### iocBoot/EXAMPLE_commonPlugins.cmd
+  * Added command `callbackSetQueueSize(5000)` to avoid `callbackRequest: cbLow ring buffer full` errors.
+
+### Database files ADBase.template, NDPluginBase.template, and ADPrefixes.template
+  * Fixed syntax errors. They were missing quotes around the macro parameters $(PORT) and $(NELEMENTS).
+    This caused parsing errors if the macros contained special characters like colon (:).
+
+### OPI files
+  * Added .bob files for the Phoebus Display Builder.  These are autoconverted from the .adl files.
+
 ## __R3-8 (October 20, 2019)__
 
 Note: This release requires asyn R4-37 because it uses new asynInt64 support.
@@ -34,7 +89,6 @@ Note: This release requires asyn R4-37 because it uses new asynInt64 support.
     * NDFileTIFF
   * NDFileNetCDF cannot write the 64-bit integer data types because the netCDF3 "Classic" data model does not support them.
   * 64-bit integer TIFF files cannot be read by ImageJ, but they can be read by IDL.
-    
   * ntndArrayConverter converts NDInt64 and NDUInt64 to the equivalent pvData "long" and "ulong".
 
 ### asynNDArrayDriver, ADDriver
