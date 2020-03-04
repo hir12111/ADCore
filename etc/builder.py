@@ -970,8 +970,8 @@ class NDCircularBuff(AsynPort):
     Dependencies = (ADCore,)
     _SpecificTemplate = _NDCircularBuff
 
-    def __init__(self, PORT, NDARRAY_PORT, QUEUE = 50, BLOCK = 0, NDARRAY_ADDR = 0,
-                 ENABLED = 1, **args):
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE=50, BLOCK=0, NDARRAY_ADDR=0,
+                 ENABLED=1, MAX_BUFFERS=128, **args):
         # args["Enabled"] = Enabled
         # Init the superclass (AsynPort)
         self.__super.__init__(PORT)
@@ -988,14 +988,15 @@ class NDCircularBuff(AsynPort):
         QUEUE        = Simple('Input array queue size', int),
         BLOCK        = Simple('Blocking callbacks?', int),
         NDARRAY_PORT = Ident('Input array port', AsynPort),
-        NDARRAY_ADDR = Simple('Input array port address', int))
+        NDARRAY_ADDR = Simple('Input array port address', int),
+        MAX_BUFFERS   = Simple('Max buffer size in number of frames', int))
 
     def Initialise(self):
         print '# NDCircularBuffConfigure(portName, queueSize, blockingCallbacks, ' \
-              'NDArrayPort, NDArrayAddr)'
+              'NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)'
         print 'NDCircularBuffConfigure(' \
               '"%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", ' \
-              '"%(NDARRAY_ADDR)s")' % self.__dict__
+              '%(NDARRAY_ADDR)s, %(MAX_BUFFERS)s, 0, 0, 0)' % self.__dict__
               
 ##############################
 
