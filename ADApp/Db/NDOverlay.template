@@ -327,6 +327,7 @@
 # % gui, $(PORT), readback, Y Size 8,   $(P)$(R)8:SizeY_RBV
 # % gui, $(PORT), demand, Y Size Link 8,   $(P)$(R)8:SizeYLink.DOL
 # Memory
+# % gui, $(PORT), groupHeading, Memory
 # % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
 # % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
 # % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem

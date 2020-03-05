@@ -93,9 +93,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -143,14 +151,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)PortName_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)PortName_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -199,14 +204,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)PluginType_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)PluginType_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -255,14 +257,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)NDArrayPort.DTYP</pv>
+            <pv trig="true">$(P)$(R)NDArrayPort.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -293,14 +292,11 @@
         <height>30</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)NDArrayPort_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)NDArrayPort_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -332,9 +328,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -457,14 +461,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MinCallbackTime.DTYP</pv>
+            <pv trig="true">$(P)$(R)MinCallbackTime.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -495,14 +496,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MinCallbackTime_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MinCallbackTime_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -609,9 +607,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -659,14 +665,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ArrayCounter.DTYP</pv>
+            <pv trig="true">$(P)$(R)ArrayCounter.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -697,14 +700,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ArrayCounter_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ArrayCounter_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -753,14 +753,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ArrayRate_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ArrayRate_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -809,14 +806,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)QueueUse.DTYP</pv>
+            <pv trig="true">$(P)$(R)QueueUse.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -865,14 +859,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)QueueSize.DTYP</pv>
+            <pv trig="true">$(P)$(R)QueueSize.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -921,14 +912,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)DroppedArrays.DTYP</pv>
+            <pv trig="true">$(P)$(R)DroppedArrays.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -959,14 +947,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)DroppedArrays_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)DroppedArrays_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -998,9 +983,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -1048,14 +1041,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)NDimensions_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)NDimensions_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1104,14 +1094,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ArraySize0_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ArraySize0_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1160,14 +1147,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ArraySize1_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ArraySize1_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1216,14 +1200,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ArraySize2_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ArraySize2_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1272,14 +1253,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)DataType_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)DataType_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1328,14 +1306,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ColorMode_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ColorMode_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1384,14 +1359,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)BayerPattern_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)BayerPattern_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1440,14 +1412,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)UniqueId_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)UniqueId_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1496,14 +1465,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)TimeStamp_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)TimeStamp_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1535,9 +1501,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -1585,14 +1559,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)Name.DTYP</pv>
+            <pv trig="true">$(P)$(R)Name.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1667,14 +1638,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)DataTypeOut_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)DataTypeOut_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -1723,14 +1691,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)NDAttributesFile.DTYP</pv>
+            <pv trig="true">$(P)$(R)NDAttributesFile.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -1762,9 +1727,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -1887,14 +1860,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)BgdWidth.DTYP</pv>
+            <pv trig="true">$(P)$(R)BgdWidth.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -1925,14 +1895,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)BgdWidth_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)BgdWidth_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -1981,14 +1948,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MinValue_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MinValue_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2037,14 +2001,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MinX_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MinX_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2093,14 +2054,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MinY_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MinY_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2149,14 +2107,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MaxValue_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MaxValue_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2205,14 +2160,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MaxX_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MaxX_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2261,14 +2213,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MaxY_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MaxY_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2317,14 +2266,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)MeanValue_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)MeanValue_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2373,14 +2319,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)Total_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)Total_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2429,14 +2372,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)Sigma_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)Sigma_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2485,14 +2425,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)Net_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)Net_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2524,9 +2461,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -2649,14 +2594,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CentroidThreshold.DTYP</pv>
+            <pv trig="true">$(P)$(R)CentroidThreshold.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -2687,14 +2629,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CentroidThreshold_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)CentroidThreshold_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -2743,14 +2682,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CentroidX_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)CentroidX_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2799,14 +2735,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)SigmaX_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)SigmaX_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2855,14 +2788,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CentroidY_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)CentroidY_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2911,14 +2841,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)SigmaY_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)SigmaY_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -2967,14 +2894,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)SigmaXY_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)SigmaXY_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -3006,9 +2930,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -3131,14 +3063,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)HistSize.DTYP</pv>
+            <pv trig="true">$(P)$(R)HistSize.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3169,14 +3098,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)HistSize_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)HistSize_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3225,14 +3151,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)HistMin.DTYP</pv>
+            <pv trig="true">$(P)$(R)HistMin.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3263,14 +3186,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)HistMin_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)HistMin_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3319,14 +3239,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)HistMax.DTYP</pv>
+            <pv trig="true">$(P)$(R)HistMax.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3357,14 +3274,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)HistMax_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)HistMax_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3413,14 +3327,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)HistEntropy_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)HistEntropy_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -3452,9 +3363,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -3577,14 +3496,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CursorX.DTYP</pv>
+            <pv trig="true">$(P)$(R)CursorX.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3615,14 +3531,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CursorX_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)CursorX_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3671,14 +3584,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CursorY.DTYP</pv>
+            <pv trig="true">$(P)$(R)CursorY.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3709,14 +3619,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)CursorY_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)CursorY_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>100</width>
@@ -3765,14 +3672,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ProfileSizeX_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ProfileSizeX_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -3821,14 +3725,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)ProfileSizeY_RBV.DTYP</pv>
+            <pv trig="true">$(P)$(R)ProfileSizeY_RBV.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -3860,9 +3761,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -3954,14 +3863,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)TSAcquiring.DTYP</pv>
+            <pv trig="true">$(P)$(R)TSAcquiring.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -4010,14 +3916,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)TSCurrentPoint.DTYP</pv>
+            <pv trig="true">$(P)$(R)TSCurrentPoint.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -4066,14 +3969,11 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)TSNumPoints.DTYP</pv>
+            <pv trig="true">$(P)$(R)TSNumPoints.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -4149,9 +4049,17 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget>
-        <background_color />
-        <foreground_color />
+      <widget typeId="org.csstudio.opibuilder.widgets.Rectangle">
+        <widget_type>Rectangle</widget_type>
+        <transparent>true</transparent>
+        <border_width>0</border_width>
+        <visible>false</visible>
+        <background_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </background_color>
+        <foreground_color>
+          <color name="White" red="255" green="255" blue="255" />
+        </foreground_color>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <height>25</height>
         <width>200</width>
@@ -4199,14 +4107,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)PoolMaxMem.DTYP</pv>
+            <pv trig="true">$(P)$(R)PoolMaxMem.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -4255,14 +4160,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)PoolMaxBuffers.DTYP</pv>
+            <pv trig="true">$(P)$(R)PoolMaxBuffers.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -4311,14 +4213,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)PoolUsedMem.DTYP</pv>
+            <pv trig="true">$(P)$(R)PoolUsedMem.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -4367,14 +4266,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)PoolAllocBuffers.DTYP</pv>
+            <pv trig="true">$(P)$(R)PoolAllocBuffers.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -4423,14 +4319,11 @@
         <height>25</height>
         <wrap_words>true</wrap_words>
         <rules>
-          <rule name="ByteArrayRead" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'asynOctetRead'">
+          <rule name="WaveformString" out_exp="false" prop_id="format_type">
+            <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <exp bool_exp="pvStr0 == 'asynOctetWrite'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)PoolFreeBuffers.DTYP</pv>
+            <pv trig="true">$(P)$(R)PoolFreeBuffers.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
