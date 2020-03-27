@@ -1,5 +1,7 @@
+from __future__ import print_function
 import xml.dom.minidom
 import os
+
 import iocbuilder
 from iocbuilder import Substitution, AutoSubstitution, SetSimulation, Device, records, Architecture, IocDataStream
 from iocbuilder.arginfo import *
@@ -185,8 +187,8 @@ class NDStdArrays(AsynPort):
     ArgInfo.descriptions["FTVL"] = records.waveform.FieldInfo()["FTVL"]
 
     def Initialise(self):
-        print '# NDStdArraysConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)'
-        print 'NDStdArraysConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDStdArraysConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)')
+        print('NDStdArraysConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__)
 
 
 #############################
@@ -217,8 +219,8 @@ class NDFileNetCDF(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileNetCDFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
-        print 'NDFileNetCDFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDFileNetCDFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDFileNetCDFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 #############################
 
@@ -248,8 +250,8 @@ class NDFileTIFF(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileTIFFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
-        print 'NDFileTIFFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDFileTIFFConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDFileTIFFConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 #############################
 
@@ -279,8 +281,8 @@ class NDFileJPEG(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileJPEGConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
-        print 'NDFileJPEGConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDFileJPEGConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDFileJPEGConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 #############################
 
@@ -310,8 +312,8 @@ class NDFileNexus(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileNexusConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
-        print 'NDFileNexusConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDFileNexusConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDFileNexusConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 #############################
 
@@ -341,8 +343,8 @@ class NDFileHDF5(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileHDF5Configure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
-        print 'NDFileHDF5Configure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDFileHDF5Configure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDFileHDF5Configure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 #############################
 
@@ -376,8 +378,8 @@ class NDCodec(AsynPort):
         MAX_THREADS = Simple('Maximum number threads', int))
 
     def Initialise(self):
-        print '# NDCodecConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__
-        print 'NDCodecConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDCodecConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__)
+        print('NDCodecConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__)
 
 #############################
 
@@ -408,8 +410,8 @@ class NDFileMagick(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDFileMagickConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
-        print 'NDFileMagickConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDFileMagickConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDFileMagickConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 #############################
 
@@ -442,8 +444,8 @@ class NDROI(AsynPort):
         MAX_THREADS = Simple('Maximum number threads', int))
 
     def Initialise(self):
-        print '# NDROIConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__
-        print 'NDROIConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDROIConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__)
+        print('NDROIConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__)
 
 #############################
 
@@ -475,8 +477,8 @@ class NDProcess(AsynPort):
         NDARRAY_ADDR = Simple('Input array port address', int))
 
     def Initialise(self):
-        print '# NDProcessConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__
-        print 'NDProcessConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDProcessConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDProcessConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 #############################
 
@@ -555,14 +557,14 @@ class NDStats(AsynPort):
         print('epicsEnvSet "EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db"\n')
 
     def Initialise(self):
-        print '# NDStatsConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__
-        print 'NDStatsConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDStatsConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__)
+        print('NDStatsConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__)
 
-        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__
-        print 'NDTimeSeriesConfigure("%(PORT)s_TS", %(QUEUE)d, %(BLOCK)d, "%(PORT)s", 1, 23)' % self.__dict__
+        print('# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__)
+        print('NDTimeSeriesConfigure("%(PORT)s_TS", %(QUEUE)d, %(BLOCK)d, "%(PORT)s", 1, 23)' % self.__dict__)
 
         # Manually load the time series template so we do not end up with the embedded EDM tab
-        print '# Load time series records'
+        print('# Load time series records')
         print('dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P={P},R={R}, PORT={PORT} ,ADDR={ADDR},TIMEOUT={TIMEOUT},NDARRAY_PORT={NDARRAY_PORT},NDARRAY_ADDR={NDARRAY_ADDR},NCHANS={NCHANS},ENABLED={ENABLED}")'.format(
             P=self.args['P'], R=self.args['R'] + 'TS:', PORT=self.args['TS_PORT'], ADDR=0, TIMEOUT=1, NDARRAY_PORT=self.PORT, NDARRAY_ADDR=1, NCHANS=self.args['NCHANS'], ENABLED=1)
         )
@@ -599,8 +601,8 @@ class NDTransform(AsynPort):
         MAX_THREADS = Simple('Maximum number threads', int))
 
     def Initialise(self):
-        print '# NDTransformConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__
-        print 'NDTransformConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDTransformConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__)
+        print('NDTransformConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__)
 
 #############################
 
@@ -644,8 +646,8 @@ class NDOverlay(AsynPort):
         MAX_THREADS = Simple('Maximum number threads', int))
 
     def Initialise(self):
-        print '# NDOverlayConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, NOverlays, maxBuffers, maxMemory, priority, stackSize, maxThreads)'
-        print 'NDOverlayConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NOverlays)d, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDOverlayConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, NOverlays, maxBuffers, maxMemory, priority, stackSize, maxThreads)')
+        print('NDOverlayConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NOverlays)d, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__)
 
 #############################
 
@@ -756,11 +758,11 @@ class NDAttribute(AsynPort):
               '"{NDARRAY_PORT}", {NDARRAY_ADDR}, {MAX_ATTRIBUTES})'.format(**self.__dict__))
 
         # Load timeseries (built-in TS removed in 3.5)
-        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)'
-        print 'NDTimeSeriesConfigure("{PORT:s}_TS", {QUEUE:d}, {BLOCK:d}, "{PORT:s}", 1, {MAX_ATTRIBUTES:d})'.format(**self.__dict__)
+        print('# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)')
+        print('NDTimeSeriesConfigure("{PORT:s}_TS", {QUEUE:d}, {BLOCK:d}, "{PORT:s}", 1, {MAX_ATTRIBUTES:d})'.format(**self.__dict__))
 
         # Manually load the time series template so we do not end up with the embedded EDM tab
-        print '# Load time series records'
+        print('# Load time series records')
         print('dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template","P={P},R={R_TS},PORT={PORT}_TS,ADDR=0,TIMEOUT={TIMEOUT},NDARRAY_PORT={PORT},NDARRAY_ADDR=1,NCHANS={MAX_ATTRIBUTES},ENABLED=1")')\
             .format(R_TS=self.args['R']+'TS:', P=self.args['P'], **self.__dict__)
 
@@ -794,8 +796,8 @@ class NDColorConvert(AsynPort):
         MAX_THREADS = Simple('Maximum number threads', int))
 
     def Initialise(self):
-        print '# NDColorConvertConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__
-        print 'NDColorConvertConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDColorConvertConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)' % self.__dict__)
+        print('NDColorConvertConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, 0, 0, %(MAX_THREADS)d)' % self.__dict__)
 
 #############################
 
@@ -828,8 +830,8 @@ class NDPosPlugin(AsynPort):
         STACKSIZE = Simple('Max buffers to allocate', int))
 
     def Initialise(self):
-        print '# NDPosPluginConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)' % self.__dict__
-        print 'NDPosPluginConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+        print('# NDPosPluginConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)' % self.__dict__)
+        print('NDPosPluginConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__)
 
 #############################
 
@@ -866,9 +868,9 @@ class NDPvaPlugin(AsynPort):
     LibFileList = ['ntndArrayConverter']
 
     def Initialise(self):
-        print '# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxBuffers, maxMemory, priority, stackSize)' % self.__dict__
-        print 'NDPvaConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(PVNAME)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
-        print 'startPVAServer'
+        print('# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxBuffers, maxMemory, priority, stackSize)' % self.__dict__)
+        print('NDPvaConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(PVNAME)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__)
+        print('startPVAServer')
 
 #############################
 
@@ -900,8 +902,8 @@ class NDTimeSeries(AsynPort):
         MAX_SIGNALS = Simple('Max number of signals to capture', int))
 
     def Initialise(self):
-        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__
-        print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(MAX_SIGNALS)s)' % self.__dict__
+        print('# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals)' % self.__dict__)
+        print('NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(MAX_SIGNALS)s)' % self.__dict__)
 
 ##############################
 
@@ -940,8 +942,8 @@ class NDAttributes(Device):
         if not NDAttributes.done:
             for doc in self._xmlfiles.values():                
                 doc.ds.write(doc.toprettyxml())
-                print "dbpf %s%sNDAttributesFile, %s/%s.xml" % (doc.port.args["P"],
-                        doc.port.args["R"], doc.ds.GetDataPath(), doc.port.DeviceName())
+                print("dbpf %s%sNDAttributesFile, %s/%s.xml" % (doc.port.args["P"],
+                        doc.port.args["R"], doc.ds.GetDataPath(), doc.port.DeviceName()))
             NDAttributes.done = True
 
     ArgInfo = makeArgInfo(__init__,
@@ -992,12 +994,12 @@ class NDCircularBuff(AsynPort):
         MAX_BUFFERS   = Simple('Max buffer size in number of frames', int))
 
     def Initialise(self):
-        print '# NDCircularBuffConfigure(portName, queueSize, blockingCallbacks, ' \
-              'NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)'
-        print 'NDCircularBuffConfigure(' \
+        print('# NDCircularBuffConfigure(portName, queueSize, blockingCallbacks, ' \
+              'NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize)')
+        print('NDCircularBuffConfigure(' \
               '"%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", ' \
-              '%(NDARRAY_ADDR)s, %(MAX_BUFFERS)s, 0, 0, 0)' % self.__dict__
-              
+              '%(NDARRAY_ADDR)s, %(MAX_BUFFERS)s, 0, 0, 0)' % self.__dict__)
+
 ##############################
 
 
@@ -1110,8 +1112,8 @@ class NDTimeSeries(AsynPort):
         STACKSIZE = Simple('Stack size if ASYN_CANBLOCK is set', int))
 
     def Initialise(self):
-        print '# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)'
-        print 'NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NSIGNALS)d, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__
+        print('# NDTimeSeriesConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxSignals, maxBuffers, maxMemory, priority, stackSize)')
+        print('NDTimeSeriesConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, %(NSIGNALS)d, 0, 0, %(PRIORITY)d, %(STACKSIZE)d)' % self.__dict__)
 
 #############################
 
@@ -1147,8 +1149,8 @@ class NDFFT(AsynPort):
         MAX_THREADS = Simple('Maximum number threads', int))
 
     def Initialise(self):
-        print '# NDFFTConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)'
-        print 'NDFFTConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d, %(MAX_THREADS)d)' % self.__dict__
+        print('# NDFFTConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, maxBuffers, maxMemory, priority, stackSize, maxThreads)')
+        print('NDFFTConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s, 0, 0, %(PRIORITY)d, %(STACKSIZE)d, %(MAX_THREADS)d)' % self.__dict__)
 
 
 #############################
@@ -1185,8 +1187,8 @@ class NDGather(AsynPort):
         MAX_PORTS = Simple('Maximum number of ports that this plugin can connect to for callbacks', int))
 
     def Initialise(self):
-        print '# NDGatherConfigure(portName, queueSize, blockingCallbacks, maxPorts)'
-        print 'NDGatherConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(MAX_PORTS)d")' % self.__dict__
+        print('# NDGatherConfigure(portName, queueSize, blockingCallbacks, maxPorts)')
+        print('NDGatherConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(MAX_PORTS)d")' % self.__dict__)
 
 class NDGather8(Device):
     """This plugin is used to gather NDArrays from multiple upstream plugins and merge them into a single stream"""
@@ -1244,8 +1246,8 @@ class NDScatter(AsynPort):
         NAME = Simple('Label for signal', int))
 
     def Initialise(self):
-        print '# NDScatterConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)'
-        print 'NDScatterConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__
+        print('# NDScatterConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)')
+        print('NDScatterConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
 
 
 #############################
