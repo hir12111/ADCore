@@ -3826,7 +3826,7 @@
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <name>auto(enum|Time Control)</name>
-        <pv_name>$(P)$(R)TSControl</pv_name>
+        <pv_name>$(P)$(R)TS:TSAcquire</pv_name>
       </widget>
       <height>28</height>
     </widget>
@@ -3846,45 +3846,41 @@
         <color name="Text: FG" red="0" green="0" blue="0" />
       </foreground_color>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
-        <widget_type>Text Update</widget_type>
-        <forecolor_alarm_sensitive>true</forecolor_alarm_sensitive>
-        <horizontal_alignment>1</horizontal_alignment>
-        <font>
-          <opifont.name fontName="Arial" height="11" style="1">Default Bold</opifont.name>
-        </font>
+      <widget typeId="org.csstudio.opibuilder.widgets.bytemonitor" version="1.0.0">
+        <widget_type>Byte Monitor</widget_type>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
         <background_color>
-          <color name="Monitor: BG" red="64" green="64" blue="64" />
+          <color name="Canvas" red="200" green="200" blue="200" />
         </background_color>
         <foreground_color>
-          <color name="Monitor: FG" red="96" green="255" blue="96" />
+          <color name="Black" red="0" green="0" blue="0" />
         </foreground_color>
-        <border_alarm_sensitive>false</border_alarm_sensitive>
-        <height>25</height>
-        <wrap_words>true</wrap_words>
-        <rules>
-          <rule name="WaveformString" out_exp="false" prop_id="format_type">
-            <exp bool_exp="pvStr0 == 'waveform'">
-              <value>4</value>
-            </exp>
-            <pv trig="true">$(P)$(R)TSAcquiring.RTYP</pv>
-          </rule>
-        </rules>
-        <width>200</width>
-        <x>0</x>
+        <on_color>
+          <color name="Green LED: On" red="0" green="255" blue="0" />
+        </on_color>
+        <off_color>
+          <color name="Green LED: Off" red="0" green="96" blue="0" />
+        </off_color>
+        <numBits>1</numBits>
+        <height>30</height>
+        <horizontal>false</horizontal>
+        <effect_3d>true</effect_3d>
+        <square_led>false</square_led>
+        <width>30</width>
+        <x>35</x>
         <y>1</y>
         <scale_options>
           <width_scalable>false</width_scalable>
           <height_scalable>false</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
-        <name>auto(readback|Acquiring)</name>
-        <pv_name>$(P)$(R)TSAcquiring</pv_name>
+        <name>auto(statusbits|Acquiring)</name>
+        <pv_name>$(P)$(R)TS:TSAcquiring</pv_name>
       </widget>
-      <height>28</height>
+      <height>33</height>
     </widget>
     <row_64_row_name>Acquiring</row_64_row_name>
-    <row_64_row_height>28</row_64_row_height>
+    <row_64_row_height>33</row_64_row_height>
     <row_64_row_tooltip>Acquiring</row_64_row_tooltip>
     <row_64_row_mode>0</row_64_row_mode>
     <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
@@ -3920,7 +3916,7 @@
             <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <pv trig="true">$(P)$(R)TSCurrentPoint.RTYP</pv>
+            <pv trig="true">$(P)$(R)TS:TSCurrentPoint.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -3932,7 +3928,7 @@
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <name>auto(readback|Current Point)</name>
-        <pv_name>$(P)$(R)TSCurrentPoint</pv_name>
+        <pv_name>$(P)$(R)TS:TSCurrentPoint</pv_name>
       </widget>
       <height>28</height>
     </widget>
@@ -3973,7 +3969,7 @@
             <exp bool_exp="pvStr0 == 'waveform'">
               <value>4</value>
             </exp>
-            <pv trig="true">$(P)$(R)TSNumPoints.RTYP</pv>
+            <pv trig="true">$(P)$(R)TS:TSNumPoints.RTYP</pv>
           </rule>
         </rules>
         <width>200</width>
@@ -3985,7 +3981,7 @@
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <name>auto(demand|Number of Points)</name>
-        <pv_name>$(P)$(R)TSNumPoints</pv_name>
+        <pv_name>$(P)$(R)TS:TSNumPoints</pv_name>
       </widget>
       <height>28</height>
     </widget>
@@ -4029,7 +4025,7 @@
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <name>auto(enum|Update)</name>
-        <pv_name>$(P)$(R)TSRead.SCAN</pv_name>
+        <pv_name>$(P)$(R)TS:TSRead.SCAN</pv_name>
       </widget>
       <height>28</height>
     </widget>
@@ -4343,6 +4339,6 @@
     <row_73_row_height>28</row_73_row_height>
     <row_73_row_tooltip>Free buffers</row_73_row_tooltip>
     <row_73_row_mode>0</row_73_row_mode>
-    <height>2286</height>
+    <height>2291</height>
   </widget>
 </display>

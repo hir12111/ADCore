@@ -114,11 +114,11 @@
 # % gui, $(PORT), readback, Size Y,   $(P)$(R)ProfileSizeY_RBV
 # Time series
 # % gui, $(PORT), groupHeading, Time Series
-# % gui, $(PORT), enum, Time Control,   $(P)$(R)TSControl
-# % gui, $(PORT), readback, Acquiring,   $(P)$(R)TSAcquiring
-# % gui, $(PORT), readback, Current Point,   $(P)$(R)TSCurrentPoint
-# % gui, $(PORT), demand, Number of Points,   $(P)$(R)TSNumPoints
-# % gui, $(PORT), enum, Update,   $(P)$(R)TSRead.SCAN
+# % gui, $(PORT), enum, Time Control,   $(P)$(R)TS:TSAcquire
+# % gui, $(PORT), statusbits, Acquiring,   $(P)$(R)TS:TSAcquiring
+# % gui, $(PORT), readback, Current Point,   $(P)$(R)TS:TSCurrentPoint
+# % gui, $(PORT), demand, Number of Points,   $(P)$(R)TS:TSNumPoints
+# % gui, $(PORT), enum, Update,   $(P)$(R)TS:TSRead.SCAN
 # Memory
 # % gui, $(PORT), groupHeading, Memory
 # % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
