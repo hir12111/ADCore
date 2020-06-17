@@ -1,0 +1,1 @@
+git checkout dls-master -- .gitignore configure/ etc/ ADApp/op/Makefile ADApp/op/edl ADApp/Db
