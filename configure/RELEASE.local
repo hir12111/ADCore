@@ -20,10 +20,10 @@ TEMPLATE_TOP = $(EPICS_BASE)/templates/makeBaseApp/top
 #AREA_DETECTOR = $(WORK)
 
 # ASYN is needed for base classes
-ASYN = $(SUPPORT)/asyn/4-39
+ASYN = $(SUPPORT)/asyn/4-39dls1alpha
 
 # BUSY is needed for busy record
-BUSY = $(SUPPORT)/busy/1-7-2dls3
+BUSY = $(SUPPORT)/busy/1-7-2dls4alpha
 
 # SSCAN is needed for scanning threshold on Pilatus and general scanning
 SSCAN = $(SUPPORT)/sscan/2-11-3dls1
