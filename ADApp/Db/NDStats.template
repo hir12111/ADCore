@@ -768,6 +768,7 @@ record(longout, "$(P)$(R)CursorX")
    field(DTYP, "asynInt32")
    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))CURSOR_X")
    field(VAL,  "256")
+   field(FLNK, "$(P)$(R)ProcessPlugin")
    info(autosaveFields, "VAL")
 }
 
@@ -784,6 +785,7 @@ record(longout, "$(P)$(R)CursorY")
    field(DTYP, "asynInt32")
    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))CURSOR_Y")
    field(VAL,  "256")
+   field(FLNK, "$(P)$(R)ProcessPlugin")
    info(autosaveFields, "VAL")
 }
 
@@ -791,6 +793,14 @@ record(longin, "$(P)$(R)CursorY_RBV")
 {
    field(DTYP, "asynInt32")
    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))CURSOR_Y")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)CursorVal")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))CURSOR_VAL")
+   field(PREC, "1")
    field(SCAN, "I/O Intr")
 }
 

@@ -6,11 +6,11 @@
 #include <iocsh.h>
 #include <initHooks.h>
 #include <epicsMath.h>
-#include <epicsThread.h>
 
-#include <epicsExport.h>
 #include "NDPluginAttrPlot.h"
 #include "CircularBuffer.h"
+
+#include <epicsExport.h>
 
 ExposeDataTask::ExposeDataTask(NDPluginAttrPlot& plugin)
     : plugin_(plugin),
@@ -58,7 +58,7 @@ NDPluginAttrPlot::NDPluginAttrPlot(const char * port, int n_attributes,
                 1,     // The autoConnect flag for the asyn port driver
                 priority, // The thread priority for the asyn port driver thread
                 stackSize, // The stack size for the asyn port driver thread
-                1 // Maximum number of threads to use (default is 1)
+                1 //  Maximum number of threads
             ),
       state_(NDAttrPlot_InitState),
       data_(),
@@ -263,7 +263,7 @@ asynStatus NDPluginAttrPlot::push_data(epicsInt32 uid, NDAttributeList& list) {
         data_[i].push_back(new_values[i]);
     }
 
-    delete new_values;
+    delete [] new_values;
     return asynSuccess;
 }
 
