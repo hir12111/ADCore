@@ -763,8 +763,9 @@ class NDAttribute(AsynPort):
 
         # Manually load the time series template so we do not end up with the embedded EDM tab
         print('# Load time series records')
-        print('dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template","P={P},R={R_TS},PORT={PORT}_TS,ADDR=0,TIMEOUT={TIMEOUT},NDARRAY_PORT={PORT},NDARRAY_ADDR=1,NCHANS={MAX_ATTRIBUTES},ENABLED=1")')\
-            .format(R_TS=self.args['R']+'TS:', P=self.args['P'], **self.__dict__)
+        print('dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template","P={P},R={R_TS},PORT={PORT},ADDR=0,TIMEOUT={TIMEOUT},NDARRAY_PORT={PORT},NDARRAY_ADDR=1,NCHANS={MAX_ATTRIBUTES},ENABLED=1")'.format(
+            R_TS=self.args['R']+'TS:', P=self.args['P'], **self.__dict__)
+        )
 
 #############################
 
