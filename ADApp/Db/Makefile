@@ -29,6 +29,7 @@ DB += NDFileJPEG.template
 DB += NDFileMagick.template
 DB += NDFileNetCDF.template
 DB += NDFileNexus.template
+DB += NDFileNull.template
 DB += NDFileTIFF.template
 DB += NDGather.template
 DB += NDGatherN.template

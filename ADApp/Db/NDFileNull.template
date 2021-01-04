@@ -1,0 +1,66 @@
+#=================================================================#
+# Template file: NDFileNull.template
+# Database for NDFileNull driver, which is used for deleting driver files
+
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, ADDR, Asyn Port address
+# % macro, TIMEOUT, Asyn Port timeout
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDFileNull.edl, P=$(P),R=$(R)
+
+# This associates a BOY screen with the template
+## % gui, $(PORT), boydetail,ADApp_opi/dls/hdf5_detail.opi, P=$(P), R=$(R), DESC=Null File Plugin
+## % gui, $(PORT), boyembed, ADApp_opi/dls/hdf5_embed_box.opi, P=$(P), R=$(R), DESC=Null File Plugin
+## % gui, $(PORT), boyembed, ADApp_opi/dls/hdf5_embed.opi, P=$(P), R=$(R), DESC=Null File Plugin
+
+# Info
+# % gui, $(PORT), groupHeading, Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
+# Input
+# % gui, $(PORT), demandString, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+
+# % gui, $(PORT), groupHeading, Callback
+# % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
+# % gui, $(PORT), statusbits, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Callback Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Callback Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Block Callbacks,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), statusbits, Block Callbacks,   $(P)$(R)BlockingCallbacks_RBV
+
+# % gui, $(PORT), groupHeading, Counters
+# % gui, $(PORT), demand, Array Counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array Counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array Rate (fps),   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue Use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue Size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped Arrays,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped Arrays,   $(P)$(R)DroppedArrays_RBV
+
+# % gui, $(PORT), groupHeading, Array Settings
+# % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
+# % gui, $(PORT), readback, Dim 0 Size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 Size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 Size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, Input Data Type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour Mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer Pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
+# % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+
+# Memory
+# % gui, $(PORT), groupHeading, Memory
+# % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
+# % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
+# % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem
+# % gui, $(PORT), readback, Allocated buffers,   $(P)$(R)PoolAllocBuffers
+# % gui, $(PORT), readback, Free buffers,   $(P)$(R)PoolFreeBuffers
+
+include "NDFile.template"
+include "NDPluginBase.template"
+

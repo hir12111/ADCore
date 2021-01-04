@@ -1252,3 +1252,36 @@ class NDScatter(AsynPort):
 
 
 #############################
+
+@includesTemplates(NDPluginBaseTemplate, NDFileTemplate)
+class _NDFileNullTemplate(AutoSubstitution):
+    TemplateFile = 'NDFileNull.template'
+
+
+class NDFileNull(AsynPort):
+    """Null file plugin for deleting driver files"""
+    # This tells xmlbuilder to use PORT instead of name as the row ID
+    UniqueName = "PORT"
+    _SpecificTemplate = _NDFileNullTemplate
+
+    def __init__(self, PORT, NDARRAY_PORT, QUEUE=2, BLOCK=0, NDARRAY_ADDR=0, **args):
+        # Init the superclass (AsynPort)
+        self.__super.__init__(PORT)
+        # Update the attributes of self from the commandline args
+        self.__dict__.update(locals())
+        # Make an instance of our template
+        makeTemplateInstance(self._SpecificTemplate, locals(), args)
+
+    ArgInfo = NDFileTemplate.ArgInfo + NDPluginBaseTemplate.ArgInfo + makeArgInfo(__init__,
+        PORT = Simple('Port name for the NDFileHDF5 plugin', str),
+        QUEUE = Simple('Input array queue size', int),
+        BLOCK = Simple('Blocking callbacks?', int),
+        NDARRAY_PORT = Ident('Input array port', AsynPort),
+        NDARRAY_ADDR = Simple('Input array port address', int))
+
+    def Initialise(self):
+        print('# NDFileNullConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr)' % self.__dict__)
+        print('NDFileNullConfigure("%(PORT)s", %(QUEUE)d, %(BLOCK)d, "%(NDARRAY_PORT)s", %(NDARRAY_ADDR)s)' % self.__dict__)
+
+
+#############################
