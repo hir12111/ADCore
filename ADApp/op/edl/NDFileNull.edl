@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1221
-y 197
+x 483
+y 134
 w 390
 h 820
 font "arial-bold-r-12.0"
@@ -140,34 +140,6 @@ bgColor index 3
 useDisplayBg
 value {
   "Delete driver file"
-}
-endObjectProperties
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 4
-release 0
-x 290
-y 790
-w 85
-h 20
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-medium-r-12.0"
-xPosOffset 120
-yPosOffset -500
-buttonLabel "details..."
-numPvs 4
-numDsps 1
-displayFileName {
-  0 "NDFileHDF5Details"
-}
-setPosition {
-  0 "button"
 }
 endObjectProperties
 
