@@ -13,9 +13,9 @@
 # % gui, $(PORT), edmtab, NDFileNull.edl, P=$(P),R=$(R)
 
 # This associates a BOY screen with the template
-## % gui, $(PORT), boydetail,ADApp_opi/dls/hdf5_detail.opi, P=$(P), R=$(R), DESC=Null File Plugin
-## % gui, $(PORT), boyembed, ADApp_opi/dls/hdf5_embed_box.opi, P=$(P), R=$(R), DESC=Null File Plugin
-## % gui, $(PORT), boyembed, ADApp_opi/dls/hdf5_embed.opi, P=$(P), R=$(R), DESC=Null File Plugin
+# % gui, $(PORT), boydetail,ADApp_opi/dls/null_detail.opi, P=$(P), R=$(R), DESC=Null File Plugin
+# % gui, $(PORT), boyembed, ADApp_opi/dls/null_embed_box.opi, P=$(P), R=$(R), DESC=Null File Plugin
+# % gui, $(PORT), boyembed, ADApp_opi/dls/null_embed.opi, P=$(P), R=$(R), DESC=Null File Plugin
 
 # Info
 # % gui, $(PORT), groupHeading, Info
