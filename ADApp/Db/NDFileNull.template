@@ -53,6 +53,38 @@
 # % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
 # % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
 
+# File
+# % gui, $(PORT), groupHeading, File
+# % gui, $(PORT), demandString, File Path,   $(P)$(R)FilePath
+# % gui, $(PORT), readback, File Path,   $(P)$(R)FilePath_RBV
+# % gui, $(PORT), statusbits, File Path Exists,   $(P)$(R)FilePathExists_RBV
+# % gui, $(PORT), demand, File Name,   $(P)$(R)FileName
+# % gui, $(PORT), readback, File Name,   $(P)$(R)FileName_RBV
+# % gui, $(PORT), demand, File Number,   $(P)$(R)FileNumber
+# % gui, $(PORT), readback, File Number,   $(P)$(R)FileNumber_RBV
+# % gui, $(PORT), enum, Auto Increment,   $(P)$(R)AutoIncrement
+# % gui, $(PORT), statusbits, Auto Increment,   $(P)$(R)AutoIncrement_RBV
+# % gui, $(PORT), demand, File Format,   $(P)$(R)FileTemplate
+# % gui, $(PORT), readback, File Format,   $(P)$(R)FileTemplate_RBV
+# % gui, $(PORT), demand, N to Capture,   $(P)$(R)NumCapture
+# % gui, $(PORT), readback, N to Capture,   $(P)$(R)NumCapture_RBV
+# % gui, $(PORT), readback, N Captured,   $(P)$(R)NumCaptured_RBV
+# % gui, $(PORT), enum, Auto Save,   $(P)$(R)AutoSave
+# % gui, $(PORT), statusbits, Auto Save ,   $(P)$(R)AutoSave_RBV
+# % gui, $(PORT), enum, Capture mode,   $(P)$(R)FileWriteMode
+# % gui, $(PORT), readback, Capture mode,   $(P)$(R)FileWriteMode_RBV
+# % gui, $(PORT), enum, Capture,   $(P)$(R)Capture
+# % gui, $(PORT), readback, Capture,   $(P)$(R)Capture_RBV
+# % gui, $(PORT), readback, Write Message,   $(P)$(R)WriteMessage
+# % gui, $(PORT), readback, Write Status,   $(P)$(R)WriteStatus
+# % gui, $(PORT), readback, Write Filename,   $(P)$(R)FullFileName_RBV
+# % gui, $(PORT), enum, Lazy Open,   $(P)$(R)LazyOpen
+# % gui, $(PORT), readback, Lazy Open,   $(P)$(R)LazyOpen_RBV
+# % gui, $(PORT), demand, Temporary Suffix,   $(P)$(R)TempSuffix
+# % gui, $(PORT), readback, Temporary Suffix,   $(P)$(R)TempSuffix_RBV
+# % gui, $(PORT), demand, Create Directories,   $(P)$(R)CreateDirectory
+# % gui, $(PORT), readback, Create Directories,   $(P)$(R)CreateDirectory_RBV
+
 # Memory
 # % gui, $(PORT), groupHeading, Memory
 # % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
