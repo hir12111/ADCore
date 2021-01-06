@@ -1,0 +1,98 @@
+#=================================================================#
+# Template file: NDFileNull.template
+# Database for NDFileNull driver, which is used for deleting driver files
+
+# Macros:
+# % macro, P, Device Prefix
+# % macro, R, Device Suffix
+# % macro, PORT, Asyn Port name
+# % macro, ADDR, Asyn Port address
+# % macro, TIMEOUT, Asyn Port timeout
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, NDFileNull.edl, P=$(P),R=$(R)
+
+# This associates a BOY screen with the template
+# % gui, $(PORT), boydetail,ADApp_opi/dls/null_detail.opi, P=$(P), R=$(R), DESC=Null File Plugin
+# % gui, $(PORT), boyembed, ADApp_opi/dls/null_embed_box.opi, P=$(P), R=$(R), DESC=Null File Plugin
+# % gui, $(PORT), boyembed, ADApp_opi/dls/null_embed.opi, P=$(P), R=$(R), DESC=Null File Plugin
+
+# Info
+# % gui, $(PORT), groupHeading, Info
+# % gui, $(PORT), readback, Port name,   $(P)$(R)PortName_RBV
+# % gui, $(PORT), readback, Plugin type,   $(P)$(R)PluginType_RBV
+# Input
+# % gui, $(PORT), demandString, Input,   $(P)$(R)NDArrayPort
+# % gui, $(PORT), readback, Input,   $(P)$(R)NDArrayPort_RBV
+
+# % gui, $(PORT), groupHeading, Callback
+# % gui, $(PORT), enum, Callbacks,   $(P)$(R)EnableCallbacks
+# % gui, $(PORT), statusbits, Callbacks,   $(P)$(R)EnableCallbacks_RBV
+# % gui, $(PORT), demand, Min Callback Time,   $(P)$(R)MinCallbackTime
+# % gui, $(PORT), readback, Min Callback Time,   $(P)$(R)MinCallbackTime_RBV
+# % gui, $(PORT), enum, Block Callbacks,   $(P)$(R)BlockingCallbacks
+# % gui, $(PORT), statusbits, Block Callbacks,   $(P)$(R)BlockingCallbacks_RBV
+
+# % gui, $(PORT), groupHeading, Counters
+# % gui, $(PORT), demand, Array Counter,   $(P)$(R)ArrayCounter
+# % gui, $(PORT), readback, Array Counter,   $(P)$(R)ArrayCounter_RBV
+# % gui, $(PORT), readback, Array Rate (fps),   $(P)$(R)ArrayRate_RBV
+# % gui, $(PORT), readback, Queue Use,   $(P)$(R)QueueUse
+# % gui, $(PORT), readback, Queue Size,   $(P)$(R)QueueSize
+# % gui, $(PORT), demand, Dropped Arrays,   $(P)$(R)DroppedArrays
+# % gui, $(PORT), readback, Dropped Arrays,   $(P)$(R)DroppedArrays_RBV
+
+# % gui, $(PORT), groupHeading, Array Settings
+# % gui, $(PORT), readback, Num Dimensions,   $(P)$(R)NDimensions_RBV
+# % gui, $(PORT), readback, Dim 0 Size,   $(P)$(R)ArraySize0_RBV
+# % gui, $(PORT), readback, Dim 1 Size,   $(P)$(R)ArraySize1_RBV
+# % gui, $(PORT), readback, Dim 2 Size,   $(P)$(R)ArraySize2_RBV
+# % gui, $(PORT), readback, Input Data Type,   $(P)$(R)DataType_RBV
+# % gui, $(PORT), readback, Colour Mode,   $(P)$(R)ColorMode_RBV
+# % gui, $(PORT), readback, Bayer Pattern,   $(P)$(R)BayerPattern_RBV
+# % gui, $(PORT), readback, Unique id,   $(P)$(R)UniqueId_RBV
+# % gui, $(PORT), readback, Timestamp,   $(P)$(R)TimeStamp_RBV
+
+# File
+# % gui, $(PORT), groupHeading, File
+# % gui, $(PORT), demandString, File Path,   $(P)$(R)FilePath
+# % gui, $(PORT), readback, File Path,   $(P)$(R)FilePath_RBV
+# % gui, $(PORT), statusbits, File Path Exists,   $(P)$(R)FilePathExists_RBV
+# % gui, $(PORT), demand, File Name,   $(P)$(R)FileName
+# % gui, $(PORT), readback, File Name,   $(P)$(R)FileName_RBV
+# % gui, $(PORT), demand, File Number,   $(P)$(R)FileNumber
+# % gui, $(PORT), readback, File Number,   $(P)$(R)FileNumber_RBV
+# % gui, $(PORT), enum, Auto Increment,   $(P)$(R)AutoIncrement
+# % gui, $(PORT), statusbits, Auto Increment,   $(P)$(R)AutoIncrement_RBV
+# % gui, $(PORT), demand, File Format,   $(P)$(R)FileTemplate
+# % gui, $(PORT), readback, File Format,   $(P)$(R)FileTemplate_RBV
+# % gui, $(PORT), demand, N to Capture,   $(P)$(R)NumCapture
+# % gui, $(PORT), readback, N to Capture,   $(P)$(R)NumCapture_RBV
+# % gui, $(PORT), readback, N Captured,   $(P)$(R)NumCaptured_RBV
+# % gui, $(PORT), enum, Auto Save,   $(P)$(R)AutoSave
+# % gui, $(PORT), statusbits, Auto Save ,   $(P)$(R)AutoSave_RBV
+# % gui, $(PORT), enum, Capture mode,   $(P)$(R)FileWriteMode
+# % gui, $(PORT), readback, Capture mode,   $(P)$(R)FileWriteMode_RBV
+# % gui, $(PORT), enum, Capture,   $(P)$(R)Capture
+# % gui, $(PORT), readback, Capture,   $(P)$(R)Capture_RBV
+# % gui, $(PORT), readback, Write Message,   $(P)$(R)WriteMessage
+# % gui, $(PORT), readback, Write Status,   $(P)$(R)WriteStatus
+# % gui, $(PORT), readback, Write Filename,   $(P)$(R)FullFileName_RBV
+# % gui, $(PORT), enum, Lazy Open,   $(P)$(R)LazyOpen
+# % gui, $(PORT), readback, Lazy Open,   $(P)$(R)LazyOpen_RBV
+# % gui, $(PORT), demand, Temporary Suffix,   $(P)$(R)TempSuffix
+# % gui, $(PORT), readback, Temporary Suffix,   $(P)$(R)TempSuffix_RBV
+# % gui, $(PORT), demand, Create Directories,   $(P)$(R)CreateDirectory
+# % gui, $(PORT), readback, Create Directories,   $(P)$(R)CreateDirectory_RBV
+
+# Memory
+# % gui, $(PORT), groupHeading, Memory
+# % gui, $(PORT), readback, Max memory,   $(P)$(R)PoolMaxMem
+# % gui, $(PORT), readback, Max buffers,   $(P)$(R)PoolMaxBuffers
+# % gui, $(PORT), readback, Used memory,   $(P)$(R)PoolUsedMem
+# % gui, $(PORT), readback, Allocated buffers,   $(P)$(R)PoolAllocBuffers
+# % gui, $(PORT), readback, Free buffers,   $(P)$(R)PoolFreeBuffers
+
+include "NDFile.template"
+include "NDPluginBase.template"
+
