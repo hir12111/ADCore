@@ -6,8 +6,6 @@
 # % macro, P, Device Prefix
 # % macro, R, Device Suffix
 # % macro, PORT, Asyn Port name
-# % macro, ADDR, Asyn Port address
-# % macro, TIMEOUT, Asyn Port timeout
 
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileNull.edl, P=$(P),R=$(R)
