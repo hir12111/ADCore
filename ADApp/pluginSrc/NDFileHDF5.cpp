@@ -840,7 +840,7 @@ hid_t NDFileHDF5::writeH5dsetStr(hid_t element, const std::string &name, const s
 
   hdfdataspace     = H5Screate_simple(rank, &dims, NULL);
   hdfdatatype      = H5Tcopy(H5T_C_S1);
-  hdfstatus        = H5Tset_size(hdfdatatype, str_value.size());
+  hdfstatus        = H5Tset_size(hdfdatatype, str_value.size()+1);
   hdfstatus        = H5Tset_strpad(hdfdatatype, H5T_STR_NULLTERM);
   hdfdset          = H5Dcreate2(element, name.c_str(), hdfdatatype, hdfdataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
   if (hdfdset < 0) {
@@ -1084,7 +1084,7 @@ void NDFileHDF5::writeH5attrStr(hid_t element, const std::string &attr_name, con
 
   hdfattrdataspace = H5Screate(H5S_SCALAR);
   hdfdatatype      = H5Tcopy(H5T_C_S1);
-  hdfstatus        = H5Tset_size(hdfdatatype, str_attr_value.size());
+  hdfstatus        = H5Tset_size(hdfdatatype, str_attr_value.size()+1);
   hdfstatus        = H5Tset_strpad(hdfdatatype, H5T_STR_NULLTERM);
   hdfattr          = H5Acreate2(element, attr_name.c_str(), hdfdatatype, hdfattrdataspace, H5P_DEFAULT, H5P_DEFAULT);
   if (hdfattr < 0) {
@@ -2505,7 +2505,11 @@ hsize_t NDFileHDF5::calcChunkCacheBytes()
   this->lock();
   getIntegerParam(NDFileHDF5_nFramesChunks, &n_frames_chunk);
   this->unlock();
-  nbytes = this->maxdims[this->rank - 1] * this->maxdims[this->rank - 2] * this->bytesPerElement * n_frames_chunk;
+  nbytes = this->maxdims[this->rank - 1]  * this->bytesPerElement * n_frames_chunk;
+  if ((this->multiFrameFile && this->rank >= 3) ||
+      (!this->multiFrameFile && this->rank >= 2)) {
+    nbytes *= this->maxdims[this->rank - 2];
+  }
   return nbytes;
 }
 
@@ -2540,8 +2544,13 @@ hsize_t NDFileHDF5::calcChunkCacheSlots()
 
   div_result = (double)this->maxdims[this->rank - 1] / (double)this->chunkdims[this->rank -1];
   num_chunks *= (unsigned int long)ceil(div_result);
-  div_result = (double)this->maxdims[this->rank - 2] / (double)this->chunkdims[this->rank -2];
-  num_chunks *= (unsigned int long)ceil(div_result);
+  // this check prevents double counting number of frames when the data is 1D in a multiframe file
+  // and it also prevents an invalid memory access when the data is 1D in a non multiframe file
+  if ((this->multiFrameFile && this->rank >= 3) ||
+      (!this->multiFrameFile && this->rank >= 2)) {
+    div_result = (double)this->maxdims[this->rank - 2] / (double)this->chunkdims[this->rank - 2];
+    num_chunks *= (unsigned int long)ceil(div_result);
+  }
   div_result = (double)n_frames_capture / (double)n_frames_chunk;
   num_chunks *= (unsigned int long)ceil(div_result);
 
@@ -3017,7 +3026,7 @@ asynStatus NDFileHDF5::writeStringAttribute(hid_t element, const char * attrName
   if (strlen(attrStrValue) > 0){
     hdfattrdataspace = H5Screate(H5S_SCALAR);
     hdfdatatype      = H5Tcopy(H5T_C_S1);
-    H5Tset_size(hdfdatatype, strlen(attrStrValue));
+    H5Tset_size(hdfdatatype, strlen(attrStrValue)+1);
     H5Tset_strpad(hdfdatatype, H5T_STR_NULLTERM);
     hdfattr          = H5Acreate2(element, attrName,
                                   hdfdatatype, hdfattrdataspace,
